@@ -1,0 +1,470 @@
+{% load static %}
+{% block head %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block title %} <title>Cloud Map Service </title>{% endblock %}
+        <!-- Custom styles for this template-->
+        {% block external_files %}
+            <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
+        {% endblock %}
+    </head>
+{% endblock %}
+{% block header %}
+    <header>
+        <div class="nom"><h1>Cloud Map Service:{% now 'Y' %}</h1></div>
+    </header>
+{% endblock %}
+{% block body %}
+    <body>
+    <div class="wrapper">
+        <div class="item1">
+            <div class="box1">
+                <h2>Compute</h2>
+            </div>
+
+            <div class="first">
+                <h2>Virtual Servers
+                </h2>
+            </div>
+            <div class="three">
+
+
+            </div>
+            <div class="scalability">
+                <h2>Scalability
+                </h2>
+            </div>
+            <div class="micro">
+                <h2>MicroServices & Container Orchestrator
+                </h2>
+            </div>
+            <div class="serverless">
+                <h2>Serverless
+                </h2>
+            </div>
+
+            <div class="box2"></div>
+
+
+            <div class="cont">
+                <h2>Container Instances</h2>
+            </div>
+            <div class="two">
+
+            </div>
+
+            <div class="register">
+
+            </div>
+            <div class="jobs">
+
+            </div>
+            <div class="four">
+
+            </div>
+            <div class="five">
+
+            </div>
+
+            <div class="six">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six4">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+
+
+            <div class="batch_computing">
+                <h2>Batch Computing</h2>
+            </div>
+            <div class="BPL">
+                <h2>Backend Process Logic</h2>
+            </div>
+            <div class="cont">
+                <h2>Container Instances</h2>
+            </div>
+            <div class="seven">
+
+            </div>
+            <div class="eight">
+
+            </div>
+            <div class="nine">
+
+            </div>
+            <div class="ten">
+
+            </div>
+            <div class="eleven">
+
+            </div>
+            <div class="twelve">
+
+            </div>
+            <div class="uno">
+
+            </div>
+            <div class="dos">
+
+            </div>
+            <div class="tres">
+
+            </div>
+        </div>
+        <div class="item2">
+            <div class="box1" style="background-color: #2D8FC3">
+                <h2>Storage</h2>
+            </div>
+
+            <div class="blankspace" style=" grid-column: 3 / 6;
+    grid-row: 2 / 4; z-index: -1;
+
+    background-color: #347699;">
+
+            </div>
+            <div class="scalability" style="background-color: #2D8FC3;">
+                <h2>Archiving Cool
+                </h2>
+            </div>
+            <div class="backup" style="background-color: #2D8FC3;">
+                <h2>Backup
+                </h2>
+            </div>
+            <div class="object" style="background-color: #2D8FC3;">
+                <h2>Object Storage
+                </h2>
+            </div>
+
+            <div class="server">
+
+            </div>
+
+            <div class="first" style="background-color: #2D8FC3">
+                <h2>Bulk Data Transfers
+                </h2>
+            </div>
+
+
+            <div class="three">
+
+            </div>
+
+            <div class="cont" style="background-color: #2D8FC3">
+                <h2>Virtual Server Disk Infrastructure</h2>
+            </div>
+            <div class="two">
+
+            </div>
+
+            <div class="register">
+
+            </div>
+            <div class="jobs">
+
+            </div>
+            <div class="four">
+
+            </div>
+            <div class="five">
+
+            </div>
+
+            <div class="six">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+            <div class="six4">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 30px"/>
+                {% endfor %}
+            </div>
+
+
+            <div class="batch">
+
+                {% for item in service %}
+                    {% if item.fournisseurs == "Azure" and item.nom == "Batch" %}
+                        <img src="/{{ item.image.url }}" style="width: 30px"/>
+                    {% endif %}
+                {% endfor %}
+
+
+            </div>
+            <div class="BPL" style="background-color: #2D8FC3">
+                <h2>Hybrid Storage</h2>
+            </div>
+
+
+            <div class="eight">
+
+            </div>
+            <div class="nine" style="background-color: #2D8FC3"><h2>Shared File Storage</h2>
+
+            </div>
+            <div class="ten">
+
+            </div>
+            <div class="eleven">
+
+            </div>
+            <div class="twelve" style="background-color: #2D8FC3"><h2>Archiving Cold</h2>
+
+
+            </div>
+            <div class="uno">
+
+            </div>
+            <div class="dos" style="background-color: #2D8FC3"><h2>Disaster Recovering</h2>
+
+            </div>
+            <div class="tres">
+
+            </div>
+        </div>
+
+
+        <div class="item3">
+            <div class="box4">
+                <h2>Database</h2>
+            </div>
+            <div class="Blankspace">
+
+            </div>
+            <div class="DataOne">
+                <h2>Relational Database
+                </h2>
+            </div>
+            <div class="Datatwo">
+                <h2>No SQL Document Storage Key-Value Storage</h2>
+            </div>
+            <div class="Datathree">
+                <h2>Caching</h2>
+            </div>
+            <div class="Datafour">
+                <h2>Database Migration</h2>
+            </div>
+
+            <div class="Fourn1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" alt="/{{ item.nom_f }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="Fourn2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="Fourn3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="wrapper2">
+        <div class="item4">
+            <div class="box5">
+                <h2>Management and Monitoring</h2>
+            </div>
+
+            <div class="MMOne">
+                <h2>Cloud Advisor
+                </h2>
+            </div>
+            <div class="MMTwo">
+                <h2>Management and Monitoring
+                </h2>
+            </div>
+            <div class="MMthree">
+
+            </div>
+            <div class="MMfour">
+                <h2>Deployment Orchestration</h2>
+            </div>
+
+            <div class="MMfive">
+                <h2>Administration</h2>
+            </div>
+
+            <div class="Fourni1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="Fourni2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="Fourni3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="item5">
+            <div class="box6">
+                <h2>Security, Identity and Acces</h2>
+            </div>
+
+            <div class="SIABlank">
+
+            </div>
+            <div class="SIATwo">
+                <h2>Security</h2>
+            </div>
+            <div class="SIAThree">
+                <h2>Encryption</h2>
+            </div>
+            <div class="SIAFour">
+                <h2>DDoS Protection</h2>
+            </div>
+            <div class="SIAFive">
+                <h2>Authentification and Authorisation</h2>
+            </div>
+            <div class="SIASix">
+                <h2>Information Protection</h2>
+            </div>
+            <div class="SIASeven">
+                <h2>Firewall</h2>
+            </div>
+            <div class="SIASeven">
+                <h2>Compilance</h2>
+            </div>
+            <div class="SIAEight">
+                <h2>Directory Services</h2>
+            </div>
+            <div class="FourniSIA1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniSIA2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniSIA3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniSIA4">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniSIA5">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="item6">
+            <div class="box7">
+                <h2>Network & Content Delivery</h2>
+            </div>
+            <div class="NCDTwo">
+
+            </div>
+            <div class="NCDThree">
+                <h2>Cloud Virtual Networking</h2>
+            </div>
+            <div class="NCDFour">
+                <h2>Domain Name System Management</h2>
+            </div>
+            <div class="NCDFive">
+                <h2>Cross-permises Connectivity</h2>
+            </div>
+            <div class="NCDSix">
+                <h2>Content Delivery Network</h2>
+            </div>
+            <div class="NCDSeven">
+                <h2>Load Balancing</h2>
+            </div>
+            <div class="NCDEight">
+                <h2>Dedicated Network</h2>
+            </div>
+
+            <div class="FourniNCD1">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniNCD2">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniNCD3">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+            <div class="FourniNCD4">
+                {% for item in fournisseur %}
+                    <img src="/{{ item.image.url }}" style="width: 50px"/>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="item7">
+            <div class="box8">
+                <h2>Marketplace</h2>
+            </div>
+            <div class="FourniMKP2">
+
+            </div>
+
+            <div class="FourniMKP3">
+                <h2>Marketplace</h2>
+            </div>
+            <div class="FourniMKP1">
+                {% for item in Filter %}
+                    <img src="/{{ item.image.url }}" style="width: 50px; display: -ms-inline-flexbox"/>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+</html>

@@ -1,0 +1,52 @@
+{% extends 'blog/index.html' %}
+{% load static %}
+{% block body %}
+    <div class="container1">
+        <div class="menu">
+            <ul>
+                <li class="compute"><a href="#" class="btn-menu" data-filter="compute">Compute</a></li>
+                <li class="storage"><a href="#" class="btn-menu" data-filter="storage">Storage</a></li>
+                <li class="database"><a href="#" class="btn-menu" data-filter="database">Database</a></li>
+                <li class="database"><a href="#" class="btn-menu" data-filter="database">Scalability</a></li>
+            </ul>
+        </div>
+        <div class="gallery"></div>
+        <div class="title-image">
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Compute</h6>
+                        <div class="dropdown no-arrow">
+                            <a href="#" role="button" data-toggle="dropdown">
+
+                            </a>
+
+                        </div>
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+
+
+                        <h1>Fournisseur</h1>
+
+
+                                    {% for four in fournisseur %}
+
+                                        <img src="/{{ four.image.url}}" alt="/{{ four.image }}" style="width: 150px;">
+
+                                        <p>{{ four.nom_f }}</p>
+                                    {% endfor %}
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

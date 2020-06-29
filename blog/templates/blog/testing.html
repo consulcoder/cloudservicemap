@@ -1,0 +1,23 @@
+{% extends 'blog/index.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
+</head>
+
+
+{% block body %}
+    {% for ser in service %}
+
+        /{{ ser.image.url }} /{{ ser.image }}
+        <h5>{{ ser.nom }}</h5>
+    {% endfor %}
+{% endblock %}
+
+ <img class="img-profile " src="{% static 'ampoule1.jpg' %}" style="width: 4em">
+
+
+</html>

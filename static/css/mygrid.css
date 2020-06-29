@@ -1,0 +1,1018 @@
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr); /*adaptar el tamano de las filas con una fr*/
+    grid-gap: 20px; /*espacio entre columnas y filas*/
+    grid-auto-rows: minmax(20px, auto);
+    grid-auto-columns: fit-content(50%);
+
+
+}
+
+.wrapper2 {
+    display: grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr); /*adaptar el tamano de las filas con una fr*/
+    grid-gap: 20px; /*espacio entre columnas y filas*/
+    grid-auto-rows: minmax(20px, auto);
+    grid-auto-columns: fit-content(100%);
+    grid-auto-flow: column;
+    /*grid-template-areas: "a a a"
+            "b c c"
+            "b c c;*/
+}
+
+.wrapper3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr); /*adaptar el tamano de las filas con una fr*/
+    grid-gap: 10px; /*espacio entre columnas y filas*/
+    grid-auto-rows: minmax(20px, auto);
+    grid-auto-columns: fit-content(50%);
+}
+
+.wrapper4 {
+    display: grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr); /*adaptar el tamano de las filas con una fr*/
+    grid-gap: 20px; /*espacio entre columnas y filas*/
+    grid-auto-rows: minmax(20px, auto);
+    grid-auto-columns: fit-content(100%);
+    grid-auto-flow: column;
+    /*grid-template-areas: "a a a"
+            "b c c"
+            "b c c;*/
+}
+
+
+.box1 {
+    grid-column: 1 / -1;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    text-align: center;
+    background-color: #FAC05E;
+
+}
+
+.box2 {
+    grid-column-start: 4;
+    grid-column-end: 6;
+    grid-row-start: 2;
+
+    grid-column: 4/6;
+    z-index: -1; /*hide behind */
+    grid-row: 2/4;
+    background-color: #FAE0B7;
+}
+
+.box3 {
+    background-color: #2D8FC3;
+}
+
+.box4 {
+
+    grid-column: 1 / 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background-color: #3FA7D6;
+
+}
+
+.box5 {
+
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background-color: #2CA6A4;
+
+}
+
+.box6 {
+
+    grid-column-start: 1;
+    grid-column-end: 6;
+    text-align: center;
+    background-color: #D73977;
+
+}
+
+.box7 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    text-align: center;
+    background-color: #7785AC;
+}
+
+.box8 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    text-align: center;
+    background-color: #6A7FDB;
+}
+
+.box9 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    text-align: center;
+    background-color: #2B76A4;
+}
+
+.box10 {
+
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background-color: #FFAF0E;
+
+}
+
+.box11 {
+    grid-column: 1 / 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background-color: #14C396;
+}
+
+.box12 {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background-color: #23B5D3;
+}
+
+.box13 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: center;
+    background-color: #FEDB10;
+}
+
+.box14 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    text-align: center;
+    background-color: #C45AB3;
+}
+
+.box15 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    text-align: center;
+    background-color: #D73977;
+}
+
+.SIABlank {
+    grid-column: 1 / 6;
+    grid-row: 2 / 4;
+    background-color: #BF3E70;
+    z-index: -1;
+}
+
+.FourniSIA1 {
+    grid-column: 1;
+    grid-row: 9 / 9;
+}
+
+.SIATwo {
+    grid-column: 1;
+    grid-row: 3 / 3;
+    background-color: #D73977;
+}
+
+.SIAThree {
+    grid-column: 2;
+    grid-row: 3 / 3;
+    background-color: #D73977;
+}
+
+.SIAFour {
+    grid-column: 3;
+    grid-row: 3 / 3;
+    background-color: #D73977;
+}
+
+.SIAFive {
+    grid-column: 4;
+    grid-row: 4 / 4;
+    background-color: #D73977;
+}
+
+.SIASix {
+    grid-column: 5;
+    grid-row: 4 / 4;
+    background-color: #D73977;
+}
+
+.FourniNCD1 {
+    grid-column: 1;
+    grid-row: 9 / 9;
+
+}
+
+.FourniNCD2 {
+    grid-column: 2;
+    grid-row: 9 / 9;
+
+}
+
+.FourniNCD3 {
+    grid-column: 3;
+    grid-row: 9 / 9;
+
+}
+
+.FourniNCD4 {
+    grid-column: 4;
+    grid-row: 9 / 9;
+
+}
+
+.NCDTwo {
+    grid-column: 1 / 5;
+    grid-row: 2 / 5;
+    background-color: #7D89AE;
+    z-index: -1;
+}
+
+.NCDThree {
+    grid-column: 1;
+    grid-row: 4 / 4;
+    background-color: #7785AC;
+}
+
+.NCDFour {
+    grid-column: 2;
+    grid-row: 4 / 4;
+    background-color: #7785AC;
+}
+
+.NCDFive {
+    grid-column: 1;
+    grid-row: 7 / 7;
+    background-color: #7785AC;
+}
+
+.NCDSix {
+    grid-column: 2;
+    grid-row: 7 / 7;
+    background-color: #7785AC;
+}
+
+.NCDSeven {
+    grid-column: 3;
+    grid-row: 6 / 6;
+    background-color: #7785AC;
+}
+
+.NCDEight {
+    grid-column: 4;
+    grid-row: 7 / 7;
+    background-color: #7785AC;
+}
+
+.SIASeven {
+    grid-column: 2;
+    grid-row: 7 / 7;
+    background-color: #D73977;
+}
+
+.SIAEight {
+    grid-column: 3;
+    grid-row: 5 / 5;
+    background-color: #D73977;
+}
+
+.SIANine {
+    grid-column: 2;
+    grid-row: 7 / 7;
+    background-color: #D73977;
+}
+
+.FourniSIA2 {
+    grid-column: 2;
+    grid-row: 9 / 9;
+}
+
+.FourniSIA3 {
+    grid-column: 3;
+    grid-row: 9 / 9;
+}
+
+.FourniSIA4 {
+    grid-column: 4;
+    grid-row: 9 / 9;
+}
+
+.FourniSIA5 {
+    grid-column: 5;
+    grid-row: 9 / 9;
+}
+
+.FourniMKP1 {
+    grid-column: 1;
+    grid-row: 9 / 9;
+}
+
+.FourniMKP2 {
+    grid-column: 1;
+    grid-row: 2 / 7;
+    background-color: #818FC9;
+}
+
+.FourniMKP3 {
+    grid-column: 1;
+    grid-row: 7 / 8;
+    background-color: #6A7FDB;
+}
+
+.item1 {
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: repeat(7, 1fr);
+}
+
+.item2 {
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+}
+
+.item3 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(7, 1fr);
+    grid-area: 1 / 3 / 3
+
+}
+
+.item4 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-auto-columns: fit-content(50%);
+    grid-template-rows: repeat(9, 1fr);
+    grid-area: 1 / 3 / 3
+}
+
+.item5 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    grid-auto-columns: fit-content(100%);
+    /*grid-template-columns: repeat(5, 1fr);*/
+    grid-template-rows: repeat(9, 1fr);
+    grid-area: 1 /2 / 2
+
+}
+
+.item6 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    grid-area: 1 / 4 / 4;
+}
+
+.item7 {
+    display: grid;
+    grid-gap: 2px;
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+}
+
+.item8 {
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: repeat(8, 1fr);
+}
+
+.item9 {
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+}
+
+.item10 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(8, 1fr);
+    grid-area: 1 / 3 / 3
+}
+
+.item11 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-auto-columns: fit-content(50%);
+    grid-template-rows: repeat(10, 1fr);
+    grid-area: 1 / 3 / 3;
+}
+
+.item12 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-auto-columns: fit-content(100%);
+    /*grid-template-columns: repeat(5, 1fr);*/
+    grid-template-rows: repeat(10, 1fr);
+    grid-area: 1 /2 / 2
+}
+
+.item13 {
+    display: grid;
+    grid-gap: 2px;
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+
+}
+
+.item14 {
+    display: grid;
+    grid-gap: 2px;
+    grid-column-start: 1;
+    /*grid-column-end: 4;*/
+    grid-auto-columns: fit-content(100%);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-area: 1 / 4 / 4;
+}
+
+.nom {
+    font-size: xx-large;
+    font-weight: normal;
+    text-align: center;
+}
+
+
+.first {
+    grid-column: 1;
+    grid-row: 2 / 3;
+    background-color: #FAC05E;
+}
+
+.Blankspace {
+    grid-column: 1 / 4;
+    grid-row: 2 / 4;
+    background-color: #5DB4E3;
+    z-index: -1;
+}
+
+.DataOne {
+    grid-column: 1;
+    grid-row: 3 / 3;
+    background-color: #3FA7D6;
+}
+
+.Datatwo {
+    grid-column: 2;
+    grid-row: 3 / 3;
+    background-color: #3FA7D6;
+}
+
+.Datathree {
+    grid-column: 3;
+    grid-row: 3 / 3;
+    background-color: #3FA7D6;
+}
+
+.Datafour {
+    grid-column: 3;
+    grid-row: 5 / 5;
+    background-color: #3FA7D6;
+}
+
+.Fourn1 {
+    grid-column: 1;
+    grid-row: 7 / 7;
+}
+
+.Fourn2 {
+    grid-column: 2;
+    grid-row: 7 / 7;
+}
+
+.Fourn3 {
+    grid-column: 3;
+    grid-row: 7 / 7;
+}
+
+.Fourni1 {
+    grid-column: 1;
+    grid-row: 9 / 9;
+}
+
+.Fourni2 {
+    grid-column: 2;
+    grid-row: 9 / 9;
+}
+
+.Fourni3 {
+    grid-column: 3;
+    grid-row: 9 / 9;
+}
+
+.MMOne {
+    grid-column: 1;
+    grid-row: 2 / 2;
+    background-color: #2CA6A4;
+}
+
+.MMTwo {
+    grid-column: 2;
+    grid-row: 2 / 2;
+    background-color: #2CA6A4;
+}
+
+.MMthree {
+    grid-column: 3;
+    grid-row: 2 / 5;
+    background-color: #369F9D;
+    z-index: -1;
+}
+
+.MMfour {
+    grid-column: 1;
+    grid-row: 4 / 4;
+    background-color: #2CA6A4;
+}
+
+.MMfive {
+    grid-column: 3;
+    grid-row: 4 / 4;
+    background-color: #2CA6A4;
+}
+
+.two {
+    grid-column: 2;
+    grid-row: 3 / 4;
+}
+
+.three {
+    grid-column: 1;
+    grid-row: 3 / 4;
+}
+
+.cont {
+    grid-column: 2;
+    grid-row: 2 / 3;
+    background-color: #FAC05E;
+}
+
+
+.four {
+    grid-column: 1;
+    grid-row: 4 / 5;
+
+}
+
+h2 {
+    text-align: center;
+    text-decoration-color: white;
+    color: white;
+}
+
+.five {
+    grid-column: 1;
+    grid-row: 6 / 7;
+
+}
+
+.six {
+    grid-column: 1;
+    grid-row: 7 / 7;
+}
+
+.six1 {
+    grid-column: 2;
+    grid-row: 7 / 7;
+}
+
+.six2 {
+    grid-column: 3;
+    grid-row: 7 / 7;
+    display: inline-list-item;
+}
+
+.six3 {
+    grid-column: 4;
+    grid-row: 7 / 7;
+}
+
+.six4 {
+    grid-column: 5;
+    grid-row: 7 / 7;
+}
+
+.batch_computing {
+    grid-column: 1;
+    grid-row: 5 / 6;
+    background-color: #FAC05E;
+}
+
+.batch {
+    grid-column: 1;
+    grid-row: 5 / 6;
+
+}
+
+.BPL {
+    grid-column: 2;
+    grid-row: 5 / 6;
+    background-color: #FAC05E;
+}
+
+.register {
+    grid-column: 2;
+    grid-row: 4 / 5;
+}
+
+.jobs {
+    grid-column: 2;
+    grid-row: 6 / 7;
+    float: right;
+    padding-left: 70%;
+}
+
+.scalability {
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+    background-color: #FAC05E;
+}
+
+
+/*.box3 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row: 3;
+    background-color: #FAE0B7;
+}*/
+
+.micro {
+    grid-column: 3;
+    grid-row: 2 / 3;
+    background-color: #FAC05E;
+}
+
+.serverless {
+    grid-column: 5;
+    grid-row: 4 / 5;
+    background-color: #FAC05E;
+}
+
+.server {
+    grid-column: 5;
+    grid-row: 4 / 5;
+}
+
+.backup {
+    grid-column: 5;
+    grid-row: 3 / 4;
+}
+
+.object {
+    grid-column: 3;
+    grid-row: 3 / 4
+}
+
+.seven {
+    grid-column: 3;
+    grid-row: 3 / 4;
+}
+
+.eight {
+    grid-column: 3;
+    grid-row: 4 / 5;
+}
+
+.nine {
+    grid-column: 3;
+    grid-row: 5 / 6;
+}
+
+.ten {
+    grid-column: 3;
+    grid-row: 6 / 7;
+}
+
+.eleven {
+    grid-column: 4;
+    grid-row: 4 / 5;
+}
+
+.twelve {
+    grid-column: 4;
+    grid-row: 5 / 6;
+}
+
+.uno {
+    grid-column: 4;
+    grid-row: 6 / 7;
+}
+
+.dos {
+    grid-column: 5;
+    grid-row: 5 / 6;
+}
+
+.tres {
+    grid-column: 5;
+    grid-row: 6 / 7;
+}
+
+#general {
+    grid-area: auto;
+}
+
+.ABDOne {
+    grid-column: 1;
+    grid-row: 2 / 3;
+    background-color: #2B76A4;
+}
+
+.ABDTwo {
+    grid-column: 2;
+    grid-row: 2 / 3;
+    background-color: #2B76A4;
+}
+
+.ABDThree {
+    grid-column: 3;
+    grid-row: 2 / 3;
+    background-color: #2B76A4;
+}
+
+.ABDFour {
+    grid-column: 4;
+    grid-row: 2 / 3;
+    background-color: #2B76A4;
+}
+
+.ABDFive {
+    grid-column: 1;
+    grid-row: 4 / 5;
+    background-color: #2B76A4;
+}
+
+.ABDSix {
+    grid-column: 2;
+    grid-row: 5 / 6;
+    background-color: #2B76A4;
+}
+
+.ABDSeven {
+    grid-column: 3;
+    grid-row: 5 / 6;
+    background-color: #2B76A4;
+}
+
+.ABDEight {
+    grid-column: 4;
+    grid-row: 5 / 6;
+    background-color: #2B76A4;
+}
+
+.YellowSpace {
+    grid-column: 1 / 4;
+    grid-row: 2 / 3;
+    background-color: #FBD869;
+}
+
+.YellowSpace1 {
+    grid-column: 1 / 3;
+    grid-row: 2 / 5;
+    background-color: #FEE96E;
+}
+
+.GreenSpace {
+    grid-column: 1 / 4;
+    grid-row: 2 / 7;
+    background-color: #4EB09B;
+    z-index: -1;
+}
+
+.VioletSpace {
+    grid-column: 1 / 5;
+    grid-row: 2 / 3;
+    background-color: #C775BA;
+    z-index: -1;
+}
+
+.BlueSpace {
+    grid-column: 1 / 4;
+    grid-row: 2 / 6;
+    background-color: #52A2B2;
+    z-index: -1;
+}
+
+.BlueSpace1 {
+    grid-column: 2 / 4;
+    grid-row: 5 / 7;
+    background-color: #52A2B2;
+    z-index: -1;
+}
+
+.PurpleSpace {
+    grid-column: 1 / 4;
+    grid-row: 2 / 7;
+    background-color: #BF3E70;
+    z-index: -1;
+
+}
+
+.INTOne {
+    grid-column: 1;
+    grid-row: 3 / 4;
+    background-color: #FFAF0E
+}
+
+.INTwo {
+    grid-column: 2;
+    grid-row: 3 / 4;
+    background-color: #FFAF0E
+}
+
+.INThree {
+    grid-column: 3;
+    grid-row: 3 / 4;
+    background-color: #FFAF0E
+}
+
+.GAMOne {
+    grid-column: 1;
+    grid-row: 6 / 7;
+    background-color: #14C396
+}
+
+.GAMTwo {
+    grid-column: 2;
+    grid-row: 6 / 7;
+    background-color: #14C396
+}
+
+.GAMThree {
+    grid-column: 3;
+    grid-row: 6 / 7;
+    background-color: #14C396
+}
+
+.INTFour {
+    grid-column: 1;
+    grid-row: 6 / 7;
+    background-color: #FFAF0E
+}
+
+.MSOne {
+    grid-column: 1;
+    grid-row: 5 / 6;
+    background-color: #23B5D3
+}
+
+.MSTwo {
+    grid-column: 2;
+    grid-row: 6 / 7;
+    background-color: #23B5D3
+}
+
+.MSThree {
+    grid-column: 3;
+    grid-row: 7 / 8;
+    background-color: #23B5D3
+}
+
+.MSFour {
+    grid-column: 2;
+    grid-row: 8 / 9;
+    background-color: #23B5D3
+}
+
+.EIOne {
+    grid-column: 1;
+    grid-row: 5 / 6;
+    background-color: #FEDB10
+}
+
+.EITwo {
+    grid-column: 2;
+    grid-row: 6 / 7;
+    background-color: #FEDB10
+}
+
+.EIThree {
+    grid-column: 1;
+    grid-row: 8 / 9;
+    background-color: #FEDB10
+}
+
+.EIFour {
+    grid-column: 2;
+    grid-row: 8 / 9;
+    background-color: #FEDB10
+}
+
+.DTOne {
+    grid-column: 1;
+    grid-row: 2;
+    background-color: #C45AB3
+}
+
+.DTwo {
+    grid-column: 2;
+    grid-row: 2;
+    background-color: #C45AB3
+}
+
+.DTThree {
+    grid-column: 3;
+    grid-row: 2;
+    background-color: #C45AB3
+}
+
+.DTFour {
+    grid-column: 4;
+    grid-row: 3;
+    background-color: #C45AB3
+}
+
+.DTFive {
+    grid-column: 1;
+    grid-row: 4;
+    background-color: #C45AB3
+}
+
+.DTSix {
+    grid-column: 2;
+    grid-row: 4;
+    background-color: #C45AB3
+}
+
+.DTSeven {
+    grid-column: 4;
+    grid-row: 5;
+    background-color: #C45AB3
+}
+
+.DTEight {
+    grid-column: 1;
+    grid-row: 6;
+    background-color: #C45AB3
+}
+
+.DTNine {
+    grid-column: 4;
+    grid-row: 7;
+    background-color: #C45AB3
+}
+
+.DTen {
+    grid-column: 1;
+    grid-row: 8;
+    background-color: #C45AB3
+}
+
+.DTEleven {
+    grid-column: 2;
+    grid-row: 8;
+    background-color: #C45AB3
+}
+
+.IOTOne {
+    grid-column: 1;
+    grid-row: 7;
+    background-color: #D73977
+}
+
+.IOTwo {
+    grid-column: 2;
+    grid-row: 7;
+    background-color: #D73977
+}
+
+.IOThree {
+    grid-column: 3;
+    grid-row: 8;
+    background-color: #D73977
+}
