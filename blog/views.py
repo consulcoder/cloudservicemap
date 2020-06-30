@@ -42,7 +42,9 @@ def testing(request):
 
 
 def cloud(request):
-    return render(request, "blog/New.html")
+    context = {}
+    context['service'] = Service.objects.filter
+    return render(request, "blog/new.html", context)
 
 
 """def prueba(request):
