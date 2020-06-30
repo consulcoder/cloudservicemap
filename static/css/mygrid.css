@@ -1016,3 +1016,16 @@ h2 {
     grid-row: 8;
     background-color: #D73977
 }
+
+/*Section test*/
+section{
+    display: grid;
+    grid-gap: 10px;
+    font-family: sans-serif;
+    margin: 20px 0;
+}
+div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

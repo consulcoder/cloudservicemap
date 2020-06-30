@@ -31,7 +31,7 @@ class Service(models.Model):
     url = models.URLField(max_length=200, null=True, blank=True)
     statut = models.BooleanField(default=True)
     sous_categorie = models.ForeignKey(Sous_Categorie, on_delete=models.CASCADE)
-    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
+
 
     class Meta:
         verbose_name = "Service"

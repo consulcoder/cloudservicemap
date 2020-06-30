@@ -1,0 +1,28 @@
+{% load static %}
+{% block head %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block title %} <title>Cloud Map Service </title>{% endblock %}
+        <!-- Custom styles for this template-->
+        {% block external_files %}
+            <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
+        {% endblock %}
+    </head>
+{% endblock %}
+{% block header %}
+    <header>
+        <div class="nom"><h1>Cloud Map Service:{% now 'Y' %}</h1></div>
+    </header>
+{% endblock %}
+{% block body %}
+    <body>
+    <section class="auto-fill">
+        <div> Columna 1</div>
+        <div> Columna 2</div>
+
+    </section>
+    </body>
+{% endblock %}
+</html>

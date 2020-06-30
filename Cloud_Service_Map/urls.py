@@ -36,6 +36,7 @@ urlpatterns = [
     path('prueba/', views.my_main_view),
     path('prueba/second', views.my_second_views),
     path('testing/', views.testing),
+    path('new/', views.cloud),
     # path('test/', views.FAQView.as_view()),
     # path('fournisseur/', Fournisseur_List.as_view()),
 

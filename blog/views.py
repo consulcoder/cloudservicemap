@@ -44,8 +44,12 @@ def testing(request):
     return render(request, "blog/prueba1.html", {'context': context})
 
 
-def responsive(request):
-    return render(request, "blog/test.html")
+def cloud(request):
+    return render(request, "blog/New.html")
+
+
+
+
 
 
 """def prueba(request):
