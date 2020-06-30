@@ -24,9 +24,6 @@ def my_main_view(request):
     context = {}
     context['fournisseur'] = Fournisseur.objects.all()
     context['service'] = Service.objects.all()
-    context['Filter'] = Service.objects.filter(categorie__service__nom__istartswith="AZ").filter(
-        categorie__service__nom__contains="Machine")
-
     return render(request, 'blog/prueba.html', context)
 
 
@@ -46,10 +43,6 @@ def testing(request):
 
 def cloud(request):
     return render(request, "blog/New.html")
-
-
-
-
 
 
 """def prueba(request):
