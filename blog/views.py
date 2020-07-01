@@ -5,7 +5,9 @@ from io import BytesIO
 # import pyPdf
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from blog.models import Service, Categorie, Fournisseur
+from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
+from django.db.models import Q
+
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 # this_path = os.getcwd() + '/blog/'
@@ -43,7 +45,8 @@ def testing(request):
 
 def cloud(request):
     context = {}
-    context['service'] = Service.objects.filter
+    context['service'] = Service.objects.all()
+    context['categorie'] = Categorie.objects.all()
     return render(request, "blog/new.html", context)
 
 

@@ -1,12 +1,12 @@
-
 /*Section test*/
-section{
+section {
     display: grid;
     grid-gap: 10px;
     font-family: sans-serif;
     margin: 20px 0;
 }
-div{
+
+div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,22 +15,36 @@ div{
 
 
 }
-.auto-fill div{
+
+.auto-fill div {
     background-color: goldenrod;
 }
-.auto-fit div{
+
+.auto-fit div {
     background-color: purple;
     color: white;
 }
+
 .auto-fill {
-    grid-template-columns: repeat(auto-fill, minmax(300px ,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     /*grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));*/
 
 }
+
 .auto-fit {
-    grid-template-columns: repeat(auto-fit, minmax(100px ,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+
 .taille {
     width: 40px;
     height: 40px;
+}
+
+.main-row {
+
+    background-color: darkgoldenrod;
+    grid-column: 1 / -1;
+
+    /*grid-column: span first / auto;*/
+    /*grid-column: span foo / 4;*/
 }
