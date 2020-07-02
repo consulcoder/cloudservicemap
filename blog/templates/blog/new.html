@@ -18,27 +18,39 @@
 {% endblock %}
 {% block body %}
     <body>
-
     <section class="auto-fill">
         <div class="main-row">
             {% for cat in categorie %}
-                <h3>{{ cat.nom_cat }}</h3>
+                {% if cat.nom_cat == 'Compute' %}
+                    <h1>{{ cat.nom_cat }}</h1>
+                {% endif %}
             {% endfor %}
         </div>
-        {% for i in service %}
+        {% for i in servicecompute %}
             <div class="auto-fill">
                 <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom }}" size="">
+                </br>
                 <i><a href="/{{ i.url }}">{{ i.nom }}</a></i>
             </div>
         {% endfor %}
     </section>
-    <section class="auto-fit">
-        <div> Columna 1</div>
-        <div> Columna 2</div>
-        <div> Columna 3</div>
-        <div> Columna 4</div>
-    </section>
+    <div class="main-row">
+        {% for cat in categorie %}
 
+                <h1>{{ cat.nom_cat }}</h1>
+
+        {% endfor %}
+    </div>
+    <section class="auto-fill">
+        {% for i in servicecompute %}
+            <div class="auto-fill">
+                <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom }}" size="">
+                </br>
+                <i><a href="/{{ i.url }}">{{ i.nom }}</a></i>
+            </div>
+        {% endfor %}
+
+    </section>
     </body>
 {% endblock %}
 </html>

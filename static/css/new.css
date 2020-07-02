@@ -4,6 +4,7 @@ section {
     grid-gap: 10px;
     font-family: sans-serif;
     margin: 20px 0;
+    gap: 10px;
 }
 
 div {
@@ -12,16 +13,14 @@ div {
     align-items: center;
     padding: 50px;
     text-align: center;
-
-
 }
 
 .auto-fill div {
-    background-color: goldenrod;
+    background-color: #FAC05E;
 }
 
 .auto-fit div {
-    background-color: purple;
+    background-color: #FAC05E;
     color: white;
 }
 
@@ -47,4 +46,10 @@ div {
 
     /*grid-column: span first / auto;*/
     /*grid-column: span foo / 4;*/
+}
+
+h1 {
+    font-family: sans-serif;
+    text-decoration-color: white;
+    color: white;
 }

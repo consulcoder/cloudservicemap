@@ -7,7 +7,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
 from django.db.models import Q
-
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers import serialize
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 # this_path = os.getcwd() + '/blog/'
@@ -43,9 +44,18 @@ def testing(request):
     return render(request, "blog/prueba1.html", {'context': context})
 
 
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Service):
+            return str(obj)
+        return super().default(obj)
+
+
 def cloud(request):
     context = {}
-    context['service'] = Service.objects.all()
+    """serialize('service', Service.objects.all(), cls=LazyEncoder)"""
+    context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
+    """context['servicestorage'] = Service.objects.filter(ca)"""
     context['categorie'] = Categorie.objects.all()
     return render(request, "blog/new.html", context)
 
