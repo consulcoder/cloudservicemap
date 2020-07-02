@@ -14,6 +14,7 @@ from xhtml2pdf import pisa
 # this_path = os.getcwd() + '/blog/'
 # Create your views here.
 from django.views.generic import TemplateView, ListView
+
 from blog.models import Service, Fournisseur
 
 
@@ -55,10 +56,10 @@ def cloud(request):
     context = {}
     """serialize('service', Service.objects.all(), cls=LazyEncoder)"""
     context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
-    """context['servicestorage'] = Service.objects.filter(ca)"""
+    context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
+    context['fournisseur'] = Fournisseur.objects.all()
     context['categorie'] = Categorie.objects.all()
     return render(request, "blog/new.html", context)
-
 
 """def prueba(request):
     service = Fournisseur.objects.all()

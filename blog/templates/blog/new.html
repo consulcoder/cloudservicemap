@@ -8,6 +8,7 @@
         <!-- Custom styles for this template-->
         {% block external_files %}
             <link href="{% static 'css/new.css' %}" rel="stylesheet" type="text/css">
+            <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
         {% endblock %}
     </head>
 {% endblock %}
@@ -36,20 +37,25 @@
     </section>
     <div class="main-row">
         {% for cat in categorie %}
-
+            {% if cat.nom_cat == "Storage" %}
                 <h1>{{ cat.nom_cat }}</h1>
-
+            {% endif %}
         {% endfor %}
     </div>
     <section class="auto-fill">
-        {% for i in servicecompute %}
+        {% for i in servicestorage %}
             <div class="auto-fill">
                 <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom }}" size="">
                 </br>
                 <i><a href="/{{ i.url }}">{{ i.nom }}</a></i>
             </div>
         {% endfor %}
-
+        <div class="auto-fill" id="color">
+            {% for i in fournisseur %}
+                <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom_f }}" size="">
+                </br>
+            {% endfor %}
+        </div>
     </section>
     </body>
 {% endblock %}

@@ -39,6 +39,10 @@ div {
     height: 40px;
 }
 
+
+#color{
+    background-color: #1cc88a;
+}
 .main-row {
 
     background-color: darkgoldenrod;
