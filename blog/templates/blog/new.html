@@ -1,25 +1,27 @@
 {% load static %}
-{% block head %}
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
         <meta charset="UTF-8">
-        {% block title %} <title>Cloud Map Service </title>{% endblock %}
+        <title>{% block title %}Cloud Map Service{% endblock %}</title>
         <!-- Custom styles for this template-->
         {% block external_files %}
             <link href="{% static 'css/new.css' %}" rel="stylesheet" type="text/css">
             <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
         {% endblock %}
-    </head>
-{% endblock %}
+    {% endblock %}
+</head>
+
 {% block header %}
     <header>
-        <div class="nom"><h1>Cloud Map Service:{% now 'Y' %}</h1></div>
+        <div class="nom1"><strong>Cloud Map Service:{% now 'Y' %}</strong></div>
     </header>
 {% endblock %}
 {% block body %}
     <body>
     <section class="auto-fill">
+
         <div class="main-row">
             {% for cat in categorie %}
                 {% if cat.nom_cat == 'Compute' %}
@@ -27,13 +29,28 @@
                 {% endif %}
             {% endfor %}
         </div>
+        {% for souscat in souscategorie %}
+
+                <div class="souscategorie">
+                    <p>{{ souscat.nom_s_cat }}</p>
+                </div>
+
+        {% endfor %}
         {% for i in servicecompute %}
             <div class="auto-fill">
                 <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom }}" size="">
-                </br>
+                </br></br>
                 <i><a href="/{{ i.url }}">{{ i.nom }}</a></i>
             </div>
         {% endfor %}
+
+
+        <div class="auto-fill" id="color">
+            {% for i in fournisseur %}
+                <img class="taille" src="/{{ i.image.url }}" alt="/{{ i.nom_f }}" size="">
+                </br>
+            {% endfor %}
+        </div>
     </section>
     <div class="main-row">
         {% for cat in categorie %}

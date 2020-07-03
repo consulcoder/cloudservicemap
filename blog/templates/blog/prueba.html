@@ -1,23 +1,28 @@
 {% load static %}
-{% block head %}
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
         <meta charset="UTF-8">
-        {% block title %} <title>Cloud Map Service </title>{% endblock %}
+        <title>{% block title %}Cloud Map Service{% endblock %}</title>
         <!-- Custom styles for this template-->
         {% block external_files %}
             <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
         {% endblock %}
-    </head>
-{% endblock %}
-{% block header %}
-    <header>
+    {% endblock %}
+</head>
+
+
+<header>
+    {% block header %}
         <div class="nom"><h1>Cloud Map Service:{% now 'Y' %}</h1></div>
-    </header>
-{% endblock %}
+    {% endblock %}
+</header>
+
+
+<body>
 {% block body %}
-    <body>
     <div class="wrapper">
         <div class="item1">
             <div class="box1">
@@ -465,6 +470,6 @@
             </div>
         </div>
     </div>
-    </body>
 {% endblock %}
+</body>
 </html>

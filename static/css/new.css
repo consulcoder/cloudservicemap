@@ -7,6 +7,11 @@ section {
     gap: 10px;
 }
 
+.nom1 {
+
+    font-size: xx-large;
+}
+
 div {
     display: flex;
     justify-content: center;
@@ -26,7 +31,7 @@ div {
 
 .auto-fill {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    /*grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));*/
+
 
 }
 
@@ -35,18 +40,25 @@ div {
 }
 
 .taille {
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
 }
 
+.souscategorie {
+    /*grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-area: 3/2/1/1;*/
 
-#color{
-    background-color: #1cc88a;
+    grid-column: 1;
+    grid-row: 2 / auto;
 }
+
+#color {
+    background-color: beige;
+}
+
 .main-row {
-
-    background-color: darkgoldenrod;
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
+    grid-row: 1 / 3;
 
     /*grid-column: span first / auto;*/
     /*grid-column: span foo / 4;*/

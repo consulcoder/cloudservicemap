@@ -3,6 +3,7 @@ from io import BytesIO
 # from reportlab.pdfgen import canvas
 # from reportlab.lib.pagesizes import A4, inch
 # import pyPdf
+from PIL.PngImagePlugin import _idat
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
@@ -55,11 +56,17 @@ class LazyEncoder(DjangoJSONEncoder):
 def cloud(request):
     context = {}
     """serialize('service', Service.objects.all(), cls=LazyEncoder)"""
+
     context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
     context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
     context['fournisseur'] = Fournisseur.objects.all()
     context['categorie'] = Categorie.objects.all()
-    return render(request, "blog/new.html", context)
+    context['souscategorie'] = Sous_Categorie.objects.all()
+    context['services'] = Service.objects.filter(statut=True)
+
+
+    return render(request, "blog/testhtml.html", context)
+
 
 """def prueba(request):
     service = Fournisseur.objects.all()
