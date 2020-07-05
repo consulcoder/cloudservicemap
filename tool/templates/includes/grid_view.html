@@ -1,0 +1,92 @@
+<div class="row" ng-controller="GridController">
+    <div ng-show="show_listtree" id="listtree" class="col-12">
+        <div class="jumbotron col-12 text-center">
+            <div class="container">
+              <h1 class="display-4">Select Tree for edit</h1>
+              <p class="lead">Use this tools for update the content of Tree to show in Home.</p>
+            </div>
+            <div class="row d-flex justify-content-around align-items-stretch align-content-md-center">
+                <div ng-click="selectTree(item)" style="cursor: pointer;" class="col-2 d-flex align-content-md-center justify-content-around p-5 m-2 border border-dark" ng-repeat="item in trees">
+                   <h3>{{ "{" }}{{ "{" }}item.name{{ "}" }}{{ "}" }}</h3>
+                </div>
+            </div>
+          </div>
+    </div>
+    <div ng-show="show_workspace" id="workspace" class="row col-12">
+        <div class="col-sm-3" style="overflow-y: auto;">
+            <div id="workspace-tools" class="grp-module">
+                <h2>Tools</h2>
+                <div class="grp-row">
+                    ------
+                </div>
+            </div>
+        </div>
+        <div id="workspace-content" class="col-sm-9 border border-dark">
+            <div class="col-12">
+                Editing {{ "{" }}{{ "{" }}tree.name{{ "}" }}{{ "}" }}
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-if="loader" class="jumbotron loader" style="position: absolute; float: left; margin-top: 5%; margin-left: 5%; width: calc(100% - 11%); text-align: center;">
+        <h1 class="display-4">Loading... </h1>
+        <p class="lead">Please wait to load all resources for to work. Thanks you for to use our application.</p>
+        <hr class="my-4">
+        <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+</div>
+<script>
+app.controller("GridController" , [
+'$scope','$http','TYPE_ELEMENT','URLs','NotificationService',
+    function($this,$http,TYPE_ELEMENT,URLs,ntfy){
+        $this.loader = true;
+        $this.show_listtree = false;
+        $this.show_workspace = false;
+        
+        $this.tree = null;
+        $this.trees = [];
+        $http.get(URLs.json_tree_list,{}).then(function(response) {
+            $this.trees = response.data.data;
+            console.log($this.trees)
+
+            jQuery.each($this.trees, function(item, i) {
+                console.log(this.name);
+            })
+
+            $this.loader = false;
+            $this.show_listtree = true;
+        })
+
+        $this.selectTree = function(item) {
+            $this.loader = true;
+            $this.show_listtree = false;
+            
+            $http.get(URLs.json_tree_get+'?id='+item.id).then(function(response) {
+                $this.tree = item;
+                
+                $this.loader = false;
+                $this.show_workspace = true;
+            })
+        }
+
+
+
+        //trabajo con diseño
+        jQuery(document.getElementById('workspace')).css({height : window.innerHeight - 100 });
+        jQuery(document.getElementById('grp-content')).css('padding','80px 20px 0 20px');
+        // setTimeout(function() {
+        //     $this.loader = false;
+        //     $this.$apply();
+        // },3000)
+    }]);
+</script>

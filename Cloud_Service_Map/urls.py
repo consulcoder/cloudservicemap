@@ -22,12 +22,19 @@ from django.views.generic import TemplateView, ListView
 # from blog.views import Fournisseur_List, categorie
 from blog.models import Fournisseur, Service
 from blog import views
+import tool.views as tool_views
+
 
 # from blog.views import MainPageView
 
 urlpatterns = [
+    path('tool/tree/json_list', tool_views.json_list_tree),
+    path('tool/tree/json_get/', tool_views.json_get_tree),
     # Nous allons réécrire l'URL de l'accueil
     # path(r'^$', ListView.as_view(model=Service, context_object_name='Service', template_name='blog/index.html')),
+    # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
     # path('blog/', include('blog.urls')),
     # path('', views.inidex),

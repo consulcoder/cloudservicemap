@@ -1,0 +1,365 @@
+{% load static admin_urls %}{% load i18n grp_tags %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+    <!-- STYLESHEETS -->
+    {% block stylesheets %}
+        <link href="{% static "grappelli/jquery/ui/jquery-ui.min.css" %}" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{% static "grappelli/stylesheets/screen.css" %}" rel="stylesheet" type="text/css" media="all" />
+        {% if LANGUAGE_BIDI %}
+            <link href="{% static "grappelli/stylesheets/mueller/grid/output-rtl.css" %}" rel="stylesheet" type="text/css" media="screen" />
+            <link href="{% block stylesheet_rtl %}{% static "grappelli/stylesheets/rtl.css" %}{% endblock %}" rel="stylesheet" type="text/css" media="screen" />
+        {% else %}
+            <link href="{% static "grappelli/stylesheets/mueller/grid/output.css" %}" rel="stylesheet" type="text/css" media="screen" />
+        {% endif %}
+    {% endblock %}
+    <style>#grp-user-tools>li.grp-user-options-container {
+        width: 150px;
+    }</style>
+    <link href="{% static "pnotify/dist/pnotify.css" %}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{% static "pnotify/dist/pnotify.buttons.css" %}" rel="stylesheet" type="text/css" media="screen" />
+    <!-- <link href="{% static "pnotify/dist/pnotify.confirm.css" %}" rel="stylesheet" type="text/css" media="screen" /> -->
+    <link href="{% static "pnotify/dist/pnotify.nonblock.css" %}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{% static "font-awesome/css/all.min.css" %}" rel="stylesheet" type="text/css" media="screen" />
+    <!-- EXTRASTYLES -->
+    {% block extrastyle %}{% endblock %}
+    <!-- JAVASCRIPTS -->
+    {% block javascripts %}
+        <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "grappelli/" %}{% endfilter %}";</script>
+        <script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+        <script type="text/javascript" charset="utf-8">
+            // GLOBALS
+            var grappelli = {},
+                ADMIN_URL = "{% url 'admin:index' %}",
+                MODEL_URL_ARRAY = {% if user.is_staff %}{% get_content_types %}{% else %}[]{% endif %},
+                DATE_FORMAT = "{% get_date_format %}",
+                TIME_FORMAT = "{% get_time_format %}",
+                DATETIME_FORMAT = "{% get_datetime_format %}";
+        </script>
+        <!-- jQuery, jQuery-UI -->
+        <script src="{% static "grappelli/jquery/jquery.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "grappelli/jquery/jquery-migrate-3.0.1.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "grappelli/jquery/ui/jquery-ui.min.js" %}" type="text/javascript"></script>
+        {% if debug %}
+            <!-- Grappelli Main JS -->
+            <script src="{% static "grappelli/js/grappelli.js" %}" type="text/javascript"></script>
+            <!-- Grappelli jQuery Plugins, Widgets -->
+            <script src="{% static "grappelli/js/jquery.grp_collapsible.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_collapsible_group.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_timepicker.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_related_fk.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_related_m2m.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_related_generic.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_autocomplete_fk.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_autocomplete_m2m.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_autocomplete_generic.js" %}" type="text/javascript"></script>
+            <script src="{% static "grappelli/js/jquery.grp_inline.js" %}" type="text/javascript"></script>
+        {% else %}
+            <!-- Grappelli Minified -->
+            <script src="{% static "grappelli/js/grappelli.min.js" %}" type="text/javascript"></script>
+        {% endif %}
+        <script src="{% static "angular/angular.min.js" %}" type="text/javascript"></script>
+        <script>
+            app = angular.module('app',[]);
+            app.config(function($httpProvider,$locationProvider, URLs) {
+                // $locationProvider.html5Mode(
+                //     {
+                //         enabled: true,
+                //         requireBase: false
+                //     }
+                // );
+                $httpProvider.interceptors.push(function($q, $location) {
+                    return {
+                        response: function(response) {
+                            console.log(response)
+                            console.log(typeof(response.data));
+                            console.log(/\/json_/.test(response.config.url))
+                            
+                            // if(typeof(response.data) == "string" && /\/json_/.test(response.config.url))
+                            //     window.location.href = URLs.logout_url;
+                            return response;
+                        },
+                        
+                    };
+                });
+            });
+            app.constant({
+                'URLs': {
+                    'login_url': "/login",
+                    'logout_url':ADMIN_URL + "logout",
+                    // 'json_tree_list': ADMIN_URL + '/tree/json_list',
+                    'json_tree_list': '/tool/tree/json_list',
+                    'json_tree_get': '/tool/tree/json_get/',
+                    'paciente_save': ADMIN_URL + '/index.php/paciente/json_save',
+                    'paciente_upload_foto': ADMIN_URL + '/index.php/paciente/upload_foto',
+                    'paciente_remove': ADMIN_URL + '/index.php/paciente/json_remove',
+                    'paciente_form_edit': ADMIN_URL + '/index.php/paciente/listado#edit',
+                    
+                },
+                'TYPE_ELEMENT':{
+                    1: 'GENERAL',
+                    2: 'Category',
+                    3: 'Resource'
+                }	
+            });
+            app.factory('NotificationService', function() {
+                var self = this;
+                $this = {};
+                $this.getInstance = function(settings) {
+                    return new PNotify(settings);
+                };
+                $this.info =  function(title,content) {
+                    return $this.getInstance({
+                        title: title,
+                        title_escape: false,
+                        text: content,
+                        text_escape: false,
+                        styling: "bootstrap3",
+                        type: "info",
+                        icon: true,
+                    });
+                };
+                $this.success = function(title,content) {
+                    return $this.getInstance({
+                        title: title,
+                        title_escape: false,
+                        text: content,
+                        text_escape: false,
+                        styling: "bootstrap3",
+                        type: "success",
+                        stack: {
+                            dir1: 'up',
+                            dir2: 'right',
+                        },
+                        icon: true
+                    });
+                };
+                $this.successOpr = function(title,content) {
+                    return $this.success("Operación satisfactoria","Se guardaron los datos satisfactoriamente.");
+                };
+                $this.warning = function(title,content) {
+                    return $this.getInstance({
+                        title: title,
+                        title_escape: false,
+                        text: content,
+                        text_escape: false,
+                        styling: "bootstrap3",
+                        type: "warning",
+                        align: 'right',
+                        stack: {
+                            dir1: 'up',
+                            dir2: 'right',
+                        },
+                        icon: true
+                    });
+                };
+                $this.error = function(title,content) {
+                    content = content || "Por favor verifique sus datos.";
+                    return $this.getInstance({
+                        title: title,
+                        title_escape: false,
+                        text: content,
+                        text_escape: false,
+                        styling: "bootstrap3",
+                        type: "error",
+                        stack: {
+                            dir1: 'up',
+                            dir2: 'right',
+                        },
+                        icon: true
+                    });
+                };
+                $this.errorOpr = function(title,content) {
+                    return $this.error("Operación fallida","Ocurrió un error inesperado. Por favor contacte al administrador.");
+                }
+                $this.confirm = function(title,content,okFunc,noFunc) {
+                    var settings = {
+                        title: title,
+                        text: content,
+                        hide: false,
+                        type: 'warning',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        addclass: 'stack-modal',
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        },
+                        styling: 'bootstrap3'
+                    };
+                    var dlg = $this.getInstance(settings);
+                    dlg.get().on('pnotify.confirm', okFunc || function() {
+                        alert('Ok, cool.');
+                    }).on('pnotify.cancel', noFunc || function() {
+                        alert('Oh ok. Chicken, I see.');
+                    });
+                    return dlg;
+                };
+                $this.confirmRemove = function(title,okFunc,noFunc) {
+                    return $this.confirm(title,"¿Está seguro, que desea eliminar ...?",okFunc,noFunc);
+                }
+                return $this;	
+            });
+        </script>
+        <script src="{% static "pnotify/dist/pnotify.js" %}" type="text/javascript"></script>
+        <script src="{% static "pnotify/dist/pnotify.buttons.js" %}" type="text/javascript"></script>
+        <script src="{% static "pnotify/dist/pnotify.confirm.js" %}" type="text/javascript"></script>
+        <script src="{% static "pnotify/dist/pnotify.nonblock.js" %}" type="text/javascript"></script>
+        <script src="{% static "js/bootstrap.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "font-awesome/js/all.min.js" %}" type="text/javascript"></script>
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    $("#grp-navigation .grp-collapse").grp_collapsible();
+                });
+            })(grp.jQuery);
+        </script>
+    {% endblock %}
+    <!-- EXTRAHEAD -->
+    {% block extrahead %}{% endblock %}
+</head>
+<body class="{% if is_popup %}grp-popup {% endif %}{% if LANGUAGE_BIDI %}rtl {% endif %}{% block bodyclass %}{% endblock %}">
+    <div ng-app="app" id="container" class="grp-container">
+
+        {% block header %}
+            <!-- HEADER -->
+            <header id="grp-header" class="{% block header-class %}{% endblock %}">
+                {% if not is_popup %}
+
+                    {% block navigation %}
+                        <!-- NAVIGATION -->
+                        <div id="grp-navigation">
+                            {% block branding %}{% endblock %}
+                            {% block admin_title %}
+                                <h1 onclick="location.href = '{% url 'admin:index' %}'" id="grp-admin-title" class="brand" style="cursor: pointer;">
+                                    <em class="fa fa-cloud"></em> NUAGEO #CloudMapServices
+                                    {% if title %}
+                                    - {{ title }}
+                                    {% endif %}
+                                </h1>
+                            {% endblock %}
+                            {% block user-tools %}
+                                {% if user.is_authenticated and user.is_staff %}
+                                    <ul id="grp-user-tools">
+                                        
+                                        <li class="grp-collapse grp-closed">
+                                            <a class="user-options-handler grp-collapse-handler" href="javascript://" ><em style="display: inline-block !important;"  class="fa fa-cog"></em>  Tools</a>
+                                            <ul class="grp-user-options">
+                                                <li><a href="/admin/tool/tree/"><strong>Tree</strong></a></li>
+                                                <li><a href="/admin/blog/categorie/"><strong>Categorie</strong></a></li>
+                                                <li><a href="/admin/blog/sous_categorie/"><strong>Sous Categorie</strong></a></li>
+                                                <li><a href="/admin/blog/service/"><strong>Services</strong></a></li>
+                                                <li><a href="/admin/blog/fournisseur/"><strong>Fournisseur</strong></a></li>
+                                                <!-- <li><a href="/admin/tool/typeelement/"><strong>Types</strong></a></li> -->
+                                            </ul>
+                                        </li>
+                                        <!-- Userlinks -->
+                                        {% block userlinks %}
+                                            <!-- Username -->
+                                            <li class=" grp-collapse grp-closed {% if request.session.original_user %}grp-switch-user-is-target{% endif %}">
+                                                <a href="javascript://" class="user-options-handler grp-collapse-handler {% if request.session.original_user %}grp-switch-user-is-target{% else %}grp-switch-user-is-original{% endif %}"><em style="display: inline-block !important;" class="fa fa-user"></em> {% firstof user.get_short_name user.get_username %}</a>
+                                                <ul class="grp-user-options">
+                                                    <!-- Change Password -->
+                                                    {% if user.has_usable_password %}
+                                                        <li><a href="{% url 'admin:password_change' %}" class="grp-change-password">{% trans 'Change password' %}</a></li>
+                                                    {% endif %}
+                                                    {# {% if request.user.has_perm('auth.view_user') %}{% endif %} #}
+                                                    <li><a href="/admin/auth/user/" class="grp-change-password">{% trans 'Utilisateurs' %}</a></li>
+                                                    <li><a href="/admin/auth/group/" class="grp-change-password">{% trans 'Groupes' %}</a></li>
+                                                    <!-- Logout -->
+                                                    <li><a href="{% url 'admin:logout' %}" class="grp-logout">{% trans 'Log out' %}</a></li>
+                                                    <!-- Switch -->
+                                                    {% switch_user_dropdown %}
+                                                </ul>
+                                            </li>
+                                            <!-- Site URL -->
+                                            {% if site_url %}
+                                                <li><a href="{{ site_url }}"><em style="display: inline-block !important;"  class="fa fa-eye"></em> {% trans 'View site' %}</a></li>
+                                            {% endif %}
+                                            <!-- Documentation -->
+                                            {% url 'django-admindocs-docroot' as docsroot %}
+                                            {% if docsroot %}
+                                                <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
+                                            {% endif %}
+                                        {% endblock %}
+                                    </ul>
+                                {% endif %}
+                            {% endblock %}
+                            <!-- Nav-Global -->
+                            {% block nav-global %}{% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block context-navigation %}
+                        <!-- CONTEXT NAVIGATION -->
+                        <div id="grp-context-navigation">
+                            <nav id="grp-breadcrumbs" class="{% block breadcrumbs-class %}{% endblock %}">
+                                <header style="display:none"><h1>Breadcrumbs</h1></header>
+                                {% block breadcrumbs %}
+                                    <ul>
+                                        <li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+                                        {% if title %}
+                                            <li> &rsaquo; {{ title }}</li>
+                                        {% endif %}
+                                    </ul>
+                                {% endblock %}
+                            </nav>
+                            <nav id="grp-page-tools">
+                                <header style="display:none"><h1>Page Tools</h1></header>
+                                {% block page-tools %}{% endblock %}
+                            </nav>
+                        </div>
+                    {% endblock %}
+
+                {% endif %}
+            </header>
+        {% endblock %}
+
+        <!-- CONTENT -->
+        <article id="grp-content" class="{% block content-class %}{% endblock %}">
+
+            <!-- MESSAGES -->
+            {% block messages %}
+                {% if messages %}
+                    <ul class="grp-messagelist">
+                        <!-- NOTE: no message|capfirst by purpose, because it does not work in some languages -->
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="grp-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endblock %}
+
+            <!-- CONTENT TITLE -->
+            <header id="grp-content-title">
+                {% block pretitle %}{% endblock %}
+                {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+                {% block object-tools %}{% endblock %}
+            </header>
+
+            <!-- CONTENT-CONTAINER -->
+            <div id="grp-content-container">
+                {% block content %}
+                    {{ content }}
+                    {% block filters %}{% endblock %}
+                {% endblock %}
+            </div>
+
+        </article>
+
+        <!-- FOOTER -->
+        {% block footer %}{% endblock %}
+
+    </div>
+</body>
+</html>
