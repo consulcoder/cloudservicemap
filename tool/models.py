@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import *
 from blog.models import Categorie, Sous_Categorie, Service
 
+
 class TypeElement(models.Model):
     name = models.CharField(max_length=30, verbose_name='Name')
     description = models.TextField(verbose_name='Description')
@@ -13,6 +14,7 @@ class TypeElement(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Element(models.Model):
     title = models.CharField(max_length=30, verbose_name='Title', null=True, blank=True)
@@ -29,11 +31,11 @@ class Element(models.Model):
     sous_categorie = models.ForeignKey(Sous_Categorie, on_delete=models.SET_NULL, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True)
 
-
     def hasResource(self):
         if self.categorie is None and self.sous_categorie is None and self.service is None:
             return False
         return True
+
     def getResource(self):
         if not self.categorie is None:
             return self.categorie
@@ -50,12 +52,14 @@ class Element(models.Model):
     def __str__(self):
         return self.title
 
+
 class Tree(models.Model):
     in_home = models.BooleanField(default=False)
     name = models.CharField(max_length=255, verbose_name='Title')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
-    element = models.ForeignKey(Element, verbose_name='Element', on_delete=models.SET_NULL, null=True,blank=True)
-    root_node = models.ForeignKey('Node', verbose_name='Root',related_name='root', on_delete=models.SET_NULL, null=True,blank=True)
+    element = models.ForeignKey(Element, verbose_name='Element', on_delete=models.SET_NULL, null=True, blank=True)
+    root_node = models.ForeignKey('Node', verbose_name='Root', related_name='root', on_delete=models.SET_NULL,
+                                  null=True, blank=True)
     color = models.CharField(max_length=10, verbose_name='Color', null=True, blank=True)
     rowWidth = models.IntegerField(default=1, verbose_name='Width')
     order = models.IntegerField()
@@ -78,11 +82,13 @@ class Tree(models.Model):
     def __str__(self):
         return self.name
 
+
 class Node(models.Model):
     in_visible = models.BooleanField(default=True)
     description = models.TextField(max_length=30, verbose_name='Description', null=True, blank=True)
     father = models.ForeignKey('self', verbose_name='Tree', on_delete=models.CASCADE, null=True, blank=True)
-    element_father = models.ForeignKey(Element, verbose_name='Element', related_name='tree_fathers', on_delete=models.CASCADE, null=True, blank=True)
+    element_father = models.ForeignKey(Element, verbose_name='Element', related_name='tree_fathers',
+                                       on_delete=models.CASCADE, null=True, blank=True)
     element = models.ForeignKey(Element, verbose_name='Element', related_name='tree_children', on_delete=models.CASCADE)
     color = models.CharField(max_length=10, verbose_name='Color', null=True)
     rowWidth = models.IntegerField(default=1, verbose_name='Width')
@@ -92,7 +98,7 @@ class Node(models.Model):
 
     class Meta:
         verbose_name = "Node"
-        ordering = ["-tree","-element_father","-order"]
+        ordering = ["-tree", "-element_father", "-order"]
 
     def __str__(self):
-        return self.element + " " + self.typeElemnt + " (" + self.description + ") width:" + self.rowWidth
+        return self.element + " " + self.typeElement + " (" + self.description + ") width:" + self.rowWidth
