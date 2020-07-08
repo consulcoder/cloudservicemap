@@ -1,23 +1,28 @@
+import os
+from io import BytesIO
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.pagesizes import A4, inch
+# import pyPdf
+from PIL.PngImagePlugin import _idat
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
+from django.db.models import Q
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers import serialize
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+# this_path = os.getcwd() + '/blog/'
+# Create your views here.
+from django.views.generic import TemplateView, ListView
+
+from blog.models import Service, Fournisseur
 
 
 def fournisseur(request):
     cont = Fournisseur.objects.all()
     print(cont)
     return render(request, "blog/prueba.html", {'fournisseur': cont})
-
-
-def index(request):
-    context = {}
-    context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
-    context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
-    context['fournisseur'] = Fournisseur.objects.all()
-    context['categorie'] = Categorie.objects.all()
-    context['souscategorie'] = Sous_Categorie.objects.all()
-    context['services'] = Service.objects.filter(statut=True)
-    return render(request, "blog/index.html", context)
 
 
 def my_main_view(request):
@@ -58,18 +63,9 @@ def cloud(request):
     context['categorie'] = Categorie.objects.all()
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['services'] = Service.objects.filter(statut=True)
-    return render(request, "blog/main.html", context)
 
 
-def service_grid(request):
-    context = {}
-    context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
-    context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
-    context['fournisseur'] = Fournisseur.objects.all()
-    context['categorie'] = Categorie.objects.all()
-    context['souscategorie'] = Sous_Categorie.objects.all()
-    context['services'] = Service.objects.filter(statut=True)
-    return render(request, "blog/listing.html", context)
+    return render(request, "blog/testhtml.html", context)
 
 
 """def prueba(request):

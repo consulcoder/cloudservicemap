@@ -16,7 +16,7 @@
         <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
         <!--<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">-->
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" type="text/css">
 
@@ -212,6 +212,17 @@
     <!-- Content Row -->
     <div class="row">
 
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <p style="text-align: start"> Filtré par:
+                {% if categorie %}
+                    {% for cat in categorie %}
+                        <tr>
+                            <td>{{ cat.nom_cat }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+        </div>
         <div class="col-xl-3 col-md-6 mb-4">
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
@@ -221,49 +232,114 @@
 
         </div>
     </div>
+
+    <!-- Content Row -->
 {% endblock %}
 {% block body %}
-    {% for cat in categorie %}
-        <div class="row">
+    <div class="row">
 
         <!-- Area Chart -->
-        <div class="col-xl-8">
+        <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 ">
-                    <strong>{{ cat.nom_cat }}</strong>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+
+                    <h6 class="m-0 font-weight-bold text-primary"> Compute {{ cat.nom_cat }}
+                    </h6>
+
+
+                    <div class="dropdown no-arrow">
+                        <a href="#" role="button" data-toggle="dropdown">
+
+                        </a>
+                    </div>
+
                 </div>
-                {% for item in souscategorie %}
-                    {% if item.categorie_id == cat.id %}
-                        <div class="card-body">
-                            <i>{{ item.nom_s_cat }}</i>
-                        </div>
-                        {% for four in fournisseur %}
-                            <div class="col-md-3">
-                                {% for i in services %}
-                                    {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
-                                        <strong>{{ i.nom }}</strong></br>
-                                        <img src="/{{ i.image.url }}" alt="/{{ i.nom }}" style="width: 30px"></br>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-3">
-        </div>
-        {% for four in fournisseur %}
-            <div class="col-md-3">
-                <img src="/{{ four.image }}" style="width: 30px">
-                <i>{{ four.nom_f }}</i>
-            </div>
-        {% endfor %}
-    {% endfor %}
-</div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="wrapper"></div>im
 
 
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Storage</h6>
+                </div>
+                <div class="card-body">
+                    <h1>Images</h1>
+                    <table class="#" style="border: #1b1e21; font-size: x-small">
+                        <tr style="border: #1b1e21; font-size: x-small">
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Color System -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Une autre Catégorie</h6>
+                </div>
+            </div>
+
+            <!-- Illustrations -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Storage</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Approach -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Une autre Catégorie</h6>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
 {% endblock %}
 
 {% block footer %}
