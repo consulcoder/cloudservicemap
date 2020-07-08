@@ -13,23 +13,57 @@
           </div>
     </div>
     <div ng-show="show_workspace" id="workspace" class="row col-12">
-        <div class="col-sm-3" style="overflow-y: auto;">
-            <div id="workspace-tools" class="grp-module">
-                <h2>Tools</h2>
+        <div class="col-sm-3" style="overflow-y: auto; max-height: 100%;">
+            <div ng-if="providers.length" id="workspace-providers" class="grp-module" style="position: sticky;top: 0;z-index: 2; margin-bottom: 0;">
+                <h2>Properties</h2>
                 <div class="grp-row">
-                    ------
+                    <input ng-change="editNode()" ng-model="node.title" type="text" placeholder="Title" style="width: 100%;">
+                    <input ng-change="editNode()" ng-model="node.rowWidth" placeholder="Width" type="number" min="1" max="12" style="width: 30%;">
+                    <input ng-change="editNode()" ng-model="node.color" type="color" > Color
+                    <input ng-change="editNode()" ng-model="node.url" type="text" placeholder="URL" style="width: 100%;">
+                </div>
+            </div>
+            <style>#workspace-tools a.btn-dark{ color:white}</style>
+            <div ng-if="tools.length" id="workspace-tools" class="grp-module">
+                <h2 style="position: sticky;top: 130px;z-index: 1;">Tools</h2>
+                <div class="grp-row">
+                    <a ng-click="selectTool()" class="btn {{ "{" }}{{ "{" }}tool==null?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="far fa-square"></em>
+                        General Box
+                    </a>
+                    <div ng-click="selectTool(prov,4)" class="grp-row" ng-repeat="prov in providers">
+                        <a class="btn {{ "{" }}{{ "{" }}tool==prov?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left">
+                            <img src="/{{ "{" }}{{ "{" }}prov.image{{ "}" }}{{ "}" }}" width="20px" style="float: left; vertical-align: middle;">
+                            {{ "{" }}{{ "{" }}prov.name{{ "}" }}{{ "}" }}
+                        </a>
+                    </div>
+                </div>
+                <div class="grp-row" ng-repeat="cat in tools">
+                    <a ng-click="selectTool(cat,2)" class="btn {{ "{" }}{{ "{" }}tool==cat?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="fa fa-cogs"></em>
+                        {{ "{" }}{{ "{" }}cat.name{{ "}" }}{{ "}" }}
+                    </a>
+                    <div ng-click="selectTool(serv,3)" class="grp-row" ng-repeat="serv in cat.services">
+                        <a class="btn {{ "{" }}{{ "{" }}tool==serv?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left">
+                            <img src="/{{ "{" }}{{ "{" }}serv.image{{ "}" }}{{ "}" }}" width="20px" style="float: left; vertical-align: middle;">
+                            {{ "{" }}{{ "{" }}serv.name{{ "}" }}{{ "}" }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="workspace-content" class="col-sm-9 border border-dark">
-            <div class="col-12">
-                Editing {{ "{" }}{{ "{" }}tree.name{{ "}" }}{{ "}" }}
+        <div id="workspace-content" class="col-sm-9 border border-dark" style="color: white; font-size: 14px; font-weight: bold;">
+            <div class="row">
+                <div ng-click="selectNode(node)" ng-repeat="node in tree.struct" class="d-flex align-content-md-center justify-content-around p-3 col-{{ "{" }}{{ "{" }}node.rowWidth{{ "}" }}{{ "}" }}" style="min-width: 40px; min-height: 40px; background-color: {{ "{" }}{{ "{" }}node.color{{ "}" }}{{ "}" }};">
+                    {{ "{" }}{{ "{" }}node.title{{ "}" }}{{ "}" }}
+                    <button ng-click="addNode(node)" style="position: absolute; padding: 0; float: left; top:2px; left: 2px;" class="btn btn-dark"><em class="fa fa-plus-circle"></em></button>
+                    <button ng-click="removeNode(node)" style="position: absolute; padding: 0; float: right; top:2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
+                </div>
+
             </div>
         </div>
     </div>
 
 
-    <div ng-if="loader" class="jumbotron loader" style="position: absolute; float: left; margin-top: 5%; margin-left: 5%; width: calc(100% - 11%); text-align: center;">
+    <div ng-if="loader" class="jumbotron loader" style="z-index: 3; position: absolute; float: left; margin-top: 5%; margin-left: 5%; width: calc(100% - 11%); text-align: center;">
         <h1 class="display-4">Loading... </h1>
         <p class="lead">Please wait to load all resources for to work. Thanks you for to use our application.</p>
         <hr class="my-4">
@@ -55,6 +89,7 @@ app.controller("GridController" , [
         
         $this.tree = null;
         $this.trees = [];
+        $this.tools = [];
         $http.get(URLs.json_tree_list,{}).then(function(response) {
             $this.trees = response.data.data;
             console.log($this.trees)
@@ -73,10 +108,67 @@ app.controller("GridController" , [
             
             $http.get(URLs.json_tree_get+'?id='+item.id).then(function(response) {
                 $this.tree = item;
+                $this.tools = response.data.data.categories;
+                $this.providers = response.data.data.fournisseur;
                 
                 $this.loader = false;
                 $this.show_workspace = true;
             })
+        }
+
+        $this.node = null;
+        $this.tool = null;
+        $this.flag_prevent = false;
+        $this.selectNode = function(item) {
+            if($this.flag_prevent) {
+                $this.flag_prevent = false;
+                return;
+            }
+            if($this.node) $this.node.selected = false;
+            if(item) item.selected = true;
+            $this.node = item;
+        }
+        $this.selectTool = function(item,type) {
+            if($this.tool) $this.tool.selected = false;
+            if(item) {
+                item.type = type;
+                item.selected = true;
+            }
+            $this.tool = item;
+        }
+        $this.addNode = function(father) {
+            $this.loader = true;
+            $this.flag_prevent = true;
+            $http.post(URLs.json_add_node,{
+                tree_id: $this.tree.id,
+                father_id: father.id,
+                resource_id: $this.tool ? $this.tool.id : 0,
+                resource_type:$this.tool ? $this.tool.type : 0,
+                color: $this.node ? $this.node.color : $this.tree.color,
+                rowWidth: $this.node ? $this.node.rowWidth : 4,
+            }).then(function(response) {
+                $this.tree.struct = response.data.data;
+                $this.loader = false;
+            })
+            $this.node = { title: '', url:'', color:$this.node ? $this.node.color : $this.tree.color, rowWidth:$this.node ? $this.node.rowWidth : 4};
+        }
+        $this.editNode = function(node) {
+            if(!$this.node.id) return;
+            // $this.loader = true;
+            // $this.flag_prevent = true;
+            $http.post(URLs.json_edit_node,$this.node).then(function(response) {
+                // $this.tree.struct = response.data.data;
+                $this.loader = false;
+            })
+        }
+        $this.removeNode = function(node) {
+            $this.loader = true;
+            $this.flag_prevent = true;
+            $http.post(URLs.json_remove_node,{id: node.id, tree_id:$this.tree.id}).then(function(response) {
+                $this.tree.struct = response.data.data;
+                $this.loader = false;
+            })
+            $this.node = { title: '', url:'', color:$this.node ? $this.node.color : $this.tree.color, rowWidth:$this.node ? $this.node.rowWidth : 4};
         }
 
 
@@ -84,6 +176,9 @@ app.controller("GridController" , [
         //trabajo con diseño
         jQuery(document.getElementById('workspace')).css({height : window.innerHeight - 100 });
         jQuery(document.getElementById('grp-content')).css('padding','80px 20px 0 20px');
+        window.onresize = function() {
+            jQuery(document.getElementById('workspace')).css({height : window.innerHeight - 100 });
+        }
         // setTimeout(function() {
         //     $this.loader = false;
         //     $this.$apply();

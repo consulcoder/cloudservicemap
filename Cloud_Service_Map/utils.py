@@ -20,10 +20,16 @@ def render_to_pdf(template_src, context_dict={}):
     return None
 
 def json(data,code = 200,msg = ''):
+    response = JsonResponse({'msg': msg, 'data': data})
+    response.status_code = code
+    return response
+def toArray(data):
     items = []
     for item in data:
         items.append(item.toArray())
-    response = JsonResponse({'msg': msg, 'data': items})
-    response.status_code = code
-    return response
+    return items
+def jsonArray(data,code = 200,msg = ''):
+    items = toArray(data)
+    return json(items,code,msg)
+
 

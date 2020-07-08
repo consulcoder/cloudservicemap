@@ -64,6 +64,7 @@
             <script src="{% static "grappelli/js/grappelli.min.js" %}" type="text/javascript"></script>
         {% endif %}
         <script src="{% static "angular/angular.min.js" %}" type="text/javascript"></script>
+        {% csrf_token %}
         <script>
             app = angular.module('app',[]);
             app.config(function($httpProvider,$locationProvider, URLs) {
@@ -75,10 +76,15 @@
                 // );
                 $httpProvider.interceptors.push(function($q, $location) {
                     return {
+                        request: function(config) {
+                            if(!/^(GET|HEAD|OPTIONS|TRACE)$/.test(config.method))
+                                config.headers['X-CSRFToken'] = jQuery("[name=csrfmiddlewaretoken]").val();
+                            return config;
+                        },
                         response: function(response) {
-                            console.log(response)
-                            console.log(typeof(response.data));
-                            console.log(/\/json_/.test(response.config.url))
+                            // console.log(response)
+                            // console.log(typeof(response.data));
+                            // console.log(/\/json_/.test(response.config.url))
                             
                             // if(typeof(response.data) == "string" && /\/json_/.test(response.config.url))
                             //     window.location.href = URLs.logout_url;
@@ -95,6 +101,10 @@
                     // 'json_tree_list': ADMIN_URL + '/tree/json_list',
                     'json_tree_list': '/tool/tree/json_list',
                     'json_tree_get': '/tool/tree/json_get/',
+                    'json_tree_get_struct': '/tool/tree/json_get_struct/',
+                    'json_add_node': ADMIN_URL + 'tool/tree/json_add_node/',
+                    'json_edit_node': ADMIN_URL + 'tool/tree/json_edit_node/',
+                    'json_remove_node': ADMIN_URL + 'tool/tree/json_remove_node/',
                     'paciente_save': ADMIN_URL + '/index.php/paciente/json_save',
                     'paciente_upload_foto': ADMIN_URL + '/index.php/paciente/upload_foto',
                     'paciente_remove': ADMIN_URL + '/index.php/paciente/json_remove',
