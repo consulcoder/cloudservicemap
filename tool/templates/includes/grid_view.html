@@ -54,9 +54,10 @@
             <div class="row">
                 <div ng-click="selectNode(node)" ng-repeat="node in tree.struct" class="d-flex align-content-md-center align-middle justify-content-around col-{{ "{" }}{{ "{" }}node.rowWidth{{ "}" }}{{ "}" }}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ "{" }}{{ "{" }}node.color{{ "}" }}{{ "}" }}; border:5px solid {{ "{" }}{{ "{" }}tree.color{{ "}" }}{{ "}" }}; {{ "{" }}{{ "{" }}node.is_root ? 'font-size: 22px;':''{{ "}" }}{{ "}" }} {{ "{" }}{{ "{" }}node.color == '#ffffff' ? 'color: black;':''{{ "}" }}{{ "}" }}">
                     <div ng-if="node.children.length" class="col-12 row" style="padding: 0;">
-                        <div ng-click="selectNode(child)" ng-repeat="child in node.children" class="p-1 align-middle col-{{ "{" }}{{ "{" }}child.rowWidth{{ "}" }}{{ "}" }}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
+                        <div ng-click="selectInternalNode(child)" ng-repeat="child in node.children" class="p-1 align-middle col-{{ "{" }}{{ "{" }}child.rowWidth{{ "}" }}{{ "}" }}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
                             <img src="/{{ "{" }}{{ "{" }}child.element.image{{ "}" }}{{ "}" }}" width="95%" style="max-width: 80px;"><br>
                             {{ "{" }}{{ "{" }}child.title{{ "}" }}{{ "}" }}
+                            <button ng-show="child.selected && !child.is_root" ng-click="removeNode(child)" style="position: absolute; padding: 0; float: right; bottom: 2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
                         </div>
                     </div>
                     <span class="align-self-center align-middle" ng-if="!node.children.length">{{ "{" }}{{ "{" }}node.title{{ "}" }}{{ "}" }}</span>
@@ -132,6 +133,15 @@ app.controller("GridController" , [
                 $this.flag_prevent = false;
                 return;
             }
+            console.log(item);
+            
+            if($this.node) $this.node.selected = false;
+            if(item) item.selected = true;
+            $this.node = item;
+        }
+        $this.selectInternalNode = function(item) {
+            console.log(item);
+            $this.flag_prevent = true;
             if($this.node) $this.node.selected = false;
             if(item) item.selected = true;
             $this.node = item;
