@@ -8,6 +8,11 @@ class Categorie(models.Model):
     class Meta:
         verbose_name = "Categorie"
 
+    def toArray(self):
+        return {
+            'id': self.pk,
+            'name': self.__str__()
+        }
     def __str__(self):
         return self.nom_cat
 
@@ -20,6 +25,11 @@ class Sous_Categorie(models.Model):
         verbose_name = "Sous-Categorie"
         ordering = ["-nom_s_cat"]
 
+    def toArray(self):
+        return {
+            'id': self.pk,
+            'name': self.__str__()
+        }
     def __str__(self):
         return self.nom_s_cat
 
@@ -36,6 +46,13 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Service"
 
+    def toArray(self):
+        return {
+            'id': self.pk,
+            'name': self.__str__(),
+            'image': self.image.url,
+            'url':self.url,
+        }
     def __str__(self):
         return self.nom
 
@@ -48,5 +65,11 @@ class Fournisseur(models.Model):
     class Meta:
         verbose_name = "Fournisseur" #(verbose_name is a human-readable name for the field especially in Django Administration)
 
+    def toArray(self):
+        return {
+            'id': self.pk,
+            'name': self.__str__(),
+            'image': self.image.url,
+        }
     def __str__(self):
         return self.nom_f
