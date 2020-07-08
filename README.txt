@@ -23,3 +23,5 @@ https://www.npmjs.com/package/interactive-landscape
 Pero incluyen un 4 elemento que es el proveedor. Este sitio tien solamente categoria, sub categoria y servicio
 el mio aparte de eso tiene los proveedores
 
+Nada mas que tu arrancas el servidor es la vista de index, el template que muestra es
+el index.html
