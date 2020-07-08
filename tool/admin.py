@@ -1,8 +1,5 @@
 from django.contrib import admin
 from tool.models import *
-from blog.models import *
-
-
 
 
 # Register your models here.
