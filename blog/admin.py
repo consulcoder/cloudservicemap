@@ -33,20 +33,20 @@ class FournisseurAdmin(admin.ModelAdmin):
 
     )
 
+
 class Sous_CategorieAdmin(admin.ModelAdmin):
+    list_display = ('nom_s_cat', 'categorie')
+    list_filter = ('nom_s_cat', 'categorie')
+    search_fields = ('nom_s_cat', 'categorie')
 
-        list_display = ('nom_s_cat', 'categorie')
-        list_filter = ('nom_s_cat', 'categorie')
-        search_fields = ('nom_s_cat', 'categorie')
+    fieldsets = (
+        # Fieldset 1 : meta-info (nom)
+        ('Général', {
+            # 'classes': ['collapse', ],
+            'fields': ('nom_s_cat', 'categorie')
+        }),
 
-        fieldsets = (
-            # Fieldset 1 : meta-info (nom)
-            ('Général', {
-                # 'classes': ['collapse', ],
-                'fields': ('nom_s_cat', 'categorie')
-            }),
-
-        )
+    )
 
 
 admin.site.register(Categorie)
