@@ -63,10 +63,10 @@ def json_add_node(request):
     data = json.loads(request.body)
     # BUscando TypeElemnt
     id_typeElement = 1
-    if data['resource_type']==1 or data['resource_type']==2:
-        id_typeElement = 1
-    if data['resource_type']==3 or data['resource_type']==4:
+    if data['resource_type']==2:
         id_typeElement = 2
+    if data['resource_type']==3 or data['resource_type']==4:
+        id_typeElement = 3
     typeElemnt = TypeElement.objects.get(pk=id_typeElement)
     # Creando instancia sin Recurso
     element = Element(color = data['color'], typeElemnt=typeElemnt)
