@@ -221,7 +221,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 ">
-                    <p class="text-primary" style="font-size: 30px; text-align: center">{{ cat.nom_cat }}</p>
+                   <p class="text-primary" style="font-size: 30px; text-align: center">{{ cat.nom_cat }}</p>
                 </div>
                 {% for item in souscategorie %}
                     {% if item.categorie_id == cat.id %}
@@ -240,18 +240,16 @@
                         {% endfor %}
                     {% endif %}
                 {% endfor %}
-                {% for four in fournisseur %}
-
-                    <div class="col-md-3"></div>
-
-                    <div style="display: flex; flex: 1 1 0; align-items: flex-start">
-                        <img src="/{{ four.image }}" style="width: 30px">
-                        <i>{{ four.nom_f }}</i>
-                    </div>
-                {% endfor %}
-
             </div>
         </div>
+        <div class="col-md-3">
+        </div>
+        {% for four in fournisseur %}
+            <div class="col-md-3">
+                <img src="/{{ four.image }}" style="width: 30px">
+                <i>{{ four.nom_f }}</i>
+            </div>
+        {% endfor %}
     {% endfor %}
 </div>
 

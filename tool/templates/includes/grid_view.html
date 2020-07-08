@@ -50,12 +50,20 @@
                 </div>
             </div>
         </div>
-        <div id="workspace-content" class="col-sm-9 border border-dark" style="color: white; font-size: 14px; font-weight: bold;">
+        <div id="workspace-content" class="col-sm-9 border border-dark" style="color: white; font-size: 16px; font-weight: bold;">
             <div class="row">
-                <div ng-click="selectNode(node)" ng-repeat="node in tree.struct" class="d-flex align-content-md-center justify-content-around p-3 col-{{ "{" }}{{ "{" }}node.rowWidth{{ "}" }}{{ "}" }}" style="min-width: 40px; min-height: 40px; background-color: {{ "{" }}{{ "{" }}node.color{{ "}" }}{{ "}" }};">
-                    {{ "{" }}{{ "{" }}node.title{{ "}" }}{{ "}" }}
-                    <button ng-click="addNode(node)" style="position: absolute; padding: 0; float: left; top:2px; left: 2px;" class="btn btn-dark"><em class="fa fa-plus-circle"></em></button>
-                    <button ng-click="removeNode(node)" style="position: absolute; padding: 0; float: right; top:2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
+                <div ng-click="selectNode(node)" ng-repeat="node in tree.struct" class="d-flex align-content-md-center align-middle justify-content-around col-{{ "{" }}{{ "{" }}node.rowWidth{{ "}" }}{{ "}" }}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ "{" }}{{ "{" }}node.color{{ "}" }}{{ "}" }}; border:5px solid {{ "{" }}{{ "{" }}tree.color{{ "}" }}{{ "}" }}; {{ "{" }}{{ "{" }}node.is_root ? 'font-size: 22px;':''{{ "}" }}{{ "}" }} {{ "{" }}{{ "{" }}node.color == '#ffffff' ? 'color: black;':''{{ "}" }}{{ "}" }}">
+                    <div ng-if="node.children.length" class="col-12 row" style="padding: 0;">
+                        <div ng-click="selectNode(child)" ng-repeat="child in node.children" class="p-1 align-middle col-{{ "{" }}{{ "{" }}child.rowWidth{{ "}" }}{{ "}" }}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
+                            <img src="/{{ "{" }}{{ "{" }}child.element.image{{ "}" }}{{ "}" }}" width="95%" style="max-width: 80px;"><br>
+                            {{ "{" }}{{ "{" }}child.title{{ "}" }}{{ "}" }}
+                        </div>
+                    </div>
+                    <span class="align-self-center align-middle" ng-if="!node.children.length">{{ "{" }}{{ "{" }}node.title{{ "}" }}{{ "}" }}</span>
+                    <button ng-show="node.selected || node.is_root" ng-click="addNode(node)" style="position: absolute; padding: 0; float: left; top:2px; left: 2px;" class="btn btn-dark"><em class="fa fa-plus-circle"></em></button>
+                    <!-- <button ng-show="node.selected && node.element.typeElement_id==1  && !node.is_root" ng-click="addNode(node,true)" style="position: absolute; padding: 0; float: left; top:2px; left: 30px;" class="btn btn-info"><em class="fa fa-folder-plus"></em></button> -->
+                    <button ng-show="node.selected && !node.is_root" ng-click="removeNode(node)" style="position: absolute; padding: 0; float: right; top:2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
+                    
                 </div>
 
             </div>
