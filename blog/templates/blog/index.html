@@ -210,28 +210,18 @@
 
 {% block apres_header %}
     <!-- Content Row -->
-    <div class="row">
 
-        <div class="col-xl-3 col-md-6 mb-4">
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-
-        </div>
-    </div>
 {% endblock %}
 {% block body %}
     {% for cat in categorie %}
         <div class="row">
 
         <!-- Area Chart -->
-        <div class="col-xl-8">
+        <div class="container-fluid">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 ">
-                    <strong>{{ cat.nom_cat }}</strong>
+                   <p class="text-primary" style="font-size: 30px; text-align: center">{{ cat.nom_cat }}</p>
                 </div>
                 {% for item in souscategorie %}
                     {% if item.categorie_id == cat.id %}
