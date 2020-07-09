@@ -25,3 +25,13 @@ el mio aparte de eso tiene los proveedores
 
 Nada mas que tu arrancas el servidor es la vista de index, el template que muestra es
 el index.html
+
+Tareas 9/7/20
+--Arreglar Admnin del Arbol
+----En el formulario del Admin del Arbol: solo mostrar
+        -in Home
+        -title -descrip -COlor -Width -Orden -Categorie -Linked
+--Poner El admin en frances
+--Arreglar Admin a tu conveniencia
+--Limapiar Frotend de Funciones Innecesrias
+--Imprimir con printThis, por ahora.

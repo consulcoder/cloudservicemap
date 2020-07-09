@@ -13,7 +13,7 @@ class TypeElement(models.Model):
         ordering = ["-order"]
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Element(models.Model):
     title = models.CharField(max_length=30, verbose_name='Title', null=True, blank=True)
@@ -85,7 +85,7 @@ class Element(models.Model):
         ordering = ["-order"]
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 class Tree(models.Model):
     in_home = models.BooleanField(default=False)
@@ -181,7 +181,7 @@ class Tree(models.Model):
                 self.save()
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Node(models.Model):
     is_visible = models.BooleanField(default=True)
