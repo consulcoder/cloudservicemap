@@ -215,7 +215,7 @@
 {% block body %}
     <div class="container">
         {% for tree in trees %}
-        <div class="shadow col-{{ tree.rowWidth }}" style="background-color: {{ tree.color }};">
+        <div style="margin: 10px;" class="shadow col-{{ tree.rowWidth }}" style="background-color: {{ tree.color }};">
             <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
                 {% for node in tree.struct %}
                 <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{node.rowWidth}}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{node.color}}; border:5px solid {{tree.color}}; {% if node.is_root %}font-size: 22px;{%endif%} {% if node.color == '#ffffff' %}color: black;{%endif%}" >
@@ -244,6 +244,7 @@
                 {%endfor%}
             </div>
         </div>
+
         {%endfor%}
     </div>
 
