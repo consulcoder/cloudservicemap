@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
+from tool.models import Tree
 from django.core.serializers.json import DjangoJSONEncoder
 
 
@@ -17,6 +18,9 @@ def index(request):
     context['categorie'] = Categorie.objects.all()
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['services'] = Service.objects.filter(statut=True)
+    context['trees'] = []
+    for tree in Tree.objects.filter(in_home=True).order_by('order'):
+        context['trees'].append(tree.toArray())
     return render(request, "blog/index.html", context)
 
 
@@ -69,6 +73,7 @@ def service_grid(request):
     context['categorie'] = Categorie.objects.all()
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['services'] = Service.objects.filter(statut=True)
+    
     return render(request, "blog/listing.html", context)
 
 
