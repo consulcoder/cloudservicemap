@@ -19,6 +19,7 @@
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" type="text/css">
+        <style>.node { background-color: blue;}</style>
 
     </head>
 {% endblock %}
@@ -216,11 +217,11 @@
 
 {% endblock %}
 {% block body %}
-    <div class="container" id="pagina">
+    <div class="container-fluid" id="pagina">
+        <div class="row">
         {% for tree in trees %}
-            <div style="margin: 10px;" class="shadow col-{{ tree.rowWidth }}"
-                 style="background-color: {{ tree.color }};">
-                <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
+            <div class="col-12 col-md-{{ tree.rowWidth }}">
+                <div class="row shadow" style="color: white; font-size: 16px; font-weight: bold; background-color: {{ tree.color }}; margin: -5px">
                     {% for node in tree.struct %}
                         <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
                              style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
@@ -252,6 +253,7 @@
             </div>
 
         {% endfor %}
+        </div>
     </div>
 
 {% endblock %}
