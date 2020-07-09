@@ -19,6 +19,9 @@
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" type="text/css">
+        <style>.node {
+            background-color: blue;
+        }</style>
 
     </head>
 {% endblock %}
@@ -38,19 +41,6 @@
 
             <div class="sidebar-brand-text mx-3">Filtres</div>
         </a>
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <!--<i class="fas fa-fw fa-tachometer-alt"></i>-->
-                <span>Catégorie</span></a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <!--<i class="fas fa-fw fa-tachometer-alt"></i>-->
-                <span>Sous Catégorie</span></a>
-        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-4">
@@ -80,28 +70,12 @@
 
                 </div>
             </div>
-        </li>
-        <hr class="sidebar-divider my-4">
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-
-                <span>Export</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-
-            </div>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
 
 
-        <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Heading -->
+
+
+            <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                aria-expanded="true" aria-controls="collapsePages">
@@ -177,14 +151,16 @@
 
 
             <!-- Nav Item - Messages -->
-             <a class="collapse-item" id="print_btn" type="button">Imprimir</a>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <button class="btn-primary" style="height: 30px" id="print_btn" type="button">Imprimer</button>
+
             <div class="topbar-divider d-none d-sm-block"></div>
 
             {% block nuageo_logo %} <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
+
                     <a class="nav-link " role="button" aria-haspopup="true">
                         <img class="img-profile " src="{% static '/img/nuageo_logo.png' %}" style="width: 4em">
+
                     </a>
                     <!-- Dropdown - User Information -->
 
@@ -209,42 +185,44 @@
 
 {% endblock %}
 {% block body %}
-    <div class="container" id="pagina">
-        {% for tree in trees %}
-            <div style="margin: 10px;" class="shadow col-{{ tree.rowWidth }}"
-                 style="background-color: {{ tree.color }};">
-                <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
-                    {% for node in tree.struct %}
-                        <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
-                             style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
-                            {% for child in node.children %}
-                                <div class="node p-1 align-middle col-{{ child.rowWidth }}"
-                                     style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
-                                    <img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;"><br>
-                                    <span class="align-self-center align-middle">
+    <div class="container-fluid" id="pagina">
+        <div class="row">
+            {% for tree in trees %}
+                <div class="col-12 col-md-{{ tree.rowWidth }}">
+                    <div class="row shadow"
+                         style="color: white; font-size: 16px; font-weight: bold; background-color: {{ tree.color }}; margin: -5px">
+                        {% for node in tree.struct %}
+                            <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
+                                 style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
+                                {% for child in node.children %}
+                                    <div class="node p-1 align-middle col-{{ child.rowWidth }}"
+                                         style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
+                                        <img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;"><br>
+                                        <span class="align-self-center align-middle">
                             {% if tree.linked %}
                                 {{ child.element.name }}
                             {% else %}
                                 {{ child.title }}
                             {% endif %}
                         </span>
-                                </div>
-                            {% endfor %}
-                            {% if not node.children.length %}
-                                <span class="align-self-center align-middle">
+                                    </div>
+                                {% endfor %}
+                                {% if not node.children.length %}
+                                    <span class="align-self-center align-middle">
                         {% if tree.linked %}
                             {% if node.element.name %}{{ node.element.name }}{% endif %}
                         {% else %}
                             {% if node.title %}{{ node.title }}{% endif %}
                         {% endif %}
                     </span>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}
@@ -279,7 +257,7 @@
         $(document).ready(function () {
             $('#print_btn').click(function () {
                 $('#pagina').printThis({
-                    header: "<h1>Hello! Je suis le Map</h1>",
+                    header: "<h1>Hello! je suis le cloud services map</h1>",
                     debug: false,               // show the iframe for debugging
                     importCSS: true,            // import parent page css
                     importStyle: true,         // import style tags
@@ -301,3 +279,4 @@
 </body>
 
 </html>
+
