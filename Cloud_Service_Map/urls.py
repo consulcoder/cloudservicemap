@@ -16,11 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.conf.urls.static import static
-from django.conf import settings
-from django.views.generic import TemplateView, ListView
-# from blog.views import Fournisseur_List, categorie
-from blog.models import Fournisseur, Service
 from blog import views
 import tool.views as tool_views
 
@@ -34,22 +29,9 @@ urlpatterns = [
     path('admin/tool/tree/json_add_node/', tool_views.json_add_node),
     path('admin/tool/tree/json_edit_node/', tool_views.json_edit_node),
     path('admin/tool/tree/json_remove_node/', tool_views.json_remove_node),
-    # Nous allons réécrire l'URL de l'accueil
-    # path(r'^$', ListView.as_view(model=Service, context_object_name='Service', template_name='blog/index.html')),
-    # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
-    # path('blog/', include('blog.urls')),
     path('', views.index),
-    # path('prueba/', views.service, name='service'),
-    # path('prueba/', MainPageView.as_view(), name=''),
-    path('prueba/', views.my_main_view),
-    path('prueba/second', views.my_second_views),
-    path('testing/', views.testing),
-    path('new/', views.cloud),
-    # path('test/', views.FAQView.as_view()),
-    # path('fournisseur/', Fournisseur_List.as_view()),
 
 ]
 

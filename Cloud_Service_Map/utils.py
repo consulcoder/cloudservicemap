@@ -1,11 +1,6 @@
 import os
 from io import BytesIO
-# from reportlab.pdfgen import canvas
-# from reportlab.lib.pagesizes import A4, inch
-# import pyPdf
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-from blog.models import Service, Categorie
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 

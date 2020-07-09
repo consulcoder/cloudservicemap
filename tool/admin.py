@@ -1,13 +1,34 @@
 from django.contrib import admin
-from tool.models import *
+from tool.models import TypeElement, Element, Node, Tree
 from blog.models import *
-
-
 
 
 # Register your models here.
 
-admin.site.register(Tree)
-admin.site.register(Node)
-admin.site.register(TypeElement)
-admin.site.register(Element)
+
+class TypeElementAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'order')
+    list_filter = ('name', 'description', 'order')
+    search_fields = ('name', 'description', 'order')
+
+    fieldsets = (
+        # Fieldset 1 : meta-info (nom)
+        ('Général', {
+            # 'classes': ['collapse', ],
+            'fields': ('name', 'description')
+        }),
+
+    )
+
+
+class TreeAdmin(admin.ModelAdmin):
+    list_display = ('categorie', 'in_home', 'description', 'color', 'rowWidth', 'order', 'linked')
+    list_filter = ('description', 'order')
+    search_fields = ('description', 'order')
+    exclude = ('updated', 'element', 'root_node')
+
+
+# Register your models here.
+
+admin.site.register(Tree, TreeAdmin)
+

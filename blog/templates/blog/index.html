@@ -91,10 +91,24 @@
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
+                <div class="bg-white py-2 collapse-inner rounded" id="PNG">
                     <h6 class="collapse-header">Document:</h6>
-                    <a class="collapse-item" href="#">Image PNG</a>
-                    <a class="collapse-item" href="#">PDF</a>
+                    <a class="collapse-item" href="#">Document PDF</a>
+                    <a class="collapse-item" href="#">Image PNG
+                        <button id="print_btn" type="button">Imprimir</button>
+                        <script type="text/javascript" charset="utf-8">
+                            $(document).ready(function () {
+                                $('#print_btn').click(function () {
+                                    $('#pagina').printThis({
+                                        header: "<h1>Look at all of my kitties!</h1>"
+                                        debug: false,               // show the iframe for debugging
+                                        importCSS: true,            // import parent page css
+                                        importStyle: true,         // import style tags
+                                        printContainer: true,       // print outer container/$.selector
+                                    });
+                                });
+                            });</script>
+                    </a>
                 </div>
             </div>
         </li>
@@ -213,39 +227,42 @@
 
 {% endblock %}
 {% block body %}
-    <div class="container">
+    <div class="container" id="pagina">
         {% for tree in trees %}
-        <div style="margin: 10px;" class="shadow col-{{ tree.rowWidth }}" style="background-color: {{ tree.color }};">
-            <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
-                {% for node in tree.struct %}
-                <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{node.rowWidth}}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{node.color}}; border:5px solid {{tree.color}}; {% if node.is_root %}font-size: 22px;{%endif%} {% if node.color == '#ffffff' %}color: black;{%endif%}" >
-                    {% for child in node.children %}
-                    <div class="node p-1 align-middle col-{{child.rowWidth}}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
-                        <img src="/{{child.element.image}}" width="95%" style="max-width: 80px;"><br>
-                        <span class="align-self-center align-middle" >
-                            {%if tree.linked %}
+            <div style="margin: 10px;" class="shadow col-{{ tree.rowWidth }}"
+                 style="background-color: {{ tree.color }};">
+                <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
+                    {% for node in tree.struct %}
+                        <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
+                             style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
+                            {% for child in node.children %}
+                                <div class="node p-1 align-middle col-{{ child.rowWidth }}"
+                                     style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
+                                    <img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;"><br>
+                                    <span class="align-self-center align-middle">
+                            {% if tree.linked %}
                                 {{ child.element.name }}
-                            {%else%}    
+                            {% else %}
                                 {{ child.title }}
-                            {%endif%}
+                            {% endif %}
                         </span>
-                    </div>
-                    {%endfor%}
-                    {%if not node.children.length %}
-                    <span class="align-self-center align-middle" >
-                        {%if tree.linked %}
-                            {%if node.element.name %}{{ node.element.name }}{%endif%}
-                        {%else%}    
-                            {%if node.title %}{{ node.title }}{%endif%}
-                        {%endif%}
+                                </div>
+                            {% endfor %}
+                            {% if not node.children.length %}
+                                <span class="align-self-center align-middle">
+                        {% if tree.linked %}
+                            {% if node.element.name %}{{ node.element.name }}{% endif %}
+                        {% else %}
+                            {% if node.title %}{{ node.title }}{% endif %}
+                        {% endif %}
                     </span>
-                    {%endif%}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
-                {%endfor%}
             </div>
-        </div>
 
-        {%endfor%}
+        {% endfor %}
     </div>
 
 {% endblock %}
@@ -256,7 +273,7 @@
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
                 © NUAGEO
-                
+
             </div>
         </div>
     </footer>
@@ -275,7 +292,7 @@
 
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
+    <script src="{% static 'js/printThis.js' %}"></script>
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
@@ -285,6 +302,7 @@
     <!-- Page level custom scripts -->
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
 {% endblock %}
 </body>
 

@@ -13,6 +13,7 @@ class Categorie(models.Model):
             'id': self.pk,
             'name': self.__str__()
         }
+
     def __str__(self):
         return self.nom_cat
 
@@ -30,18 +31,18 @@ class Sous_Categorie(models.Model):
             'id': self.pk,
             'name': self.__str__()
         }
+
     def __str__(self):
         return self.nom_s_cat
 
 
 class Service(models.Model):
-    nom = models.CharField(max_length=255)
+    nom = models.CharField(max_length=255, verbose_name='Nom Service')
     image = models.ImageField(upload_to="../static", null='False')
-    fournisseurs = models.CharField(max_length=255, blank=False)
+    fournisseurs = models.CharField(max_length=255, blank=False, verbose_name='Fournisseur')
     url = models.URLField(max_length=200, null=True, blank=True)
     statut = models.BooleanField(default=True)
     sous_categorie = models.ForeignKey(Sous_Categorie, on_delete=models.CASCADE)
-
 
     class Meta:
         verbose_name = "Service"
@@ -51,8 +52,9 @@ class Service(models.Model):
             'id': self.pk,
             'name': self.__str__(),
             'image': self.image.url,
-            'url':self.url,
+            'url': self.url,
         }
+
     def __str__(self):
         return self.nom
 
@@ -63,7 +65,7 @@ class Fournisseur(models.Model):
     services = models.ManyToManyField(Service)
 
     class Meta:
-        verbose_name = "Fournisseur" #(verbose_name is a human-readable name for the field especially in Django Administration)
+        verbose_name = "Fournisseur"  # (verbose_name is a human-readable name for the field especially in Django Administration)
 
     def toArray(self):
         return {
@@ -71,5 +73,6 @@ class Fournisseur(models.Model):
             'name': self.__str__(),
             'image': self.image.url,
         }
+
     def __str__(self):
         return self.nom_f
