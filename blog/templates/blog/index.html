@@ -105,6 +105,8 @@
                                         importCSS: true,            // import parent page css
                                         importStyle: true,         // import style tags
                                         printContainer: true,       // print outer container/$.selector
+                                        loadCSS: {% static "css/skeleton.css" %},                // path to additional css file - use an array [] for multiple
+                                        pageTitle: "",
                                     });
                                 });
                             });</script>
