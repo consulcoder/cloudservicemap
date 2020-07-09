@@ -96,18 +96,7 @@
                     <a class="collapse-item" href="#">Document PDF</a>
                     <a class="collapse-item" href="#">Image PNG
                         <button id="print_btn" type="button">Imprimir</button>
-                        <script type="text/javascript" charset="utf-8">
-                            $(document).ready(function () {
-                                $('#print_btn').click(function () {
-                                    $('#pagina').printThis({
-                                        header: "<h1>Look at all of my kitties!</h1>"
-                                        debug: false,               // show the iframe for debugging
-                                        importCSS: true,            // import parent page css
-                                        importStyle: true,         // import style tags
-                                        printContainer: true,       // print outer container/$.selector
-                                    });
-                                });
-                            });</script>
+                        
                     </a>
                 </div>
             </div>
@@ -293,6 +282,18 @@
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'js/printThis.js' %}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#print_btn').click(function () {
+                $('#pagina').printThis({
+                    header: "<h1>Look at all of my kitties!</h1>"
+                    debug: false,               // show the iframe for debugging
+                    importCSS: true,            // import parent page css
+                    importStyle: true,         // import style tags
+                    printContainer: true,       // print outer container/$.selector
+                });
+            });
+        });</script>
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
