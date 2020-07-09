@@ -213,48 +213,39 @@
 
 {% endblock %}
 {% block body %}
-    {% for cat in categorie %}
-        <div class="row">
-
-        <!-- Area Chart -->
-        <div class="container-fluid">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 ">
-                    <p class="text-primary" style="font-size: 30px; text-align: center">{{ cat.nom_cat }}</p>
-                </div>
-                {% for item in souscategorie %}
-                    {% if item.categorie_id == cat.id %}
-                        <div class="card-body">
-                            <i>{{ item.nom_s_cat }}</i>
-                        </div>
-                        {% for four in fournisseur %}
-                            <div class="col-md-3">
-                                {% for i in services %}
-                                    {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
-                                        <strong>{{ i.nom }}</strong></br>
-                                        <img src="/{{ i.image.url }}" alt="/{{ i.nom }}" style="width: 30px"></br>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-                {% for four in fournisseur %}
-
-                    <div class="col-md-3"></div>
-
-                    <div style="display: flex; flex: 1 1 0; align-items: flex-start">
-                        <img src="/{{ four.image }}" style="width: 30px">
-                        <i>{{ four.nom_f }}</i>
+    <div class="container">
+        {% for tree in trees %}
+        <div class="shadow col-{{ tree.rowWidth }}" style="background-color: {{ tree.color }};">
+            <div class="row" style="color: white; font-size: 16px; font-weight: bold;">
+                {% for node in tree.struct %}
+                <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{node.rowWidth}}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{node.color}}; border:5px solid {{tree.color}}; {% if node.is_root %}font-size: 22px;{%endif%} {% if node.color == '#ffffff' %}color: black;{%endif%}" >
+                    {% for child in node.children %}
+                    <div class="node p-1 align-middle col-{{child.rowWidth}}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
+                        <img src="/{{child.element.image}}" width="95%" style="max-width: 80px;"><br>
+                        <span class="align-self-center align-middle" >
+                            {%if tree.linked %}
+                                {{ child.element.name }}
+                            {%else%}    
+                                {{ child.title }}
+                            {%endif%}
+                        </span>
                     </div>
-                {% endfor %}
-
+                    {%endfor%}
+                    {%if not node.children.length %}
+                    <span class="align-self-center align-middle" >
+                        {%if tree.linked %}
+                            {%if node.element.name %}{{ node.element.name }}{%endif%}
+                        {%else%}    
+                            {%if node.title %}{{ node.title }}{%endif%}
+                        {%endif%}
+                    </span>
+                    {%endif%}
+                </div>
+                {%endfor%}
             </div>
         </div>
-    {% endfor %}
-</div>
-
+        {%endfor%}
+    </div>
 
 {% endblock %}
 
@@ -263,27 +254,12 @@
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end" style="text-align: center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Suivant</a>
-                        </li>
-                    </ul>
-                </nav>
+                © NUAGEO
+                
             </div>
         </div>
     </footer>
     <!-- End of Footer -->
-
-    </div>
-    </div>
 
 {% endblock %}
 <!-- Scroll to Top Button-->

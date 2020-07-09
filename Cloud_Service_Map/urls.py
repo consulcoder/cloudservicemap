@@ -30,6 +30,7 @@ urlpatterns = [
     path('tool/tree/json_list', tool_views.json_list_tree),
     path('tool/tree/json_get/', tool_views.json_get_tree),
     path('tool/tree/json_get_struct/', tool_views.json_get_struct),
+    path('admin/tool/tree/json_update/', tool_views.json_update_tree),
     path('admin/tool/tree/json_add_node/', tool_views.json_add_node),
     path('admin/tool/tree/json_edit_node/', tool_views.json_edit_node),
     path('admin/tool/tree/json_remove_node/', tool_views.json_remove_node),

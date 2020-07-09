@@ -41,7 +41,7 @@ class Element(models.Model):
             return self.categorie
         if not self.sous_categorie is None:
             return self.sous_categorie
-        if not self.categorie is None:
+        if not self.service is None:
             return self.service
         if not self.fournisseur is None:
             return self.fournisseur
@@ -59,15 +59,17 @@ class Element(models.Model):
 
     def toArray(self):
         arr_r = None
+        r_name = ""
         r = self.getResource()
         if r:
             arr_r = r.toArray()
+            r_name = r.__str__()
         image_url = None
         if self.image:
             image_url = self.image.url
         return {
             'id': self.pk,
-            'name': self.title,
+            'name': r_name,
             'title': self.title,
             'subTitle': self.subTitle,
             'image': image_url,
@@ -95,7 +97,9 @@ class Tree(models.Model):
     rowWidth = models.IntegerField(default=1, verbose_name='Width')
     order = models.IntegerField(default=0)
     updated = models.BooleanField(default=False)
+    linked = models.BooleanField(default=True)
     categorie = models.ForeignKey(Categorie, on_delete=models.SET_NULL, null=True, blank=True)
+
 
     class Meta:
         verbose_name = "Tree"
@@ -118,7 +122,7 @@ class Tree(models.Model):
     def getDFS(self,node,dfs_items):
         print(node)
         dfs_items.append(node)
-        for child in Node.objects.filter(father=node, tree=self):
+        for child in reversed(Node.objects.filter(father=node, tree=self)):
             #si es un contenedor funciona como hoja
             if node.element.typeElemnt.id == 1 and child.element.typeElemnt.id == 3: 
                 # arr_child = child.toArray()
@@ -149,6 +153,7 @@ class Tree(models.Model):
             'color': self.color,
             'rowWidth': self.rowWidth,
             'updated': self.updated,
+            'linked': self.linked,
             'struct': utils.toArray(self.getStruct())
         }
     
