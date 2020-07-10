@@ -124,12 +124,21 @@ def json_edit_node(request):
     
 def json_remove_node(request):
     data = json.loads(request.body)
-    Node.objects.get(pk=data['id']).delete()
+    node = Node.objects.get(pk=data['id'])
+    if node.father:
+        for child in Node.objects.filter(father=node):
+            if child.element.typeElemnt.id != 3:
+                child.father = node.father
+                child.save()
+    node.delete()
     tree = Tree.objects.get(pk=data['tree_id'])
     return utils.jsonArray(tree.getStruct(),200,'OK')
 def json_update_tree(request):
-    if not request.is_ajax():
-        return HttpResponseNotFound('<h1>Page not found</h1>')
+    data = json.loads(request.body)
+    tree = Tree.objects.get(pk=data['id'])
+    tree.linked = data['linked']
+    tree.save()
+    return utils.json(tree.toArray())
     
     pass
 def json_remove_tree(request):

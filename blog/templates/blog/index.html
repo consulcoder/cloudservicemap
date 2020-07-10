@@ -30,93 +30,6 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <div class="sidebar-brand-icon rotate-n-15">
-
-        </div>
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-
-            <div class="sidebar-brand-text mx-3">Filtres</div>
-        </a>
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <!--<i class="fas fa-fw fa-tachometer-alt"></i>-->
-                <span>Catégorie</span></a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <!--<i class="fas fa-fw fa-tachometer-alt"></i>-->
-                <span>Sous Catégorie</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider my-4">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-
-                <span>Option d'affichage</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Sélectionner:</h6>
-                    <div>
-                        <input type="radio" id="block" name="Map" checked>
-                        <label for="En_block">En block</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="map" name="Map">
-                        <label for="Map">Map</label></div>
-
-                </div>
-            </div>
-        </li>
-
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
-                <span>Autres filtres</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">#:</h6>
-                    <a class="collapse-item" href="#">#</a>
-                    <a class="collapse-item" href="#">#</a>
-                    <a class="collapse-item" href="#">#</a>
-                    <div class="collapse-divider"></div>
-                    <h6 class="collapse-header">#:</h6>
-                    <a class="collapse-item" href="#">#</a>
-                </div>
-            </div>
-        </li>
-
-
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
-
-    </ul>
-    <!-- End of Sidebar -->
-
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 {% endblock %}
@@ -127,15 +40,19 @@
 
     <!-- Topbar -->
     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-        <a>
-            <div>
+        {% block nuageo_logo %} <!-- Nav Item - User Information -->
+        <a href="/">
+            
+                <img class="img-profile " src="{% static '/img/nuageo_logo.png' %}" style="width: 4em; float: left;">
+        
                 <!--montrer l'anée actuelle-->
-                <h5>Nuageo Cloud Service Map : {% now 'Y' %}</h5>
-            </div>
+                <h3>Cloud Service Map : {% now 'Y' %}</h3>
+                
         </a>
+        {% endblock %}
 
         <!-- Topbar Navbar -->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" style="margin-top: -25px;">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <li class="nav-item dropdown no-arrow d-sm-none">
@@ -162,25 +79,23 @@
 
 
             <!-- Nav Item - Messages -->
-            <button href="../../../templates/admin/login.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                    style="height: 36px;margin-top: 18px; margin-right: 20px" type="button">Acceder à L'administration
-
+            <button class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" id="print_btn" 
+                    style="height: 36px;margin-top: 18px; margin-right: 20px" type="button"><em class="fa fa-print"></em>
             </button>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="print_btn"
-                    style="height: 36px;margin-top: 18px;" type="button">Imprimer
+            
+            <button class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" id="alternate_width_list_table_btn" 
+                    style="height: 36px;margin-top: 18px; margin-right: 20px" type="button"><em class="fa fa-compress-arrows-alt"></em>
             </button>
-
+            <button class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" id="alternate_columns_list_table_btn" 
+                    style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-list"></em>
+            </button>
             <div class="topbar-divider d-none d-sm-block"></div>
+            <a href="/admin/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-user"></em>
 
-            {% block nuageo_logo %} <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link " role="button" aria-haspopup="true">
-                        <img class="img-profile " src="{% static '/img/nuageo_logo.png' %}" style="width: 4em">
-                    </a>
-                    <!-- Dropdown - User Information -->
+            </a>
 
-                </li>
-            {% endblock %}
+            
         </ul>
 
     </nav>
@@ -200,44 +115,8 @@
 
 {% endblock %}
 {% block body %}
-    <div class="container-fluid" id="pagina">
-        <div class="row">
-            {% for tree in trees %}
-                <div class="col-12 col-md-{{ tree.rowWidth }}">
-                    <div class="row shadow"
-                         style="color: white; font-size: 16px; font-weight: bold; background-color: {{ tree.color }}; margin: -5px">
-                        {% for node in tree.struct %}
-                            <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
-                                 style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
-                                {% for child in node.children %}
-                                    <div class="node p-1 align-middle col-{{ child.rowWidth }}"
-                                         style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
-                                        <img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;"><br>
-                                        <span class="align-self-center align-middle">
-                            {% if tree.linked %}
-                                {{ child.element.name }}
-                            {% else %}
-                                {{ child.title }}
-                            {% endif %}
-                        </span>
-                                    </div>
-                                {% endfor %}
-                                {% if not node.children.length %}
-                                    <span class="align-self-center align-middle">
-                        {% if tree.linked %}
-                            {% if node.element.name %}{{ node.element.name }}{% endif %}
-                        {% else %}
-                            {% if node.title %}{{ node.title }}{% endif %}
-                        {% endif %}
-                    </span>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-            {% endfor %}
-        </div>
+    <div class="container-fluid" id="pagina" style="overflow-x: auto; padding:5px">
+        {% include 'includes/grid_view.html' %}
     </div>
 
 {% endblock %}
@@ -247,7 +126,7 @@
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-                © NUAGEO
+                © NUAGEO {% now 'Y' %}
 
             </div>
         </div>
@@ -270,6 +149,28 @@
     <script src="{% static 'js/printThis.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
+            var flag_toggle = false;
+            $('#alternate_width_list_table_btn').click(function () {
+                if(flag_toggle) {
+                    $('em',$(this)).removeClass('fa-expand-arrows-alt').addClass('fa-compress-arrows-alt')
+                    $("#content_list_table").css('width','61cm')
+                } else {
+                    $('em',$(this)).removeClass('fa-compress-arrows-alt').addClass('fa-expand-arrows-alt')
+                    $("#content_list_table").css('width','100%')
+                }
+                flag_toggle = !flag_toggle;
+            });
+            var flag_toggle_1 = false;
+            $('#alternate_columns_list_table_btn').click(function () {
+                if(flag_toggle_1) {
+                    $('em',$(this)).removeClass('fa-columns').addClass('fa-list')
+                    $("div.tree").removeClass('full-width')
+                } else {
+                    $('em',$(this)).removeClass('fa-list').addClass('fa-columns')
+                    $("div.tree").addClass('full-width')
+                }
+                flag_toggle_1 = !flag_toggle_1;
+            });
             $('#print_btn').click(function () {
                 $('#pagina').printThis({
                     header: "<h1>HOLA JE SUIS LE CLOUD MAP</h1>",
