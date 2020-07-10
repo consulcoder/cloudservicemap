@@ -72,7 +72,7 @@
                     <button ng-show="node.selected || node.is_root" ng-click="addNode(node)" style="position: absolute; padding: 0; float: left; top:2px; left: 2px;" class="btn btn-dark"><em class="fa fa-plus-circle"></em></button>
                     <!-- <button ng-show="node.selected && node.element.typeElement_id==1  && !node.is_root" ng-click="addNode(node,true)" style="position: absolute; padding: 0; float: left; top:2px; left: 30px;" class="btn btn-info"><em class="fa fa-folder-plus"></em></button> -->
                     <button ng-show="node.selected && !node.is_root" ng-click="removeNode(node)" style="position: absolute; padding: 0; float: right; top:2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
-                    
+
                 </div>
 
             </div>
@@ -103,7 +103,7 @@ app.controller("GridController" , [
         $this.loader = true;
         $this.show_listtree = false;
         $this.show_workspace = false;
-        
+
         $this.tree = null;
         $this.trees = [];
         $this.tools = [];
@@ -122,19 +122,19 @@ app.controller("GridController" , [
         $this.selectTree = function(item) {
             $this.loader = true;
             $this.show_listtree = false;
-            
+
             $http.get(URLs.json_tree_get+'?id='+item.id).then(function(response) {
                 $this.tree = item;
                 $this.tools = response.data.data.categories;
                 $this.providers = response.data.data.fournisseur;
-                
+
                 $this.loader = false;
                 $this.show_workspace = true;
             })
         }
         $this.updateTree = function(tree) {
             $http.post(URLs.json_tree_update,{id:tree.id,linked:tree.linked}).then(function(response) {
-                
+
             })
         }
 
@@ -147,7 +147,7 @@ app.controller("GridController" , [
                 return;
             }
             console.log(item);
-            
+
             if($this.node) $this.node.selected = false;
             if(item) item.selected = true;
             $this.node = item;
