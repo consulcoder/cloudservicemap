@@ -98,10 +98,10 @@ class Tree(models.Model):
     name = models.CharField(max_length=255, verbose_name='Titre')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
     element = models.ForeignKey(Element, verbose_name='Element', on_delete=models.SET_NULL, null=True, blank=True)
-    root_node = models.ForeignKey('Node', verbose_name='Root', related_name='root', on_delete=models.SET_NULL,
-                                  null=True, blank=True)
+    root_node = models.ForeignKey('Node', verbose_name='Root', related_name='root', on_delete=models.SET_NULL,null=True, blank=True)
     color = models.CharField(max_length=10, verbose_name='Couleur', null=True, blank=True)
     rowWidth = models.IntegerField(default=1, verbose_name='Largeur')
+    max_category_column = models.IntegerField(default=5, verbose_name='Max count of Category', min=1, max=5)
     order = models.IntegerField(default=0, verbose_name='Ordre')
     updated = models.BooleanField(default=False)
     linked = models.BooleanField(default=True, verbose_name='Ancré')
