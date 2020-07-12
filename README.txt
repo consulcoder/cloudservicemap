@@ -35,3 +35,10 @@ Tareas 9/7/20
 --Arreglar Admin a tu conveniencia
 --Limapiar Frotend de Funciones Innecesrias
 --Imprimir con printThis, por ahora.
+**************************************************
+
+-Cuando agrego los tres proveedores prolema para cmabiar el tamano del contenedor de los iconos
+-Cuando imprimo si uno de los cuadros cae entre las dos hojas se pica el cuadro junto con las imagenes de los iconos
+-Poder poner mas de dos tablas en la misma linea es decir ahora solo puedo poner 2
+-Como agregar un espacio en blanco(por ejemplo si quiero saltar un espacio porque en esa sous categoria no tengo servicio como hago
+
