@@ -99,12 +99,24 @@ def json_add_node(request):
 
     #Creando Nodo del Arbol
     tree = Tree.objects.get(pk=data['tree_id'])
+    node_father = Node.objects.get(pk=data['father_id'])
+    if id_typeElement == 3 and node_father.element.typeElemnt.id==2:
+        node_father1 = Node.objects.create(
+            color=tree.color,
+            rowWidth=data['rowWidth'],
+            father=node_father,
+            tree=tree,
+            element=Element.objects.create(color = 'transparent')
+        )
+        data['rowWidth'] = 12
+        node_father = node_father1
+
     Node.objects.create(
         is_root=False,
         color=element.color,
         title=element.title,
         rowWidth=data['rowWidth'],
-        father=Node.objects.get(pk=data['father_id']),
+        father=node_father,
         tree=tree,
         element=element,
         url=url,
