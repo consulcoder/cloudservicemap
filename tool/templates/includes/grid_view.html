@@ -28,10 +28,12 @@
                                 <img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;"><br>
                                 <span class="align-self-center align-middle">
                                 
-                                    {% if tree.linked %}
-                                        {{ child.element.name }}
-                                    {% else %}
-                                        {{ child.title }}
+                                    {% if not child.element.name == '_'%}
+                                        {% if tree.linked %}
+                                            {{ child.element.name }}
+                                        {% else %}
+                                            {{ child.title }}
+                                        {% endif %}
                                     {% endif %}
                                 </span>
                                 {% if child.url %}</a>{% endif %}
@@ -41,7 +43,9 @@
                             <span class="align-self-center align-middle" style="width: 100%; text-align: center;">
                             {% if node.url %}<a style="color: {% if node.color == '#ffffff' %}black{%else%}white{% endif %};" href="{{ node.url }}" target="top">{% endif %}
                                 {% if tree.linked %}
-                                    {% if node.element.name %}{{ node.element.name }}{% endif %}
+                                    {% if node.element.name %}{{ node.element.name }}{% else %}
+                                        {% if node.title %}{{ node.title }}{% endif %}
+                                    {% endif %}
                                 {% else %}
                                     {% if node.title %}{{ node.title }}{% endif %}
                                 {% endif %}
