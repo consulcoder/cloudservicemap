@@ -64,6 +64,8 @@
                             <img src="/{{ "{" }}{{ "{" }}child.element.image{{ "}" }}{{ "}" }}" width="95%" style="max-width: 80px;"><br>
                             <span ng-if="tree.linked">{{ "{" }}{{ "{" }}child.element.name{{ "}" }}{{ "}" }}</span>
                             <span ng-if="!tree.linked">{{ "{" }}{{ "{" }}child.title{{ "}" }}{{ "}" }}</span>
+                            <button ng-show="child.selected && !child.is_root" ng-click="moveNodeByDirection(child, 'prev')" style="position: absolute; padding: 0; float: left; top: 2px; left: 2px;" class="btn btn-small btn-primary"><em class="fa fa-arrow-left"></em></button>
+                            <button ng-show="child.selected && !child.is_root" ng-click="moveNodeByDirection(child, 'next')" style="position: absolute; padding: 0; float: left; top: 2px; right: 2px;" class="btn btn-small btn-primary"><em class="fa fa-arrow-right"></em></button>
                             <button ng-show="child.selected && !child.is_root" ng-click="removeNode(child)" style="position: absolute; padding: 0; float: right; bottom: 2px; right: 2px;" class="btn btn-dark"><em class="fa fa-trash"></em></button>
                         </div>
                     </div>
@@ -192,6 +194,15 @@ app.controller("GridController" , [
                 // $this.tree.struct = response.data.data;
                 $this.loader = false;
             })
+        }
+        $this.moveNodeByDirection = function(node, direction) {
+            $this.loader = true;
+            $this.flag_prevent = true;
+            $http.post(URLs.json_move_next_node,{id: node.id, tree_id: $this.tree.id, direction: direction}).then(function(response) {
+                $this.tree.struct = response.data.data;
+                $this.loader = false;
+            })
+            $this.node = node
         }
         $this.removeNode = function(node) {
             $this.loader = true;
