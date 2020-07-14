@@ -12,6 +12,7 @@ from django.core.serializers import serialize
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from Cloud_Service_Map import utils
+from tool import utils as utils_tool
 
 # this_path = os.getcwd() + '/tool/'
 # Create your views here.
@@ -25,6 +26,8 @@ def html_list_tree(request):
     items = Tree.objects.all()
     render(request, "tool/includes/list_tree.html", {'items': items})
 def json_list_tree(request):
+    # items = utils_tool.listCountRowOfCategory(Categorie.objects.get(pk=2))
+    # print("------" + str(len(items)))
     return utils.jsonArray(Tree.objects.all())
 
 def html_get_tree(request):
@@ -40,6 +43,7 @@ def json_get_tree(request):
     pk = request.GET['id']
     tree = Tree.objects.get(id=pk)
     fournisseur = Fournisseur.objects.all()
+    arr_providers = utils.toArray(fournisseur)
     categories = Sous_Categorie.objects.filter(categorie_id=tree.categorie.id)
     arr_categories = []
     for categorie in categories:
@@ -52,7 +56,7 @@ def json_get_tree(request):
         'tree': tree.toArray(),
         'category': tree.categorie.toArray(),
         'categories': arr_categories,
-        'fournisseur': utils.toArray(fournisseur)
+        'fournisseur': arr_providers
     }
     return utils.json(context,200)
 def json_get_struct(request):
@@ -91,6 +95,8 @@ def json_add_node(request):
         image = resource.image
         # url = resource.url
         element.fournisseur = resource
+    if data['resource_type']=='_':
+        name = '_'
     #Guardando datos de Recursos
     element.title = name
     element.url = url
@@ -133,6 +139,16 @@ def json_edit_node(request):
     node.url = data['url']
     node.save()
     return utils.json(node.toArray(),200,'OK')
+
+def json_move_node(request):
+    data = json.loads(request.body)
+    node = Node.objects.get(pk=data['id'])
+    direction = data['direction']
+    width = node.rowWidth
+    order = node.order
+
+    # node.save()
+    return utils.json(node.toArray(),200,direction)
     
 def json_remove_node(request):
     data = json.loads(request.body)

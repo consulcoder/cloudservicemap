@@ -131,7 +131,7 @@ class Tree(models.Model):
         dfs_items.append(node)
         for child in reversed(Node.objects.filter(father=node, tree=self)):
             # si es un contenedor funciona como hoja
-            if node.element.typeElemnt.id == 1 and child.element.typeElemnt.id == 3:
+            if node.element.typeElemnt.id == 1 and (child.element.typeElemnt.id == 3 or child.element.title == '_'):
                 # arr_child = child.toArray()
                 # print(arr_child)
                 # node.children.append({
@@ -211,8 +211,14 @@ class Node(models.Model):
         if self.father:
             father_id = self.father.pk
         children = []
-        if self.element.typeElemnt.id == 1:
-            children = utils.toArray(Node.objects.filter(father=self, tree=self.tree, element__typeElemnt__id=3))
+        if self.element.typeElemnt.id == 1 and not self.element.title == '_':
+            items = []
+            for child in Node.objects.filter(father=self, tree=self.tree):
+                if child.element.typeElemnt.id==3 or child.element.title == '_':
+                    items.append(child.toArray())
+            children = items
+            # children = utils.toArray(Node.objects.filter(father=self, tree=self.tree, element__typeElemnt__id=3))
+            # children.append(utils.toArray(Node.objects.filter(father=self, tree=self.tree, element__typeElemnt__id=1, element__title='_')))
         return {
             'id': self.pk,
             'title': self.title,

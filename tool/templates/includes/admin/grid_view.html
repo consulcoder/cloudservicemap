@@ -27,9 +27,14 @@
             <div ng-if="tools.length" id="workspace-tools" class="grp-module">
                 <h2 style="position: sticky;top: 130px;z-index: 1;">Tools</h2>
                 <div class="grp-row">
-                    <a ng-click="selectTool()" class="btn {{ "{" }}{{ "{" }}tool==null?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="far fa-square"></em>
-                        General Box
+                    <a ng-click="selectTool()" class="btn {{ "{" }}{{ "{" }}tool==null?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="fa fa-box"></em>
+                        Container Box
                     </a>
+                    <div ng-click="selectTool('_')" class="grp-row">
+                        <a class="btn {{ "{" }}{{ "{" }}tool=='_'?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="far fa-square"></em>
+                            Internal Space
+                        </a>
+                    </div>
                     <div ng-click="selectTool(prov,4)" class="grp-row" ng-repeat="prov in providers">
                         <a class="btn {{ "{" }}{{ "{" }}tool==prov?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left">
                             <img src="/{{ "{" }}{{ "{" }}prov.image{{ "}" }}{{ "}" }}" width="20px" style="float: left; vertical-align: middle;">
@@ -61,7 +66,7 @@
                 <div ng-click="selectNode(node)" ng-repeat="node in tree.struct" class="node d-flex align-content-md-center align-middle justify-content-around col-{{ "{" }}{{ "{" }}node.rowWidth{{ "}" }}{{ "}" }}" style="min-width: 40px; padding: 0; min-height: 100px; background-color: {{ "{" }}{{ "{" }}node.color{{ "}" }}{{ "}" }}; border:5px solid {{ "{" }}{{ "{" }}tree.color{{ "}" }}{{ "}" }}; {{ "{" }}{{ "{" }}node.is_root ? 'font-size: 22px;':''{{ "}" }}{{ "}" }} {{ "{" }}{{ "{" }}node.color == '#ffffff' ? 'color: black;':''{{ "}" }}{{ "}" }}">
                     <div ng-if="node.children.length" class="col-12 row" style="padding: 0;">
                         <div ng-click="selectInternalNode(child)" ng-repeat="child in node.children" class="node p-1 align-middle col-{{ "{" }}{{ "{" }}child.rowWidth{{ "}" }}{{ "}" }}" style="text-align: center; min-height: 30px; font-size: 10px; background-color: transparent;">
-                            <img src="/{{ "{" }}{{ "{" }}child.element.image{{ "}" }}{{ "}" }}" width="95%" style="max-width: 80px;"><br>
+                            <img ng-if="child.title!='_'" src="/{{ "{" }}{{ "{" }}child.element.image{{ "}" }}{{ "}" }}" width="95%" style="max-width: 80px;"><br>
                             <span ng-if="tree.linked">{{ "{" }}{{ "{" }}child.element.name{{ "}" }}{{ "}" }}</span>
                             <span ng-if="!tree.linked">{{ "{" }}{{ "{" }}child.title{{ "}" }}{{ "}" }}</span>
                             <button ng-show="child.selected && !child.is_root" ng-click="moveNodeByDirection(child, 'prev')" style="position: absolute; padding: 0; float: left; top: 2px; left: 2px;" class="btn btn-small btn-primary"><em class="fa fa-arrow-left"></em></button>
@@ -176,7 +181,7 @@ app.controller("GridController" , [
                 tree_id: $this.tree.id,
                 father_id: father.id,
                 resource_id: $this.tool ? $this.tool.id : 0,
-                resource_type:$this.tool ? $this.tool.type : 0,
+                resource_type:$this.tool ? ($this.tool == '_' ? '_':$this.tool.type) : 0,
                 color: $this.node ? $this.node.color : $this.tree.color,
                 // rowWidth: $this.node ? $this.node.rowWidth : 4,
                 rowWidth: 4
@@ -198,7 +203,7 @@ app.controller("GridController" , [
         $this.moveNodeByDirection = function(node, direction) {
             $this.loader = true;
             $this.flag_prevent = true;
-            $http.post(URLs.json_move_next_node,{id: node.id, tree_id: $this.tree.id, direction: direction}).then(function(response) {
+            $http.post(URLs.json_move_node,{id: node.id, tree_id: $this.tree.id, direction: direction}).then(function(response) {
                 $this.tree.struct = response.data.data;
                 $this.loader = false;
             })

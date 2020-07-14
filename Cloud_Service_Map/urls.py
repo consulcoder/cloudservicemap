@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/tool/tree/json_update/', tool_views.json_update_tree),
     path('admin/tool/tree/json_add_node/', tool_views.json_add_node),
     path('admin/tool/tree/json_edit_node/', tool_views.json_edit_node),
+    path('admin/tool/tree/json_move_node/', tool_views.json_move_node),
     path('admin/tool/tree/json_remove_node/', tool_views.json_remove_node),
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
