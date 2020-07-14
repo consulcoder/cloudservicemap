@@ -101,7 +101,7 @@ class Tree(models.Model):
     root_node = models.ForeignKey('Node', verbose_name='Root', related_name='root', on_delete=models.SET_NULL,null=True, blank=True)
     color = models.CharField(max_length=10, verbose_name='Couleur', null=True, blank=True)
     rowWidth = models.IntegerField(default=1, verbose_name='Largeur')
-    max_category_column = models.IntegerField(default=5, verbose_name='Max count of Category', min=1, max=5)
+    max_category_column = models.IntegerField(default=5, verbose_name='Max count of Category')
     order = models.IntegerField(default=0, verbose_name='Ordre')
     updated = models.BooleanField(default=False)
     linked = models.BooleanField(default=True, verbose_name='Ancré')
