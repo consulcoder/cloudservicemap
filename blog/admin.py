@@ -5,7 +5,7 @@ from blog.models import Categorie, Sous_Categorie, Service, Fournisseur
 # Register your models here.
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'sous_categorie', 'image', 'statut', 'fournisseurs', 'url')
+    list_display = ('nom', 'sous_categorie', 'statut', 'fournisseurs', 'url')
     list_filter = ('nom', 'sous_categorie', 'fournisseurs')
     search_fields = ('nom', 'sous_categorie', 'fournisseurs')
 
