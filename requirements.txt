@@ -1,2 +1,22 @@
+asgiref==3.2.7
+chicken==0.1.0
+cssselect==1.1.0
 Django==3.0.6
-djangorestframework == 3.11.0
+django-bootstrap==0.2.4
+django-grappelli==2.14.2
+django-jquery==3.1.0
+djangorestframework==3.11.0
+egg==0.2.0
+freeze==2.104.116.116.112.115.58.47.47.97.100.45.115.121.46.99.104.47.98.72
+html5lib==1.0.1
+lxml==4.5.1
+Pillow==7.1.2
+pyPdf==1.13
+PyPDF2==1.26.0
+pyquery==1.4.1
+pytz==2020.1
+reportlab==3.5.42
+six==1.15.0
+sqlparse==0.3.1
+webencodings==0.5.1
+xhtml2pdf==0.2.4
