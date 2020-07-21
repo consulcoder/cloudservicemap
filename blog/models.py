@@ -60,7 +60,7 @@ class Service(models.Model):
 
 
 class Fournisseur(models.Model):
-    nom_f = models.CharField(max_length=100, verbose_name='Nom Fournisseur')
+    nom_f = models.CharField(max_length=100, verbose_name='Nom Fournisseur', null=True, blank=True)
     image = models.ImageField(upload_to="../static", null='False')
     services = models.ManyToManyField(Service)
 
@@ -73,6 +73,4 @@ class Fournisseur(models.Model):
             'name': self.__str__(),
             'image': self.image.url,
         }
-
-    def __str__(self):
-        return self.nom_f
+#GGGG
