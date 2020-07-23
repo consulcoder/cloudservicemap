@@ -4,6 +4,13 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+import os
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+RELATIVE_STATIC_URL = '../static/'
+
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)

@@ -25,7 +25,8 @@
                             <div class="node p-1 align-middle col-{{ child.rowWidth }}"
                                  style="text-align: center; min-height: 30px; font-size: 8.5px; background-color: transparent;">
                                  {% if child.url %}<a style="color: {% if child.color == '#ffffff' %}black{%else%}white{% endif %};" href="{{ child.url }}" target="top">{% endif %}
-                                {% if child.element.title != '_' %}<img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;">{% endif %}<br>
+                                {% if child.element.title != '_' and tree.linked %}<img src="/{{ child.element.resource.image }}" width="95%" style="max-width: 80px;">{% endif %}<br>
+                                {% if child.element.title != '_' and not tree.linked %}<img src="/{{ child.element.image }}" width="95%" style="max-width: 80px;">{% endif %}<br>
                                 <span class="align-self-center align-middle">
                                 
                                     {% if not child.element.name == '_'%}
