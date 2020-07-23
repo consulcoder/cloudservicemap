@@ -41,4 +41,4 @@ Tareas 9/7/20
 -Cuando imprimo si uno de los cuadros cae entre las dos hojas se pica el cuadro junto con las imagenes de los iconos
 -Poder poner mas de dos tablas en la misma linea es decir ahora solo puedo poner 2
 -Como agregar un espacio en blanco(por ejemplo si quiero saltar un espacio porque en esa sous categoria no tengo servicio como hago
-
+-test
