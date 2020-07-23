@@ -40,7 +40,7 @@ class Sous_Categorie(models.Model):
 
 class Service(models.Model):
     nom = models.CharField(max_length=255, verbose_name='Nom Service')
-    image = CropperImageField(upload_to=utils.RELATIVE_STATIC_URL, null='False',dimensions=(200,200))
+    image = CropperImageField(upload_to=utils.RELATIVE_STATIC_URL, null='False', dimensions=(200, 200))
     fournisseurs = models.CharField(max_length=255, blank=False, verbose_name='Fournisseur')
     url = models.URLField(max_length=200, null=True, blank=True)
     statut = models.BooleanField(default=True)
@@ -63,12 +63,11 @@ class Service(models.Model):
 
 class Fournisseur(models.Model):
     nom_f = models.CharField(max_length=100, verbose_name='Nom Fournisseur', null=True, blank=True)
-    image = CropperImageField(upload_to=utils.RELATIVE_STATIC_URL, null='False',dimensions=(200,200))
+    image = CropperImageField(upload_to=utils.RELATIVE_STATIC_URL, null='False', dimensions=(200, 200))
     services = models.ManyToManyField(Service)
 
     class Meta:
         verbose_name = "Fournisseur"  # (verbose_name is a human-readable name for the field especially in Django Administration)
-        
 
     def toArray(self):
         return {
@@ -76,4 +75,4 @@ class Fournisseur(models.Model):
             'name': self.__str__(),
             'image': self.image.url,
         }
-#GGGGf
+# GGGGf
