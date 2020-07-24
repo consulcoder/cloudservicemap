@@ -33,7 +33,7 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('pdf/', views.pdf)
+   # path('pdf/', views.pdf)
 
 ]
 
