@@ -69,6 +69,9 @@ class Fournisseur(models.Model):
     class Meta:
         verbose_name = "Fournisseur"  # (verbose_name is a human-readable name for the field especially in Django Administration)
 
+    def __str__(self):
+        return self.nom_f
+
     def toArray(self):
         return {
             'id': self.pk,

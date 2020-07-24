@@ -143,7 +143,8 @@
     <!-- Bootstrap core JavaScript-->
     <script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src=" {% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
+    <script src=" {% static 'js/jspdf.min.js' %}"></script>
+    <script src=" {% static 'js/html2canvas.min.js' %}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'js/printThis.js' %}"></script>
@@ -172,24 +173,36 @@
                 flag_toggle_1 = !flag_toggle_1;
             });
             $('#print_btn').click(function () {
-                $('#pagina').printThis({
-                    header: "<h1>HOLA JE SUIS LE CLOUD MAP</h1>",
-                    debug: false,               // show the iframe for debugging
-                    importCSS: true,            // import parent page css
-                    importStyle: true,         // import style tags
-                    printContainer: true,       // print outer container/$.selector
+                html2canvas(document.getElementById('content_list_table')).then(canvas => {
+                    // document.body.appendChild(canvas)
+                    var imgData = canvas.toDataURL(
+                            'image/png'); 
+                    console.log(canvas.height);    
+                    console.log(canvas.width);    
+                    var doc = new jsPDF({
+                        orientation: 'p',
+                        unit: 'mm',
+                        format: [canvas.width-600,canvas.height-700],
+                        putOnlyUsedFonts:true,
+                        floatPrecision: 16 // or "smart", default is 16
+                    });
+                    doc.addImage(imgData, 'PNG', 5, 5);
+                    doc.save('nuageo-report.pdf');
                 });
+                // $('#pagina').printThis({
+                //     header: "<h1>HOLA JE SUIS LE CLOUD MAP</h1>",
+                //     debug: false,               // show the iframe for debugging
+                //     importCSS: true,            // import parent page css
+                //     importStyle: true,         // import style tags
+                //     printContainer: true,       // print outer container/$.selector
+                // });
             });
         });</script>
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    
+    
 
 {% endblock %}
 </body>

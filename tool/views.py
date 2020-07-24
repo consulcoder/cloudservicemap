@@ -36,7 +36,13 @@ def html_get_tree(request):
     
     pass
 def pdf_get_tree(request):
-    pass
+    context = {}
+    context['trees'] = []
+    for tree in Tree.objects.filter(in_home=True).order_by('order'):
+        context['trees'].append(tree.toArray())
+        break
+    return utils.print_pdf("pdf/index.html", context)
+
 def json_get_tree(request):
 # if not request.is_ajax():
 #     return HttpResponseNotFound('<h1>Page not found</h1>')

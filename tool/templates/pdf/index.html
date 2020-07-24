@@ -1,0 +1,104 @@
+{% load static tool_stringfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cloud Map Service</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="http://127.0.0.1:8000{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="http://127.0.0.1:8000{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
+    <!--<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">-->
+    <link href="http://127.0.0.1:8000{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="http://127.0.0.1:8000{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+<body id="page-top">
+    <img src="http://127.0.0.1:8000{% static '/img/nuageo_logo.png' %}" style="width: 20px; height: 20px;">
+    <!-- Page Wrapper -->
+    
+
+    <!-- Main Content -->
+   
+
+    <!-- Topbar -->
+    <nav style="width: 400px">
+       <!-- Nav Item - User Information -->
+        
+        <!--montrer l'anée actuelle-->
+        <h3>Cloud Service Map : {% now 'Y' %}</h3>
+    </nav>
+    <!-- End of Topbar -->
+    <div class="container-fluid" id="pagina" style="overflow-x: auto; padding:5px">
+        <div id="content_list_table" {% if trees|length > 2 %}style="width:85cm;"{%else%}style="width:100%;"{% endif%}>
+            <div class="row">
+                {% for tree in trees %}
+                    <div class="tree col-{{ tree.rowWidth }}">
+                        <div class="row"
+                             style="color: white; font-size: 16px; font-weight: bold; background-color: {{ tree.color }}; margin: -5px">
+                            {% for node in tree.struct %}
+                                <div class="node d-flex align-content-md-center align-middle justify-content-around col-{{ node.rowWidth }}"
+                                     style="min-width: 40px; padding: 0; min-height: 120px; background-color: {{ node.color }}; border:5px solid {{ tree.color }}; {% if node.is_root %}font-size: 22px;{% endif %} {% if node.color == '#ffffff' %}color: black;{% endif %}">
+                                    {% for child in node.children %}
+                                        <div class="node p-1 align-middle col-{{ child.rowWidth }}"
+                                             style="text-align: center; min-height: 30px; font-size: 8.5px; background-color: transparent;">
+                                             {% if child.url %}<a style="color: {% if child.color == '#ffffff' %}black{%else%}white{% endif %};" href="{{ child.url }}" target="top">{% endif %}
+                                                http://127.0.0.1:8000{{ child.element.image|two_points_trim }}
+                                            <!-- {% if child.element.title != '_' and tree.linked %}<img src="http://127.0.0.1:8000/static{{ child.element.resource.image|two_points_trim }}"  style="max-width: 80px;">{% endif %}<br>
+                                            {% if child.element.title != '_' and not tree.linked %}<img src="http://127.0.0.1:8000/static{{ child.element.image|two_points_trim }}" style="max-width: 80px;">{% endif %}<br> -->
+                                            <span class="align-self-center align-middle">
+                                            
+                                                {% if not child.element.name == '_'%}
+                                                    {% if tree.linked %}
+                                                        {{ child.element.name }}
+                                                    {% else %}
+                                                        {{ child.title }}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </span>
+                                            {% if child.url %}</a>{% endif %}
+                                        </div>
+                                    {% endfor %}
+                                    {% if not node.children.length %}
+                                        <span class="align-self-center align-middle" style="width: 100%; text-align: center;">
+                                        {% if node.url %}<a style="color: {% if node.color == '#ffffff' %}black{%else%}white{% endif %};" href="{{ node.url }}" target="top">{% endif %}
+                                            {% if tree.linked %}
+                                                {% if node.element.name %}{{ node.element.name }}{% else %}
+                                                    {% if node.title %}{{ node.title }}{% endif %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% if node.title %}{{ node.title }}{% endif %}
+                                            {% endif %}
+                                        {% if child.url %}</a>{% endif %}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+            
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                © NUAGEO {% now 'Y' %}
+
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+    
+</body>
+
+</html>
