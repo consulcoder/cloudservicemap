@@ -23,7 +23,7 @@ class ServiceAdmin(admin.ModelAdmin):
 class FournisseurAdmin(admin.ModelAdmin):
     list_display = ('nom_f', 'image')
     list_filter = ('nom_f', 'image', 'services')
-    search_fields = ('nom', 'services', 'services')
+    search_fields = ['nom']
 
     fieldsets = (
         # Fieldset 1 : meta-info (titre, auteur…)
@@ -38,8 +38,7 @@ class FournisseurAdmin(admin.ModelAdmin):
 class Sous_CategorieAdmin(admin.ModelAdmin):
     list_display = ('nom_s_cat', 'categorie')
     list_filter = ('nom_s_cat', 'categorie')
-    search_fields = ('nom_s_cat', 'categorie')
-
+    search_fields = ['nom_s_cat']
     fieldsets = (
         # Fieldset 1 : meta-info (nom)
         ('Général', {

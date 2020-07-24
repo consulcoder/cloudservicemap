@@ -34,6 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
    # path('pdf/', views.pdf)
+    path('blog/pdf', views.html_to_pdf_view)
 
 ]
 

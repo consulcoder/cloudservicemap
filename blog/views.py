@@ -5,10 +5,20 @@ from tool.models import Tree
 import os
 from io import BytesIO
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, inch
+from reportlab.lib.pagesizes import A4, cm
 from django.http import HttpResponse
+from reportlab.platypus import SimpleDocTemplate
 
 this_path = os.getcwd() + '/blog/'
+from django_xhtml2pdf.utils import generate_pdf
+
+
+def myview(request):
+    resp = HttpResponse(content_type='application/pdf')
+    dynamic_variable = request.user.some_special_something
+    context = {'some_context_variable': dynamic_variable}
+    result = generate_pdf('my_template.html', file_object=resp, context=context)
+    return result
 
 
 def index(request):
@@ -30,7 +40,7 @@ def index(request):
 
 
 def pdf(request):
-    # Create the HttpRespone headers with PDF
+    # Create the HttpResponse headers with PDF
     response = HttpResponse(content_type='blog/pdf')
     response['Content-Disposition'] = 'atachement; filename=Cloud-Service-Map-student-report.pdf'
     # Create the PDF object, using the BytesIO object as its "file."
@@ -41,7 +51,7 @@ def pdf(request):
     c.drawString(30, 735, 'Report')
     c.setFont('Helvetica-Bold', 12)
     c.drawString(480, 750, "23/07/2020")
-    c
+    c.drawImage('', 25, 480, 480, 270)
     c.save()
     pdf = buffer.getvalue()
     buffer.close()
@@ -50,3 +60,10 @@ def pdf(request):
     return response
 
 
+"""def testinpdf(request):
+    pdf_buffer = BytesIO()
+    my_doc = SimpleDocTemplate(pdf_buffer)
+    box = {
+        'nom': 'for nom_four'
+               ''
+    }"""
