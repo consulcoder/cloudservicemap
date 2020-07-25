@@ -11,7 +11,72 @@
         <meta name="author" content="">
 
         <title>{% block title %}Cloud Map Service{% endblock %}</title>
+        <style>
+            #loader {
+                background: #3192C8;
+                background: #2a3f54;
+                height: 100%;
+                width: 100%;
+                position: fixed;
+                z-index: 90000;
+                left: 0%;
+                top: 0%;
+                opacity: .75;
 
+            }
+            .sk-three-bounce {
+                position: absolute;
+                top: 50%;
+                margin-top: -10px;
+                left: 50%;
+                margin-left: -40px;
+                width: 80px;
+                text-align: center;
+            }
+
+            .sk-three-bounce .sk-child {
+                width: 20px;
+                height: 20px;
+                background-color: #FFF;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
+                animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
+            }
+
+            .sk-three-bounce .sk-bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+
+            .sk-three-bounce .sk-bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+
+            @-webkit-keyframes sk-three-bounce {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+
+                40% {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes sk-three-bounce {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+        </style>
         <!-- Custom fonts for this template-->
         <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'css/mygrid.css' %}" rel="stylesheet" type="text/css">
@@ -27,6 +92,13 @@
 {% endblock %}
 {% block menu %}
     <body id="page-top">
+        <div id="loader">
+            <div class="sk-three-bounce">
+                <div class="sk-child sk-bounce1"></div>
+                <div class="sk-child sk-bounce2"></div>
+                <div class="sk-child sk-bounce3"></div>
+            </div>
+        </div>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -39,7 +111,7 @@
     <div id="content">
 
     <!-- Topbar -->
-    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav style="width: 100%;" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         {% block nuageo_logo %} <!-- Nav Item - User Information -->
         <a href="/">
             
@@ -150,7 +222,7 @@
     <script src="{% static 'js/printThis.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            var flag_toggle = false;
+            var flag_toggle = {% if trees|length > 2 %}false{% else %}true{% endif %};
             $('#alternate_width_list_table_btn').click(function () {
                 if(flag_toggle) {
                     $('em',$(this)).removeClass('fa-expand-arrows-alt').addClass('fa-compress-arrows-alt')
@@ -172,22 +244,56 @@
                 }
                 flag_toggle_1 = !flag_toggle_1;
             });
+
+            var loader = document.getElementById('loader');
+            var trees = document.getElementById('content_list_table');
+            var $top_trees = $("#content_list_table .tree").eq(0);
+            var $topbar = $('nav.topbar');
+            var $top_menu = $('ul',$topbar);
+            var $top_page = $('#content>.container-fluid');
+            
             $('#print_btn').click(function () {
-                html2canvas(document.getElementById('content_list_table')).then(canvas => {
+                //mostrando el loader
+                $(loader).fadeIn('fast');
+                //insertando topbar en trees
+                $topbar.insertBefore($top_trees).removeClass('shawdow')
+                    // .css('width','130%');
+                $top_menu.hide();
+                // $top_trees.css('background-color','')
+
+                html2canvas(trees).then(canvas => {
                     // document.body.appendChild(canvas)
                     var imgData = canvas.toDataURL(
                             'image/png'); 
-                    console.log(canvas.height);    
-                    console.log(canvas.width);    
+                    var orientation = canvas.width>canvas.height?'l':'p';
+                    var size = { width: 0, height: 0};
+                    if(orientation == 'l') {
+                        size.width = canvas.width - (flag_toggle?300:780)
+                        size.height = canvas.height - 250
+                    } else  {
+                        size.width = canvas.width - (flag_toggle?300:780)
+                        size.height = canvas.height - 1200
+                    }
+                    console.log(size);
+                    
                     var doc = new jsPDF({
-                        orientation: 'p',
-                        unit: 'mm',
-                        format: [canvas.width-780,canvas.height-800],
+                        orientation: orientation,
+                        unit: 'px',
+                        // format: [canvas.width-(flag_toggle?0:780),canvas.height-(flag_toggle?0:800)],
+                        format: [size.width ,size.height],
                         putOnlyUsedFonts:true,
                         floatPrecision: 16 // or "smart", default is 16
                     });
                     doc.addImage(imgData, 'PNG', 5, 5);
                     doc.save('nuageo-report.pdf');
+                    
+                    //volviendo todo al estado antes de imprimir
+                    setTimeout(function() {
+                        $topbar.insertBefore($top_page).addClass('shawdow')
+                            // .css('width','110%');
+                        $top_menu.show();
+                        $(loader).fadeOut('fast');
+                    },2000)
                 });
                 // $('#pagina').printThis({
                 //     header: "<h1>HOLA JE SUIS LE CLOUD MAP</h1>",
@@ -197,9 +303,11 @@
                 //     printContainer: true,       // print outer container/$.selector
                 // });
             });
-        });</script>
+            $(loader).fadeOut('fast');
+        });
+        </script>
     <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <!-- <script src="{% static 'js/sb-admin-2.min.js' %}"></script> -->
 
     
     
