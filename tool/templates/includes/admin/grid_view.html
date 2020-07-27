@@ -15,7 +15,7 @@
     <div ng-show="show_workspace" id="workspace" class="row col-12">
         <div class="col-sm-3" style="overflow-y: auto; max-height: 100%;">
             <div ng-if="providers.length" id="workspace-providers" class="grp-module" style="position: sticky;top: 0;z-index: 2; margin-bottom: 0;">
-                <h2>Properties <input ng-change="updateTree(tree)" type="checkbox" ng-model="tree.linked"><em class="fa fa-link"></em></h2>
+                <h2>Propriétés <input ng-change="updateTree(tree)" type="checkbox" ng-model="tree.linked"><em class="fa fa-link"></em></h2>
                 <div class="grp-row">
                     <input ng-disabled="tree.linked" ng-change="editNode()" ng-model="node.title" type="text" placeholder="Title" style="width: 100%;">
                     <input ng-disabled="tree.linked" ng-change="editNode()" ng-model="node.url" type="text" placeholder="url://" style="width: 100%;">
@@ -25,14 +25,14 @@
             </div>
             <style>#workspace-tools a.btn-dark{ color:white}</style>
             <div ng-if="tools.length" id="workspace-tools" class="grp-module">
-                <h2 style="position: sticky;top: 130px;z-index: 1;">Tools</h2>
+                <h2 style="position: sticky;top: 130px;z-index: 1;">Outilspyt</h2>
                 <div class="grp-row">
                     <a ng-click="selectTool()" class="btn {{ "{" }}{{ "{" }}tool==null?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="fa fa-box"></em>
-                        Container Box
+                        Conteneur
                     </a>
                     <div ng-click="selectTool('_')" class="grp-row">
                         <a class="btn {{ "{" }}{{ "{" }}tool=='_'?'btn-dark':''{{ "}" }}{{ "}" }} col-12 text-left"><em class="far fa-square"></em>
-                            Internal Space
+                            Espace interne
                         </a>
                     </div>
                     <div ng-click="selectTool(prov,4)" class="grp-row" ng-repeat="prov in providers">
@@ -89,17 +89,17 @@
 
 
     <div ng-if="loader" class="jumbotron loader" style="z-index: 3; position: absolute; float: left; margin-top: 5%; margin-left: 5%; width: calc(100% - 11%); text-align: center;">
-        <h1 class="display-4">Loading... </h1>
-        <p class="lead">Please wait to load all resources for to work. Thanks you for to use our application.</p>
+        <h1 class="display-4">Chargement en cours... </h1>
+        <p class="lead">Veuillez patienter pour charger toutes les ressources pour travailler. Merci d'utiliser notre application.</p>
         <hr class="my-4">
         <div class="spinner-grow" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">Chargement en cours...</span>
         </div>
         <div class="spinner-grow" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">Chargement en cours...</span>
         </div>
         <div class="spinner-grow" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">Chargement en cours...</span>
         </div>
     </div>
 

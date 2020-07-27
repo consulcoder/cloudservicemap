@@ -62,7 +62,7 @@ class Service(models.Model):
 
 
 class Fournisseur(models.Model):
-    nom_f = models.CharField(max_length=100, verbose_name='Nom Fournisseur', null=True, blank=True)
+    nom_f = models.CharField(max_length=100, verbose_name='Nom Fournisseur', blank=True)
     image = CropperImageField(upload_to=utils.RELATIVE_STATIC_URL, null='False', dimensions=(200, 200))
     services = models.ManyToManyField(Service)
 

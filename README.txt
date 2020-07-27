@@ -42,3 +42,7 @@ Tareas 9/7/20
 -Poder poner mas de dos tablas en la misma linea es decir ahora solo puedo poner 2
 -Como agregar un espacio en blanco(por ejemplo si quiero saltar un espacio porque en esa sous categoria no tengo servicio como hago
 -test
+
+
+Esquina Derecha de doc pdf se come el borde
+Base de datos linkeada

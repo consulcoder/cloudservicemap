@@ -21,9 +21,9 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class FournisseurAdmin(admin.ModelAdmin):
-    list_display = ('nom_f', 'image')
+    list_display = ('id', 'nom_f', 'image' )
     list_filter = ('nom_f', 'image', 'services')
-    search_fields = ['nom']
+    search_fields = ['nom_f']
 
     fieldsets = (
         # Fieldset 1 : meta-info (titre, auteur…)
