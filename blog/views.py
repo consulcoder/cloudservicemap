@@ -12,6 +12,14 @@ from django.views.generic import ListView, DetailView, TemplateView
 
 this_path = os.getcwd() + '/blog/'
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+class CatList(ListView):
+    queryset = Categorie.objects.all()
+    context_object_name = 'cats'
+    paginate_by = 0
+    template_name = 'blog/pagination.html'
 
 
 """class CategorieListView(ListView):
@@ -42,16 +50,36 @@ def index(request):
 def cloud(request):
     context = {}
     context['fournisseur'] = Fournisseur.objects.all()
-    context['categorie'] = Categorie.objects.all()
+    cat_from = request.GET.get('categorie')
+    if cat_from is None:
+        context['categorie'] = Categorie.objects.all()
+    else:
+        context['categorie'] = Categorie.objects.filter(nom_cat=request.GET['categorie'])
+
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['Service'] = Service.objects.all()
+    context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
     return render(request, "blog/testhtml.html", context)
+
+
+"""def pagination(request):
+    cat_list = Categorie.objects.all()
+    paginator = Paginator(cat_list, 3)
+    page = request.GET.get('page')
+    try:
+        cats = paginator.page(page)
+    except PageNotAnInteger:
+        cats = paginator.page(1)
+    except EmptyPage:
+        cats = paginator.page(paginator.num_pages)
+    # ?page=2
+    
+    return render(request, "blog/pagination.html", {'page': page, 'cats': cats, })
 
 
 def filtre(request):
     filtre = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, 'blog/search.html', {'filter': filtre})
-
+    return render(request, 'blog/search.html', {'filter': filtre})"""
 
 """def pdf(request):
     # Create the HttpResponse headers with PDF

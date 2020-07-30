@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from blog import views
+from blog.views import *
 import tool.views as tool_views
 
 # from blog.views import MainPageView
@@ -33,7 +34,7 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('dynamic/', views.cloud),
+    path('dynamic/', CatList.as_view()),
 
 ]
 
