@@ -24,7 +24,7 @@ class TypeElementAdmin(admin.ModelAdmin):
 class TreeAdmin(admin.ModelAdmin):
     list_display = ('categorie', 'in_home', 'description', 'color', 'rowWidth', 'order', 'linked')
     list_filter = ('description', 'order')
-    search_fields = ('description', 'order')
+    search_fields = ('name', 'description', 'order')
     exclude = ('updated', 'element', 'root_node')
 
 

@@ -7,10 +7,21 @@ from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, cm
 from django.http import HttpResponse
-from reportlab.platypus import SimpleDocTemplate
+from .filters import CategorieFilter
+from django.views.generic import ListView, DetailView, TemplateView
 
 this_path = os.getcwd() + '/blog/'
-from django_xhtml2pdf.utils import generate_pdf
+from django.shortcuts import render
+
+
+"""class CategorieListView(ListView):
+    model = Categorie
+    template_name = 'blog/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = ['filter'] = CategorieFilter(self.request.GET, queryset=self.get_queryset())
+        return context"""
 
 
 def index(request):
@@ -18,6 +29,7 @@ def index(request):
     context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
     context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
     context['fournisseur'] = Fournisseur.objects.all()
+    context['gjhh'] = Categorie.objects.filter(nom_cat="Compute")
     context['categorie'] = Categorie.objects.all()
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['services'] = Service.objects.filter(statut=True)
@@ -27,7 +39,21 @@ def index(request):
     return render(request, "blog/index.html", context)
 
 
-def pdf(request):
+def cloud(request):
+    context = {}
+    context['fournisseur'] = Fournisseur.objects.all()
+    context['categorie'] = Categorie.objects.all()
+    context['souscategorie'] = Sous_Categorie.objects.all()
+    context['Service'] = Service.objects.all()
+    return render(request, "blog/testhtml.html", context)
+
+
+def filtre(request):
+    filtre = CategorieFilter(request.GET, queryset=Categorie.objects.all())
+    return render(request, 'blog/search.html', {'filter': filtre})
+
+
+"""def pdf(request):
     # Create the HttpResponse headers with PDF
     response = HttpResponse(content_type='blog/pdf')
     response['Content-Disposition'] = 'atachement; filename=Cloud-Service-Map-student-report.pdf'
@@ -45,4 +71,4 @@ def pdf(request):
     buffer.close()
     response.write(pdf)
 
-    return response
+    return response"""

@@ -268,10 +268,10 @@
                     var orientation = canvas.width>canvas.height?'l':'p';
                     var size = { width: 0, height: 0};
                     if(orientation == 'l') {
-                        size.width = canvas.width - (flag_toggle?300:780)
+                        size.width = canvas.width - (flag_toggle?290:780)
                         size.height = canvas.height - 250
                     } else  {
-                        size.width = canvas.width - (flag_toggle?300:780)
+                        size.width = canvas.width - (flag_toggle?290:780)
                         size.height = canvas.height - 1000
                     }
                     console.log(size);
@@ -282,7 +282,7 @@
                         // format: [canvas.width-(flag_toggle?0:780),canvas.height-(flag_toggle?0:800)],
                         format: [size.width ,size.height],
                         putOnlyUsedFonts:true,
-                        floatPrecision: 16 // or "smart", default is 16
+                        floatPrecision: 14 // or "smart", default is 16
                     });
                     doc.addImage(imgData, 'PNG', 5, 5);
                     doc.save('nuageo-report.pdf');
