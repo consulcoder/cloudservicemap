@@ -5,7 +5,6 @@ from tool.models import Tree
 import os
 from io import BytesIO
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, cm
 from django.http import HttpResponse
 from .filters import CategorieFilter
 from django.views.generic import ListView, DetailView, TemplateView

@@ -46,3 +46,16 @@ Tareas 9/7/20
 
 Esquina Derecha de doc pdf se come el borde
 Base de datos linkeada
+
+------------------
+Lo principal es acotejar la bdd la tabla storage que cuando la linkeo sigue cargando los datos viejos
+En Bulk data transfers y en el nombre de la categoría
+Fijate para que tú veas
+Igual cuando construimos el árbol los esoacios en blanco tú sabes que te dan unas flechitas pero eso lo que hace rs partir el árbol
+Yo me acuerdo que me habías dicho que no estaba programado
+El resto a ellos le cuadró
+Viste en la vista que estoy trabajando si puedes tirame un cabo con el paginador y los filtros
+Todo va bien?
+Finalmente a Haciel le llegó una dola herñara que lo sepas
+Yo lo vi hoy en la cuenta
+------------
