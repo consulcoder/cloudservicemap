@@ -34,7 +34,7 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('dynamic/', CatList.as_view()),
+    path('CSM/', views.cloud),
 
 ]
 

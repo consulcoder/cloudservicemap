@@ -5,30 +5,14 @@ from tool.models import Tree
 import os
 from io import BytesIO
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4, mm
 from django.http import HttpResponse
-from .filters import CategorieFilter
-from django.views.generic import ListView, DetailView, TemplateView
+from reportlab.platypus import SimpleDocTemplate
+from .filters import CategorieFilter, Sous_Categorie
+from django.db.models import Q
 
 this_path = os.getcwd() + '/blog/'
-from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-class CatList(ListView):
-    queryset = Categorie.objects.all()
-    context_object_name = 'cats'
-    paginate_by = 0
-    template_name = 'blog/pagination.html'
-
-
-"""class CategorieListView(ListView):
-    model = Categorie
-    template_name = 'blog/search.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context = ['filter'] = CategorieFilter(self.request.GET, queryset=self.get_queryset())
-        return context"""
+from django_xhtml2pdf.utils import generate_pdf
 
 
 def index(request):
@@ -36,7 +20,6 @@ def index(request):
     context['servicecompute'] = Service.objects.filter(sous_categorie__categorie_id=2).filter(statut=True)
     context['servicestorage'] = Service.objects.filter(sous_categorie__categorie_id=1).filter(statut=True)
     context['fournisseur'] = Fournisseur.objects.all()
-    context['gjhh'] = Categorie.objects.filter(nom_cat="Compute")
     context['categorie'] = Categorie.objects.all()
     context['souscategorie'] = Sous_Categorie.objects.all()
     context['services'] = Service.objects.filter(statut=True)
@@ -45,40 +28,6 @@ def index(request):
         context['trees'].append(tree.toArray())
     return render(request, "blog/index.html", context)
 
-
-def cloud(request):
-    context = {}
-    context['fournisseur'] = Fournisseur.objects.all()
-    cat_from = request.GET.get('categorie')
-    if cat_from is None:
-        context['categorie'] = Categorie.objects.all()
-    else:
-        context['categorie'] = Categorie.objects.filter(nom_cat=request.GET['categorie'])
-
-    context['souscategorie'] = Sous_Categorie.objects.all()
-    context['Service'] = Service.objects.all()
-    context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, "blog/testhtml.html", context)
-
-
-"""def pagination(request):
-    cat_list = Categorie.objects.all()
-    paginator = Paginator(cat_list, 3)
-    page = request.GET.get('page')
-    try:
-        cats = paginator.page(page)
-    except PageNotAnInteger:
-        cats = paginator.page(1)
-    except EmptyPage:
-        cats = paginator.page(paginator.num_pages)
-    # ?page=2
-    
-    return render(request, "blog/pagination.html", {'page': page, 'cats': cats, })
-
-
-def filtre(request):
-    filtre = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, 'blog/search.html', {'filter': filtre})"""
 
 """def pdf(request):
     # Create the HttpResponse headers with PDF
@@ -97,5 +46,56 @@ def filtre(request):
     pdf = buffer.getvalue()
     buffer.close()
     response.write(pdf)
-
     return response"""
+
+
+def cloud(request):
+    context = {}
+    # context['fournisseur'] = Fournisseur.objects.all()
+    # Requetes pour remplir les filtres
+    context['fournisseurs'] = Fournisseur.objects.all()
+    context['services'] = Service.objects.all()
+    context['categories'] = Categorie.objects.all()
+    context['souscategories'] = Sous_Categorie.objects.all()
+    # Requetes filtrées
+    four_form = request.GET.get('fournisseur')
+    if four_form is None:
+        context['fournisseur'] = Fournisseur.objects.all()
+    else:
+        context['fournisseur'] = Fournisseur.objects.filter(nom_f=request.GET['fournisseur'])
+
+    cat_from_f = request.GET.get('categorie')
+    if cat_from_f is None:
+        context['categorie'] = Categorie.objects.all()
+    else:
+
+        GET = request.GET.copy()
+        cat_from = GET.pop('categorie')
+        for cat_from2 in cat_from:
+            cat_from_f = cat_from2
+
+        context['categorie'] = Categorie.objects.filter(nom_cat__in=cat_from)
+
+    sous_categorie_form = request.GET.get('souscategorie')
+    if sous_categorie_form is None:
+        context['souscategorie'] = Sous_Categorie.objects.all()
+    else:
+        GET = request.GET.copy()
+        sous_categorie_form1 = GET.pop('souscategorie')
+        for sous_cat_item in sous_categorie_form1:
+            sous_categorie_form = sous_categorie_form1
+        context['souscategorie'] = Sous_Categorie.objects.filter(nom_s_cat__in=sous_categorie_form1)
+    # context['souscategorie'] = Sous_Categorie.objects.all()
+    context['Service'] = Service.objects.all()
+    context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
+    return render(request, "blog/testhtml.html", context)
+
+
+def filtre(request):
+    filtre = CategorieFilter(request.GET, queryset=Categorie.objects.all())
+    return render(request, 'blog/testhtml.html', {'filter': filtre})
+
+
+def Categorie_list(request):
+    f = CategorieFilter(request.GET, queryset=Categorie.objects.all())
+    return render(request, 'my_app/template.html', {'filter': f})
