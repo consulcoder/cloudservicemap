@@ -6,7 +6,7 @@ from io import BytesIO
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 from tool.models import *
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from django.template.loader import get_template
@@ -121,6 +121,7 @@ def json_add_node(request):
 
     # Creando Nodo del Arbol
     tree = Tree.objects.get(pk=data['tree_id'])
+    order = 0
     node_father = Node.objects.get(pk=data['father_id'])
     if id_typeElement == 3 and node_father.element.typeElemnt.id == 2:
         node_father1 = Node.objects.create(
@@ -133,6 +134,15 @@ def json_add_node(request):
         data['rowWidth'] = 12
         node_father = node_father1
 
+    # Calculo del Orden
+    o = (Node.objects.filter(father=node_father).aggregate(Max('order')))
+    print(o)
+    order = o.get('order__max')
+    if order:
+        order = order + 1
+    else:
+        order = 0
+
     Node.objects.create(
         is_root=False,
         color=element.color,
@@ -142,6 +152,7 @@ def json_add_node(request):
         tree=tree,
         element=element,
         url=url,
+        order=order
     )
 
     return utils.jsonArray(tree.getStruct(), 200, 'OK')
@@ -160,13 +171,53 @@ def json_edit_node(request):
 
 def json_move_node(request):
     data = json.loads(request.body)
-    node = Node.objects.get(pk=data['id'])
     direction = data['direction']
-    width = node.rowWidth
-    order = node.order
+    node = Node.objects.get(pk=data['id'])
+    # Arrglando orden de nodos hijos
+    i=0
+    for child in Node.objects.filter(father=node.father).order_by('order'):
+        i=i+1
+        print("¡¡¡¡¡¡¡¡¡")
+        print(child)
+        print(str(child.order)+' '+str(i))
+        print("¡¡¡¡¡¡¡¡¡")
+        child.order = i
+        child.save()
+    # Moviendo segun la direccion
+    node = Node.objects.get(pk=data['id'])
+    if direction == 'prev' and i>1:
+        try:
+            prev_node = Node.objects.get(father=node.father, order=node.order-1)
+            prev_node.order+=1
+            prev_node.save()
+            node.order-=1
+            node.save()
+        except Node.DoesNotExist:
+            pass
+
+    if direction == 'next':
+        try:
+            next_node = Node.objects.get(father=node.father, order=node.order+1)
+            next_node.order-=1
+            next_node.save()
+        except Node.DoesNotExist:
+            element = Element(title='_', typeElemnt = TypeElement.objects.get(pk=1))
+            element.save()
+            Node.objects.create(
+                is_root=False,
+                title='_',
+                rowWidth=node.rowWidth,
+                father=node.father,
+                tree=node.tree,
+                element=element,
+                order=node.order
+            )
+        node.order+=1
+        node.save()
+        
 
     # node.save()
-    return utils.json(node.toArray(), 200, direction)
+    return utils.jsonArray(node.tree.getStruct(), 200, direction)
 
 
 def json_remove_node(request):
