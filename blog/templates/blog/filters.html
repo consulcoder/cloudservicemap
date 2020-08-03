@@ -45,28 +45,28 @@
 <div class="container-fluid" id="pagina" style="overflow-x: auto; padding:5px">
     <div class="col-12">
         <div class="row">
-            <h4 class="col"><em class="fa fa-cogs"></em> Services</h4>
+            <h4 class="col"><em class="fa fa-cogs" style="padding-left: 50px"></em>Services</h4>
             <div class="col-8">
-                <select id="select_service" class="form-control" multiple placeholder="Serach Services..." style="width: 100%;">
+                <select id="select_service" class="form-control" multiple placeholder="Rechercher les Services..." style="width: 100%;">
                     {% for ser in services %}
                     <option value="{{ ser.nom }}">{{ ser.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <a href="#" id="btn_search" class="col btn btn-primary"><em class="fa fa-search"></em> Search</a>
+            <a href="#" id="btn_search" class="col btn btn-primary"><em class="fa fa-search"></em> Chercher</a>
         </div>
         <form class="form-inline mr-auto navbar-search btn-group" style="margin-top: 18px; width: 100%;">
             <div class="col-4 ">
-                <h4>Categorie</h4>
-                <select id="select_category" class="form-control" multiple placeholder="Select Catagories" style="width: 100%;">
+                <h4>Catégorie</h4>
+                <select id="select_category" class="form-control" multiple placeholder="Sélectionner Catégorie" style="width: 100%;">
                     {% for cat in categories %}
                     <option value="{{ cat.id }}">{{ cat.nom_cat }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-4 ">
-                <h4>Sous Categorie</h4>
-                <select id="select_subcategory" class="col-12 form-control" multiple placeholder="Select Sub Catagories" style="width: 100%;">
+                <h4>Sous Catégorie</h4>
+                <select id="select_subcategory" class="col-12 form-control" multiple placeholder="Sélectionner Sous Catégorie" style="width: 100%;">
                     {% for cat in categories %}
                     <optgroup label="{{ cat.nom_cat }}">
                         {% for sub_cat in cat.categories %}
@@ -77,8 +77,8 @@
                 </select>
             </div>
             <div class="col-4">
-                <h4>FOurnisseur</h4>
-                <select id="select_provider" class="col-12 form-control" multiple placeholder="Select Provider" style="width: 100%;">
+                <h4>Fournisseur</h4>
+                <select id="select_provider" class="col-12 form-control" multiple placeholder="Sélectionner Fournisseur" style="width: 100%;">
                     {% for four in fournisseurs %}
                     <option value="{{ four.id }}">{{ four.nom_f }}</option>
                     {% endfor %}
@@ -90,7 +90,7 @@
 
 <br/>
 <div id="filter-content" class="container-fluid">
-    <h3 style="text-align: center;">Selectionner les elements pour faire la recherche...</h3>
+    <h3 style="text-align: center;">Sélectionner les éléments à rechercher...</h3>
 </div>
 {% endblock %}
 {% block js %}
@@ -107,7 +107,7 @@
         });
         $('#select_service').select2({
             tags: true,
-            placeholder: "Chercher les services...",
+            placeholder: "Rechercher les services...",
             createTag: function (params) {
                 var term = $.trim(params.term);
 
@@ -130,13 +130,14 @@
             });
             $.get('/CSM/json_list_subcategories' + query, function(response) {
                 $('#select_subcategory').html(response).select2({
-                    placeholder: "Selectionner la Sous_Categories ",
+                    placeholder: "Sélectionner la Sous_Catégorie ",
                     allowClear: true
                 }); 
                 
             });
             
         })
+        //fadeOut oculta loaderx
         $(document).ready(function () {
             $(loader).fadeOut('fast');
         });

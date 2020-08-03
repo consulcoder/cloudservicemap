@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from blog.models import Categorie, Sous_Categorie, Service, Fournisseur
 
 
@@ -21,8 +20,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class FournisseurAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nom_f', 'image' )
-    list_filter = ('nom_f', 'image', 'services')
+    list_display = ('id', 'nom_f')
+    list_filter = ('id', 'nom_f')
     search_fields = ['nom_f']
 
     fieldsets = (

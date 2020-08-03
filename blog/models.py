@@ -81,4 +81,3 @@ class Fournisseur(models.Model):
             'name': self.__str__(),
             'image': self.image.url,
         }
-# GGGGf

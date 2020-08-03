@@ -3,14 +3,9 @@ from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
 from tool.models import Tree
 # libs para reporte pdf
 import os, json
-from io import BytesIO
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, mm
-from reportlab.platypus import SimpleDocTemplate
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
-from Cloud_Service_Map import utils
 
 this_path = os.getcwd() + '/blog/'
 # from django_xhtml2pdf.utils import generate_pdf
@@ -30,24 +25,6 @@ def index(request):
     return render(request, "blog/index.html", context)
 
 
-"""def pdf(request):
-    # Create the HttpResponse headers with PDF
-    response = HttpResponse(content_type='blog/pdf')
-    response['Content-Disposition'] = 'atachement; filename=Cloud-Service-Map-student-report.pdf'
-    # Create the PDF object, using the BytesIO object as its "file."
-    buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=A4)
-    c.setLineWidth(.3)
-    c.setFont('Helvetica', 22)
-    c.drawString(30, 735, 'Report')
-    c.setFont('Helvetica-Bold', 12)
-    c.drawString(480, 750, "23/07/2020")
-    c.drawImage('', 25, 480, 480, 270)
-    c.save()
-    pdf = buffer.getvalue()
-    buffer.close()
-    response.write(pdf)
-    return response"""
 
 
 def filtre(request):
