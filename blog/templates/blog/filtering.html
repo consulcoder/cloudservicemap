@@ -1,0 +1,65 @@
+{% for cat in filter.qs %}
+    <div class="row col-md-12 ">
+        <h3>{{ cat.nom_cat }}</h3>
+        <hr>
+    </div>
+{% endfor %}
+<div class="container-fluid">
+    {% for cat in categorie %}
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="text-align: center"> {{ cat.nom_cat }}</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="row" id="souscategory">
+            {% for item in souscategorie %}
+                {% if item.categorie_id == cat.id %}
+                    <div class="col-3 m-auto">
+                        <h6 class="text-right">{{ item.nom_s_cat }}</h6>
+                    </div>
+                    <hr>
+                    <div class="col-9">
+                    <div class="row">
+                    {% for four in fournisseur %}
+                        <div class="col-{{ fournisseur_width }}  align-center">
+                            {% for i in Service %}
+                                {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
+                                    <figure class="figure align-top align-center mx-auto"
+                                            style="padding-right: 10px;padding-left: 10px;">
+                                        <a target="_blank" href="{{ i.url }}"><br><img src="../{{ i.image.url }}"
+                                                                                       alt="../{{ i.nom }}"
+                                                                                       class="rounded float text-center"
+                                                                                       style="max-width: 60px;"></a>
+                                        <figcaption class="figure-caption text-center"
+                                                    style="max-width: 60px;font-size:75%">{{ i.nom }}</figcaption>
+                                    </figure>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="col-3">
+            </div>
+            <div class="col-9">
+            <div class="row">
+            {% for four in fournisseur %}
+                <div class="col-{{ fournisseur_width }}">
+                    <figure class="figure align-top align-center" style="padding-right: 10px; padding-left: 10px;">
+                        <img src="../{{ four.image }}" class="rounded float" style="max-width: 50px;">
+                        <figcaption class="figure-caption text-center"
+                                    style="max-width: 50px;">{{ four.nom_f }}</figcaption>
+                    </figure>
+
+                </div>
+            {% endfor %}
+            </div>
+            </div>
+        </div>
+        <hr>
+
+    {% endfor %}
+</div>

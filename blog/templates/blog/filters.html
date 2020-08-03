@@ -1,0 +1,174 @@
+{% extends '../blog/index.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block nav %}
+        <ul class="navbar-nav ml-auto" style="margin-top: -25px;">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                     aria-labelledby="searchDropdown">
+                    <form class="form-inline mr-auto w-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small"
+                                   placeholder="Search for..." aria-label="Search"
+                                   aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <!-- Nav Item - Alerts -->
+            
+            <!-- Nav Item - Messages -->
+            <a href="/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-home"></em>
+
+            </a>
+            <div class="topbar-divider d-none d-sm-block"></div>
+            <a href="/admin/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-user"></em>
+
+            </a>
+
+            
+        </ul>
+        {% endblock %}
+{% block body %}
+<div class="container-fluid" id="pagina" style="overflow-x: auto; padding:5px">
+    <div class="col-12">
+        <div class="row">
+            <h4 class="col"><em class="fa fa-cogs"></em> Services</h4>
+            <div class="col-8">
+                <select id="select_service" class="form-control" multiple placeholder="Serach Services..." style="width: 100%;">
+                    {% for ser in services %}
+                    <option value="{{ ser.nom }}">{{ ser.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <a href="#" id="btn_search" class="col btn btn-primary"><em class="fa fa-search"></em> Search</a>
+        </div>
+        <form class="form-inline mr-auto navbar-search btn-group" style="margin-top: 18px; width: 100%;">
+            <div class="col-4 ">
+                <h4>Categorie</h4>
+                <select id="select_category" class="form-control" multiple placeholder="Select Catagories" style="width: 100%;">
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.nom_cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4 ">
+                <h4>Sous Categorie</h4>
+                <select id="select_subcategory" class="col-12 form-control" multiple placeholder="Select Sub Catagories" style="width: 100%;">
+                    {% for cat in categories %}
+                    <optgroup label="{{ cat.nom_cat }}">
+                        {% for sub_cat in cat.categories %}
+                        <option value="{{ sub_cat.id }}">{{ sub_cat.nom_s_cat }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4">
+                <h4>FOurnisseur</h4>
+                <select id="select_provider" class="col-12 form-control" multiple placeholder="Select Provider" style="width: 100%;">
+                    {% for four in fournisseurs %}
+                    <option value="{{ four.id }}">{{ four.nom_f }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+        </form>
+    </div>
+
+<br/>
+<div id="filter-content" class="container-fluid">
+    <h3 style="text-align: center;">Selectionner les elements pour faire la recherche...</h3>
+</div>
+{% endblock %}
+{% block js %}
+    <!-- Bootstrap core JavaScript-->
+    <script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src=" {% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src=" {% static 'select2/select2.min.js' %}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $('form select').each(function (i,item) {
+            $(item).select2({
+                placeholder: $(item).attr('placeholder'),
+                allowClear: true
+            });
+        });
+        $('#select_service').select2({
+            tags: true,
+            placeholder: "Chercher les services...",
+            createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // add additional parameters
+                }
+            }
+        });
+        //Funcion que permite seleccionar las subcat de la cat seleccionada
+        $('#select_category').change(function() {
+            let query = "?";  
+            $(this).val().forEach(element => {
+                query+="ids="+element+"&";
+            });
+            $.get('/CSM/json_list_subcategories' + query, function(response) {
+                $('#select_subcategory').html(response).select2({
+                    placeholder: "Selectionner la Sous_Categories ",
+                    allowClear: true
+                }); 
+                
+            });
+            
+        })
+        $(document).ready(function () {
+            $(loader).fadeOut('fast');
+        });
+        //Creando la query_string para enviarle los datos al servidor de lo que hay que buscar
+        $('#btn_search').click(function() {
+            $(loader).fadeIn('fast');
+            let query = "?";  
+            //query categoria
+            $('#select_category').val().forEach(element => {
+                query+="category_ids="+element+"&";
+            });
+            //query categoria
+            $('#select_subcategory').val().forEach(element => {
+                query+="subcategory_ids="+element+"&";
+            });
+            //query provider
+            $('#select_provider').val().forEach(element => {
+                query+="provider_ids="+element+"&";
+            });
+            //query services
+            $('#select_service').val().forEach(element => {
+                query+="service_noms="+element+"&";
+            });
+            //query services new words
+            // $('#select_service').val().forEach(element => {
+            //     query+="service_ids="+element+"&";
+            // });
+            $.get('/CSM/filters'+query,function(response,status) {
+                $('#filter-content').html(response);
+                $(loader).fadeOut('fast');
+            })
+        })
+        </script>
+{% endblock %}
+

@@ -10,6 +10,9 @@ class Categorie(models.Model):
     class Meta:
         verbose_name = "Categorie"
 
+    def categories(self):
+        return Sous_Categorie.objects.filter(categorie__id=self.id)
+
     def toArray(self):
         return {
             'id': self.pk,

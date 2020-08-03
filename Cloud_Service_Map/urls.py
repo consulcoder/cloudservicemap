@@ -35,6 +35,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('CSM/', views.cloud),
+    path('CSM/filters', views.filtre),
+    path('CSM/json_list_subcategories', views.json_list_subcategories),
 
 ]
 

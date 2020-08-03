@@ -2,17 +2,18 @@ from django.shortcuts import render
 from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
 from tool.models import Tree
 # libs para reporte pdf
-import os
+import os, json
 from io import BytesIO
+from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, mm
-from django.http import HttpResponse
 from reportlab.platypus import SimpleDocTemplate
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
+from Cloud_Service_Map import utils
 
 this_path = os.getcwd() + '/blog/'
-from django_xhtml2pdf.utils import generate_pdf
+# from django_xhtml2pdf.utils import generate_pdf
 
 
 def index(request):
@@ -49,7 +50,7 @@ def index(request):
     return response"""
 
 
-def cloud(request):
+def filtre(request):
     context = {}
     # context['fournisseur'] = Fournisseur.objects.all()
     # Requetes pour remplir les filtres
@@ -58,44 +59,85 @@ def cloud(request):
     context['categories'] = Categorie.objects.all()
     context['souscategories'] = Sous_Categorie.objects.all()
     # Requetes filtrées
-    four_form = request.GET.get('fournisseur')
-    if four_form is None:
+    providers_ids = request.GET.getlist('provider_ids')
+    if len(providers_ids):
+        context['fournisseur'] = Fournisseur.objects.filter(id__in=providers_ids)
+    else:
         context['fournisseur'] = Fournisseur.objects.all()
-    else:
-        context['fournisseur'] = Fournisseur.objects.filter(nom_f=request.GET['fournisseur'])
+    context['fournisseur_width'] = 4
+    print(len(context['fournisseur']))
+    if len(context['fournisseur']) == 1:
+        context['fournisseur_width'] = 12
+    if len(context['fournisseur']) == 2:
+        context['fournisseur_width'] = 6
+    if len(context['fournisseur']) == 4:
+        context['fournisseur_width'] = 3
 
-    cat_from_f = request.GET.get('categorie')
-    if cat_from_f is None:
+    category_ids = request.GET.getlist('category_ids')
+    if len(category_ids):
+        context['categorie'] = Categorie.objects.filter(id__in=category_ids)
+    else:
         context['categorie'] = Categorie.objects.all()
+
+    subcategory_ids = request.GET.getlist('subcategory_ids')
+    if len(subcategory_ids):
+        aux_sub = Sous_Categorie.objects.filter(id__in=subcategory_ids)
+        aux_cat_ids = []
+        category_ids = []
+        for sub in aux_sub:
+            if not aux_cat_ids.__contains__(sub.categorie.id):
+                aux_cat_ids.append(sub.categorie.id)
+        for cat in context['categorie']:
+            if not aux_cat_ids.__contains__(cat.id):
+                category_ids.append(cat.id)
+        # print(aux_cat_ids)
+        # print(category_ids)
+        context['souscategorie'] = Sous_Categorie.objects.filter(Q(id__in=subcategory_ids) | Q(categorie__id__in=category_ids))
     else:
-
-        GET = request.GET.copy()
-        cat_from = GET.pop('categorie')
-        for cat_from2 in cat_from:
-            cat_from_f = cat_from2
-
-        context['categorie'] = Categorie.objects.filter(nom_cat__in=cat_from)
-
-    sous_categorie_form = request.GET.get('souscategorie')
-    if sous_categorie_form is None:
         context['souscategorie'] = Sous_Categorie.objects.all()
-    else:
-        GET = request.GET.copy()
-        sous_categorie_form1 = GET.pop('souscategorie')
-        for sous_cat_item in sous_categorie_form1:
-            sous_categorie_form = sous_categorie_form1
-        context['souscategorie'] = Sous_Categorie.objects.filter(nom_s_cat__in=sous_categorie_form1)
+        
     # context['souscategorie'] = Sous_Categorie.objects.all()
-    context['Service'] = Service.objects.all()
+    service_noms = request.GET.getlist('service_noms')
+    if len(service_noms):
+        context['Service'] = []
+        aux_serv = {}
+        for nom in service_noms:
+            servs = Service.objects.filter(nom__contains=nom)
+            for ser in servs:
+                aux_serv[ser.id] = ser
+        for key in iter(aux_serv):
+            context['Service'].append(aux_serv[key])
+    else:
+        context['Service'] = Service.objects.all()
     context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, "blog/testhtml.html", context)
+    return render(request, "blog/filtering.html", context)
 
 
-def filtre(request):
-    filtre = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, 'blog/testhtml.html', {'filter': filtre})
+def cloud(request):
+    context = {}
+    context['fournisseurs'] = Fournisseur.objects.all()
+    context['services'] = Service.objects.all()
+    context['categories'] = Categorie.objects.all()
+    context['souscategories'] = Sous_Categorie.objects.all()
+    return render(request, 'blog/filters.html', context)
 
 
 def Categorie_list(request):
     f = CategorieFilter(request.GET, queryset=Categorie.objects.all())
     return render(request, 'my_app/template.html', {'filter': f})
+
+def json_list_subcategories(request):
+    ids = request.GET.getlist('ids')
+    response = HttpResponse()
+    if not len(ids):
+        ids = []
+        for cat in Categorie.objects.all():
+            ids.append(cat.id)
+    for i in ids:
+        category = Categorie.objects.get(id=i)
+        response.write("<optgroup label='"+category.nom_cat+"'>")
+        for sub in category.categories():
+            response.write("<option value='"+str(sub.id)+"'>"+sub.nom_s_cat+"</option>")
+        response.write("</optgroup>")
+    return response
+
