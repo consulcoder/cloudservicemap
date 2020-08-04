@@ -20,8 +20,6 @@ from blog import views
 from blog.views import *
 import tool.views as tool_views
 
-# from blog.views import MainPageView
-
 urlpatterns = [
     path('tool/tree/json_list', tool_views.json_list_tree),
     path('tool/tree/json_get/', tool_views.json_get_tree),

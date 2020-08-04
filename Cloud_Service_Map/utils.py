@@ -1,4 +1,3 @@
-import os
 from io import BytesIO
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template
