@@ -3,11 +3,18 @@ from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
 from tool.models import Tree
 # libs para reporte pdf
 import os, json
+from io import BytesIO
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4, mm
+from reportlab.platypus import SimpleDocTemplate
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
+from Cloud_Service_Map import utils
 
 this_path = os.getcwd() + '/blog/'
+
+
 # from django_xhtml2pdf.utils import generate_pdf
 
 
@@ -25,6 +32,24 @@ def index(request):
     return render(request, "blog/index.html", context)
 
 
+"""def pdf(request):
+    # Create the HttpResponse headers with PDF
+    response = HttpResponse(content_type='blog/pdf')
+    response['Content-Disposition'] = 'atachement; filename=Cloud-Service-Map-student-report.pdf'
+    # Create the PDF object, using the BytesIO object as its "file."
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+    c.setLineWidth(.3)
+    c.setFont('Helvetica', 22)
+    c.drawString(30, 735, 'Report')
+    c.setFont('Helvetica-Bold', 12)
+    c.drawString(480, 750, "23/07/2020")
+    c.drawImage('', 25, 480, 480, 270)
+    c.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response"""
 
 
 def filtre(request):
@@ -42,7 +67,6 @@ def filtre(request):
     else:
         context['fournisseur'] = Fournisseur.objects.all()
     context['fournisseur_width'] = 4
-    print(len(context['fournisseur']))
     if len(context['fournisseur']) == 1:
         context['fournisseur_width'] = 12
     if len(context['fournisseur']) == 2:
@@ -64,15 +88,19 @@ def filtre(request):
         for sub in aux_sub:
             if not aux_cat_ids.__contains__(sub.categorie.id):
                 aux_cat_ids.append(sub.categorie.id)
+        aux_category_ids = request.GET.getlist('category_ids')
+        if not len(aux_category_ids):
+            context['categorie'] = Categorie.objects.filter(id__in=aux_cat_ids)
         for cat in context['categorie']:
             if not aux_cat_ids.__contains__(cat.id):
                 category_ids.append(cat.id)
         # print(aux_cat_ids)
         # print(category_ids)
-        context['souscategorie'] = Sous_Categorie.objects.filter(Q(id__in=subcategory_ids) | Q(categorie__id__in=category_ids))
+        context['souscategorie'] = Sous_Categorie.objects.filter(
+            Q(id__in=subcategory_ids) | Q(categorie__id__in=category_ids))
     else:
         context['souscategorie'] = Sous_Categorie.objects.all()
-        
+
     # context['souscategorie'] = Sous_Categorie.objects.all()
     service_noms = request.GET.getlist('service_noms')
     if len(service_noms):
@@ -84,6 +112,19 @@ def filtre(request):
                 aux_serv[ser.id] = ser
         for key in iter(aux_serv):
             context['Service'].append(aux_serv[key])
+        context['souscategorie'] = []
+        sous_categorie = {}
+        for serv in context['Service']:
+            sous_categorie[serv.sous_categorie.id] = serv.sous_categorie
+        for key in iter(sous_categorie):
+            context['souscategorie'].append(sous_categorie[key])
+        categories = {}
+        for souscategorie in context['souscategorie']:
+            categories[souscategorie.categorie.id] = souscategorie.categorie
+        context['categorie'] = []
+        for key in iter(categories):
+            context['categorie'].append(categories[key])
+
     else:
         context['Service'] = Service.objects.all()
     context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
@@ -103,6 +144,7 @@ def Categorie_list(request):
     f = CategorieFilter(request.GET, queryset=Categorie.objects.all())
     return render(request, 'my_app/template.html', {'filter': f})
 
+
 def json_list_subcategories(request):
     ids = request.GET.getlist('ids')
     response = HttpResponse()
@@ -112,9 +154,8 @@ def json_list_subcategories(request):
             ids.append(cat.id)
     for i in ids:
         category = Categorie.objects.get(id=i)
-        response.write("<optgroup label='"+category.nom_cat+"'>")
+        response.write("<optgroup label='" + category.nom_cat + "'>")
         for sub in category.categories():
-            response.write("<option value='"+str(sub.id)+"'>"+sub.nom_s_cat+"</option>")
+            response.write("<option value='" + str(sub.id) + "'>" + sub.nom_s_cat + "</option>")
         response.write("</optgroup>")
     return response
-

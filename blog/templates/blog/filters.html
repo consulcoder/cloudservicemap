@@ -1,6 +1,6 @@
 {% extends '../blog/index.html' %}
 {% load static %}
-{% load bootstrap %}
+
 {% block nav %}
         <ul class="navbar-nav ml-auto" style="margin-top: -25px;">
 
@@ -138,13 +138,15 @@
             
         })
         //fadeOut oculta loaderx
-        $(document).ready(function () {
-            $(loader).fadeOut('fast');
+       $(document).ready(function () {
+            search()
         });
-        //Creando la query_string para enviarle los datos al servidor de lo que hay que buscar
         $('#btn_search').click(function() {
+            search()
+        })
+        function search() {
             $(loader).fadeIn('fast');
-            let query = "?";  
+            let query = "?";
             //query categoria
             $('#select_category').val().forEach(element => {
                 query+="category_ids="+element+"&";
@@ -169,7 +171,7 @@
                 $('#filter-content').html(response);
                 $(loader).fadeOut('fast');
             })
-        })
+        }
         </script>
 {% endblock %}
 
