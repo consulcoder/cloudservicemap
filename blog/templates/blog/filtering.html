@@ -13,6 +13,22 @@
             </div>
         </div>
         <div class="row" id="souscategory">
+            <div class="col-3">
+            </div>
+            <div class="col-9">
+            <div class="row">
+            {% for four in fournisseur %}
+                <div class="col-{{ fournisseur_width }}">
+                    <figure class="figure align-top align-center" style="padding-right: 10px; padding-left: 10px;">
+                        <img src="{{ four.image }}" class="rounded float" style="max-width: 60px;">
+                        <figcaption class="figure-caption text-center"
+                                    style="max-width: 50px;">{{ four.nom_f }}</figcaption>
+                    </figure>
+
+                </div>
+            {% endfor %}
+            </div>
+            </div>
             {% for item in souscategorie %}
                 {% if item.categorie_id == cat.id %}
                     <div class="col-3 m-auto">
@@ -27,8 +43,8 @@
                                 {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
                                     <figure class="figure align-top align-center mx-auto"
                                             style="padding-right: 10px;padding-left: 10px;">
-                                        <a target="_blank" href="{{ i.url }}"><br><img src="../{{ i.image.url }}"
-                                                                                       alt="../{{ i.nom }}"
+                                        <a target="_blank" href="{{ i.url }}"><br><img src="{{ i.image.url }}"
+                                                                                       alt=".{{ i.nom }}"
                                                                                        class="rounded float text-center"
                                                                                        style="max-width: 60px;"></a>
                                         <figcaption class="figure-caption text-center"
@@ -42,22 +58,7 @@
                     </div>
                 {% endif %}
             {% endfor %}
-            <div class="col-3">
-            </div>
-            <div class="col-9">
-            <div class="row">
-            {% for four in fournisseur %}
-                <div class="col-{{ fournisseur_width }}">
-                    <figure class="figure align-top align-center" style="padding-right: 10px; padding-left: 10px;">
-                        <img src="../{{ four.image }}" class="rounded float" style="max-width: 60px;">
-                        <figcaption class="figure-caption text-center"
-                                    style="max-width: 50px;">{{ four.nom_f }}</figcaption>
-                    </figure>
 
-                </div>
-            {% endfor %}
-            </div>
-            </div>
         </div>
         <hr>
 
