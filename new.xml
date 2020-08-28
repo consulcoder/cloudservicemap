@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:v1="http://Loreal.RD.Mediation.MiseAJourReferentiel.ReferentielNotification/v1.0">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <v1:receiveNotification>
+            <v11:ReferentielNotification
+                    xmlns:v11="http://Loreal.RD.Mediation.MiseAJourReferentiel.MDM_I_ReferentielNotification.Processing.schReferentielNotification/v1.0">
+                <Type>UPDATE</Type>
+                <Date>2020-08-27T08:52:35</Date>
+                <Application>LOrealMDM</Application>
+                <Referentiel>REF005</Referentiel>
+                <ObjectType>REF005-USR</ObjectType>
+                <Id>
+                    <Key>USR_ID</Key>
+                    <Value>RD.BENAMAROreliaTest</Value>
+                </Id>
+            </v11:ReferentielNotification>
+        </v1:receiveNotification>
+    </soapenv:Body>
+</soapenv:Envelope>
