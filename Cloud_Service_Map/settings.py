@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'tool',
     'cropperjs',
     'django_filters',
-    'bootstrapform'
+    'bootstrapform',
+
 ]
 
 MIDDLEWARE = [

@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/tool/tree/json_move_node/', tool_views.json_move_node),
     path('admin/tool/tree/json_remove_node/', tool_views.json_remove_node),
     path('grappelli/', include('grappelli.urls')),  # grappelli URLS
+    #path('todo/', include('todo.urls', namespace="todo")), # todo project for importing csv
     path('admin/', admin.site.urls),
     path('', views.index),
     path('CSM/', views.cloud),

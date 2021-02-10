@@ -185,8 +185,8 @@ app.controller("GridController" , [
                 resource_id: $this.tool ? $this.tool.id : 0,
                 resource_type:$this.tool ? ($this.tool == '_' ? '_':$this.tool.type) : 0,
                 color: $this.node ? $this.node.color : $this.tree.color,
-                // rowWidth: $this.node ? $this.node.rowWidth : 4,
-                rowWidth: 4
+                // rowWidth: $this.node ? $this.node.rowWidth : 3,
+                rowWidth: 3
             }).then(function(response) {
                 $this.tree.struct = response.data.data;
                 $this.loader = false;
