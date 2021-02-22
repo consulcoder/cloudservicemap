@@ -109,7 +109,7 @@ class Tree(models.Model):
 
     class Meta:
         verbose_name = "Arbre"
-        ordering = ["-order"]
+        ordering = ["order"]
 
     # BFS Iterator
     def getBFS(self):
@@ -213,7 +213,7 @@ class Node(models.Model):
         children = []
         if self.element.typeElemnt.id == 1 and not self.element.title == '_':
             items = []
-            for child in Node.objects.filter(father=self, tree=self.tree):
+            for child in Node.objects.filter(father=self, tree=self.tree).order_by('order'):
                 if child.element.typeElemnt.id==3 or child.element.title == '_':
                     items.append(child.toArray())
             children = items
@@ -230,6 +230,7 @@ class Node(models.Model):
             'tree_id': self.tree.pk,
             'is_root': self.is_root,
             'url': self.url,
+            'order':self.order,
             'children': children
         }
 

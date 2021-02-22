@@ -7,7 +7,7 @@
     {% if widget.attrs.aspectratio %}data-aspectratio="{{ widget.attrs.aspectratio }}"{% endif %}>
 
     <input type="hidden" name="{{ widget.name }}" id="id_{{ widget.name }}" {% if widget.value %}value="{{ widget.value }}"{% endif %} />
-    <img {% if widget.value %}src="{{ widget.value|two_points_trim }}"{% endif %} />
+    <img {% if widget.value %}src="{{ widget.value }}"{% endif %} />
     <div class="placeholder">{% trans "Select image" %}</div>
     <a class="deleteImage" href="javascript:;">{% trans "Remove" %}</a>
 </div>

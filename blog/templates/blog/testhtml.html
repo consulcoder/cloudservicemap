@@ -1,125 +1,65 @@
-{% load static %}
-{% load bootstrap %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cloud Service Map</title>
-    <meta name="description" content="Source code generated using layoutit.com">
-    <meta name="author" content="LayoutIt!">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/mygrid.css' %}" rel="stylesheet">
-</head>
-<body>
-<!--form-->
-
-
-<form method="GET">
-    <div class="form-group">
-        <label for="sel1">Categorie</label>
-        <select multiple class="form-control form-control-lg" id="categorie" name="categorie">
-            <option>
-                {% for cats in categories %}
-                    <option>{{ cats.nom_cat }}</option>
-                {% endfor %}
-            </option>
-        </select>
+{% for cat in filter.qs %}
+    <div class="row col-md-12 ">
+        <h3>{{ cat.nom_cat }}</h3>
+        <hr>
     </div>
-
-    <div class="form-group dropdown-list">
-        <label for="sel2">Founisseur</label>
-        <select multiple class="form-control dropdown-divider" id="fournisseur" name="fournisseur">
-            <option></option>
-            {% for four in fournisseurs %}
-                <option>{{ four.nom_f }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="sous_cat">Sous Categorie</label>
-        <select multiple class="form-control" id="souscategorie" name="souscategorie">
-            <option></option>
-            {% for sous in souscategorie %}
-                <option>{{ sous.nom_s_cat }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button type="submit" value="Filtrer" class="btn-primary">Filtrer</button>
-</form>
-<a href="/CSM/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-   style="height: 36px;margin-top: 18px;" type="button"><strong class="fa fa-user">Voir tout</strong>
-</a>
-    <br/>
-    <br/>
-    <!--<div class="container">
+{% endfor %}
+<div class="container-fluid">
+    {% for cat in categorie %}
         <div class="row">
-            <div class="col-lg-12">
-                <div class="button-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span
-                            class="glyphicon glyphicon-cog"></span> <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" class="small" data-value="option1" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
-                            1</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-md-12">
+                <h3 style="text-align: center"> {{ cat.nom_cat }}</h3>
+                <hr>
             </div>
         </div>
-    </div>-->
-</div>
-    <div class="container-fluid">
-        {% for cat in categorie %}
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 style="text-align: center"> {{ cat.nom_cat }}</h3>
-                    <hr>
-                </div>
-            </div>
-
-            <div class="row" id="souscategory">
-                  <div class="col-md-3">
-                </div>
-                {% for four in fournisseur %}
-                    <div class="col-md-3">
-                        <figure class="figure align-top align-center" style="padding-right: 10px; padding-left: 10px;">
-                            <img src="../{{ four.image }}" class="rounded float" style="max-width: 50px;">
-                            <figcaption class="figure-caption text-center"
-                                        style="max-width: 50px;">{{ four.nom_f }}</figcaption>
-                        </figure>
+        <div class="row" id="souscategory">
+            {% for item in souscategorie %}
+                {% if item.categorie_id == cat.id %}
+                    <div class="col-3 m-auto">
+                        <h6 class="text-right">{{ item.nom_s_cat }}</h6>
                     </div>
-                {% endfor %}
-                {% for item in souscategorie %}
-                    {% if item.categorie_id == cat.id %}
-                        <div class="col-md-3">
-                            <h6 class="text-right">{{ item.nom_s_cat }}</h6>
+                    <hr>
+                    <div class="col-9">
+                    <div class="row">
+                    {% for four in fournisseur %}
+                        <div class="col-{{ fournisseur_width }}  align-center">
+                            {% for i in Service %}
+                                {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
+                                    <figure class="figure align-top align-center mx-auto"
+                                            style="padding-right: 10px;padding-left: 10px;">
+                                        <a target="_blank" href="{{ i.url }}"><br><img src="../{{ i.image.url }}"
+                                                                                       alt="../{{ i.nom }}"
+                                                                                       class="rounded float text-center"
+                                                                                       style="max-width: 60px;"></a>
+                                        <figcaption class="figure-caption text-center"
+                                                    style="max-width: 60px;font-size:75%">{{ i.nom }}</figcaption>
+                                    </figure>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                        <hr>
-                        {% for four in fournisseur %}
-                            <div class="col-md-3  align-center mx-auto">
-                                {% for i in Service %}
-                                    {% if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f and item.categorie_id == cat.id %}
-                                        <figure class="figure align-top align-center mx-auto"
-                                                style="padding-right: 10px;padding-left: 10px;">
-                                            <a target="_blank" href="{{ i.url }}"><br><img src="../{{ i.image.url }}"
-                                                                                           alt="../{{ i.nom }}"
-                                                                                           class="rounded float text-center"
-                                                                                           style="max-width: 60px;"></a>
-                                            <figcaption class="figure-caption text-center"
-                                                        style="max-width: 60px;font-size:75%">{{ i.nom }}</figcaption>
-                                        </figure>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
+                    {% endfor %}
+                    </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="col-3">
+            </div>
+            <div class="col-9">
+            <div class="row">
+            {% for four in fournisseur %}
+                <div class="col-{{ fournisseur_width }}">
+                    <figure class="figure align-top align-center" style="padding-right: 10px; padding-left: 10px;">
+                        <img src="../{{ four.image }}" class="rounded float" style="max-width: 50px;">
+                        <figcaption class="figure-caption text-center"
+                                    style="max-width: 50px;">{{ four.nom_f }}</figcaption>
+                    </figure>
 
+                </div>
+            {% endfor %}
             </div>
             </div>
-            <hr>
-        {% endfor %}
-    </div>
-</body>
-</html>
+        </div>
+        <hr>
+
+    {% endfor %}
+</div>
