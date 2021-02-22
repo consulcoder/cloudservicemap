@@ -1,0 +1,5 @@
+Categorie,Souscategorie,Service,Fournisseur
+Compute,Virtual Servers,EC2,AWS
+Compute,Virtual Servers,Compute Engine,Google Cloud
+Compute,Virtual Servers,Virtual Machine,Azure
+Compute,Container Instances,Container Services,AWS
