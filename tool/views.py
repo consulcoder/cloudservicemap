@@ -272,7 +272,7 @@ from datetime import datetime
 def download(request, file_name="Nuegeo_packet"):
 
     #creando carpeta temporal
-    files_path = 'static' + os.path.sep + 'temp_zip_{:%Y-%m-%dT%M_%s}'.format(datetime.now())
+    files_path = 'static' + os.path.sep + 'temp_zip_{:%s}'.format(datetime.now())
     os.mkdir(files_path)
     #crando fichero csv
     fich = open(files_path + os.path.sep + 'data.csv','w')
