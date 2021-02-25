@@ -20,6 +20,7 @@ import shutil
 # Create your views here.
 from django.views.generic import TemplateView, ListView
 from blog.models import Categorie, Sous_Categorie, Service, Fournisseur
+
 # import excel as excel
 #Descarga de Csv
 
@@ -269,6 +270,7 @@ def json_remove_tree(request):
 
 from shutil import rmtree
 from datetime import datetime
+from blog.views import getFiltre
 def download(request, file_name="Nuegeo_packet"):
 
     #creando carpeta temporal
@@ -276,9 +278,15 @@ def download(request, file_name="Nuegeo_packet"):
     os.mkdir(files_path)
     #crando fichero csv
     fich = open(files_path + os.path.sep + 'data.csv','w')
-    fich.writelines('Hola Mundo\nOkOKOK')
-    fich.writelines('Hola Mundo\nOkOKOK')
-    fich.writelines('Hola Mundo\nOkOKOK')
+    ##creando linea de columna
+    line = 'Categorie,Souscategorie,Service,Fournisseur\n'
+    fich.writelines(line)
+    #obtniendo datos
+    data = getFiltre(request)
+    for serv in data['Service']:
+        #añadiendo liniea de la BD
+        line = serv.sous_categorie.categorie.nom_cat+','+serv.sous_categorie.nom_s_cat+','+serv.nom + ','+serv.fournisseurs+'\n'
+        fich.writelines(line)
     fich.close()
     #creando fichero comprimido
     relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
