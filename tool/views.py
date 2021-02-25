@@ -20,7 +20,7 @@ import shutil
 # Create your views here.
 from django.views.generic import TemplateView, ListView
 from blog.models import Categorie, Sous_Categorie, Service, Fournisseur
-import excel as excel
+# import excel as excel
 #Descarga de Csv
 
 # def dowlandcvs(request):
@@ -268,15 +268,27 @@ def json_remove_tree(request):
     pass
 
 from shutil import rmtree
+from datetime import datetime
 def download(request, file_name="Nuegeo_packet"):
-    os.mkdir('hola')
 
-    files_path = "hola"
-    path_to_zip = make_archive(files_path, "zip", files_path)
-    response = HttpResponse(FileWrapper(open(path_to_zip,'rb')), content_type='application/zip')
+    #creando carpeta temporal
+    files_path = 'static' + os.path.sep + 'temp_zip_{:%Y-%m-%dT%M_%s}'.format(datetime.now())
+    os.mkdir(files_path)
+    #crando fichero csv
+    fich = open(files_path + os.path.sep + 'data.csv','w')
+    fich.writelines('Hola Mundo\nOkOKOK')
+    fich.writelines('Hola Mundo\nOkOKOK')
+    fich.writelines('Hola Mundo\nOkOKOK')
+    fich.close()
+    #creando fichero comprimido
+    relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
+    path_to_zip = make_archive(files_path, "gztar", relative_path)
+    fich = open(path_to_zip,'rb')
+    response = HttpResponse(FileWrapper(fich), content_type='application/zip')
     response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
         filename = file_name.replace(" ", "_")
     )
-    rmtree('hola')
+    #eliminado carpeta temporal
+    rmtree(files_path)
     return response
 
