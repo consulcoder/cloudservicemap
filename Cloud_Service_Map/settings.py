@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     'tool',
     'cropperjs',
     'django_filters',
-    'bootstrapform'
+    # 'bootstrapform',
 ]
 
 MIDDLEWARE = [

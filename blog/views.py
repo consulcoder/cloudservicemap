@@ -11,6 +11,7 @@ from reportlab.platypus import SimpleDocTemplate
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
 from Cloud_Service_Map import utils
+from django_forms_bootstrap import *
 
 this_path = os.getcwd() + '/blog/'
 # from django_xhtml2pdf.utils import generate_pdf

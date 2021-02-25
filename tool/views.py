@@ -3,6 +3,8 @@ from io import BytesIO
 # from reportlab.pdfgen import canvas
 # from reportlab.lib.pagesizes import A4, inch
 # import pyPdf
+from shutil import make_archive
+from wsgiref.util import FileWrapper
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 from tool.models import *
@@ -13,10 +15,26 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from Cloud_Service_Map import utils
 from tool import utils as utils_tool
-
+import shutil
 # this_path = os.getcwd() + '/tool/'
 # Create your views here.
 from django.views.generic import TemplateView, ListView
+from blog.models import Categorie, Sous_Categorie, Service, Fournisseur
+import excel as excel
+#Descarga de Csv
+
+# def dowlandcvs(request):
+#     export=[]
+#     export.append(['Categorie','Sous_Categorie','Service','Fournisseur'])
+#     resultado=Service.ob
+#     for result in resultado:
+#         export.append([ser])
+
+
+
+
+
+
 
 
 # Modelo Tree
@@ -248,3 +266,17 @@ def json_remove_tree(request):
         return HttpResponseNotFound('<h1>Page not found</h1>')
 
     pass
+
+from shutil import rmtree
+def download(request, file_name="Nuegeo_packet"):
+    os.mkdir('hola')
+
+    files_path = "hola"
+    path_to_zip = make_archive(files_path, "zip", files_path)
+    response = HttpResponse(FileWrapper(open(path_to_zip,'rb')), content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
+        filename = file_name.replace(" ", "_")
+    )
+    rmtree('hola')
+    return response
+
