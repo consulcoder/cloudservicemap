@@ -11,7 +11,6 @@ from reportlab.platypus import SimpleDocTemplate
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
 from Cloud_Service_Map import utils
-from django_forms_bootstrap import *
 
 this_path = os.getcwd() + '/blog/'
 # from django_xhtml2pdf.utils import generate_pdf
@@ -51,7 +50,7 @@ def index(request):
     return response"""
 
 
-def filtre(request):
+def getFiltre(request):
     context = {}
     # context['fournisseur'] = Fournisseur.objects.all()
     # Requetes pour remplir les filtres
@@ -126,7 +125,10 @@ def filtre(request):
     else:
         context['Service'] = Service.objects.all()
     context['filtre'] = CategorieFilter(request.GET, queryset=Categorie.objects.all())
-    return render(request, "blog/testhtml.html", context)
+    return context
+
+def filtre(request):
+    return render(request, "blog/testhtml.html", getFiltre(request))
 
 
 def cloud(request):
