@@ -1,6 +1,5 @@
 {% extends '../blog/index.html' %}
-{% load static %}
-<!--{% load bootstrap %}-->
+{% load static %}º
 {% block nav %}
         <ul class="navbar-nav ml-auto" style="margin-top: -25px;">
 
@@ -27,6 +26,12 @@
 
             <!-- Nav Item - Alerts -->
             
+            <!-- Nav Item - Messages -->
+            <a href="#" id="export" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm"
+                style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-download"></em>
+
+            </a>
+            <div class="topbar-divider d-none d-sm-block"></div>
             <!-- Nav Item - Messages -->
             <a href="/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                 style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-home"></em>
@@ -56,6 +61,7 @@
             <a href="#" id="btn_search" class="col btn btn-primary"><em class="fa fa-search"></em> Search</a>
         </div>
         <form class="form-inline mr-auto navbar-search btn-group" style="margin-top: 18px; width: 100%;">
+            {% csrf_token %}
             <div class="col-4 ">
                 <h4>Category</h4>
                 <select id="select_category" class="form-control" multiple placeholder="Select Catagories" style="width: 100%;">
@@ -98,6 +104,7 @@
     <script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src=" {% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src=" {% static 'select2/select2.min.js' %}"></script>
+    <script src=" {% static 'js/jquery.redirect.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
         $('form select').each(function (i,item) {
             $(item).select2({
@@ -143,7 +150,11 @@
             search()
         })
         function search() {
-            $(loader).fadeIn('fast');
+            let query = createQuery();
+            getFilter(query);
+            return query;
+        }
+        function createQuery() {
             let query = "?";  
             //query categoria
             $('#select_category').val().forEach(element => {
@@ -165,10 +176,36 @@
             // $('#select_service').val().forEach(element => {
             //     query+="service_ids="+element+"&";
             // });
+            return query;
+        }
+        function getFilter(query) {
+            $(loader).fadeIn('fast');
             $.get('/CSM/filters'+query,function(response,status) {
                 $('#filter-content').html(response);
                 $(loader).fadeOut('fast');
             })
+        }
+        $('#export').click(function() {
+            exportar()
+        })
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        
+        function exportar() {
+            let query = createQuery();
+            getCSV(query);
+            return query;
+        }
+        function getCSV(query) {
+            $(loader).fadeIn('fast');
+            //location.href = '/CSM/filters'+query;
+            $.redirect('/CSV/download', {
+                category_ids: $('#select_category').val(),
+                subcategory_ids: $('#select_subcategory').val(),
+                service_noms: $('#select_service').val(),
+                provider_ids: $('#select_provider').val()
+
+            }, "GET", "_target");
+            $(loader).fadeOut('fast');
         }
         </script>
 {% endblock %}

@@ -282,6 +282,9 @@ def download(request, file_name="Nuegeo_packet"):
     line = 'Categorie,Souscategorie,Service,Fournisseur\n'
     fich.writelines(line)
     #obtniendo datos
+    # service_noms = request.GET.getlist('service_noms')
+    # print(request.GET)
+    # print(service_noms)
     data = getFiltre(request)
     for serv in data['Service']:
         #añadiendo liniea de la BD
