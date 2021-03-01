@@ -37,7 +37,8 @@ urlpatterns = [
     path('CSM/', views.cloud),
     path('CSM/filters', views.filtre),
     path('CSM/json_list_subcategories', views.json_list_subcategories),
-    path('CSV/download',  tool_views.download)#Link de descarga de Csv
+    path('CSV/download',  tool_views.download),#Link de descarga de Csv
+    # path('CSV/tfiltre', views.getFiltre)
 
 ]
 
