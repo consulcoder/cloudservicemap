@@ -31,12 +31,26 @@
                 style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-download"></em>
 
             </a>
+            <!--esta es la nueva #### -->
+
+            <!-- Nav Item - Messages -->
+            <a  id="UP" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm"
+                style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-upload"></em>
+
+            </a>
+
+
+            <input type="file" name="archivos" style="display:none"
+                  id="subir"  />
+
             <div class="topbar-divider d-none d-sm-block"></div>
             <!-- Nav Item - Messages -->
             <a href="/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                 style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-home"></em>
 
             </a>
+
+
             <div class="topbar-divider d-none d-sm-block"></div>
             <a href="/admin/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                 style="height: 36px;margin-top: 18px;" type="button"><em class="fa fa-user"></em>
@@ -207,6 +221,10 @@
             }, "GET", "_target");
             $(loader).fadeOut('fast');
         }
+
+      $("#UP").click(function(evento){
+        $('#subir').trigger('click');
+            });
         </script>
 {% endblock %}
 
