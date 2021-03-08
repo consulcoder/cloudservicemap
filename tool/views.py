@@ -381,7 +381,7 @@ def carga(request):
 #     '''
 #     Esta vista sube un archivo al servidor
 #     '''
-#     template_name = "index.html"
+#     template_name = "filters.html"
 #     form_class = FormUpload
 #     success_url = '/'
 #
@@ -395,9 +395,9 @@ def carga(request):
 #
 #         form = FormUpload(request.POST, request.FILES)
 #         if form.is_valid():
-#             if 'photo' in request.FILES:
-#                 photo = request.FILES['photo']
-#                 form.handle_uploaded_file(photo)
+#             if 'UP' in request.FILES:
+#                 UP = request.FILES['UP']
+#                 form.handle_uploaded_file(UP)
 #                 return self.form_valid(form, **kwargs)
 #
 #             else:
