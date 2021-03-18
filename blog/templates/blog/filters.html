@@ -74,11 +74,11 @@
             </div>
             <a href="#" id="btn_search" class="col btn btn-primary"><em class="fa fa-search"></em> Search</a>
         </div>
-        <form class="form-inline mr-auto navbar-search btn-group" style="margin-top: 18px; width: 100%;">
+        <form id="query_form" method="GET" action="/CSV/download" class="form-inline mr-auto navbar-search btn-group" enctype="application/zip" style="margin-top: 18px; width: 100%;">
             {% csrf_token %}
             <div class="col-4 ">
                 <h4>Category</h4>
-                <select id="select_category" class="form-control" multiple placeholder="Select Catagories" style="width: 100%;">
+                <select name="category_ids" id="select_category" class="form-control" multiple placeholder="Select Catagories" style="width: 100%;">
                     {% for cat in categories %}
                     <option value="{{ cat.id }}">{{ cat.nom_cat }}</option>
                     {% endfor %}
@@ -86,7 +86,7 @@
             </div>
             <div class="col-4 ">
                 <h4>Sub Category</h4>
-                <select id="select_subcategory" class="col-12 form-control" multiple placeholder="Select Sub Catagories" style="width: 100%;">
+                <select name="subcategory_ids" id="select_subcategory" class="col-12 form-control" multiple placeholder="Select Sub Catagories" style="width: 100%;">
                     {% for cat in categories %}
                     <optgroup label="{{ cat.nom_cat }}">
                         {% for sub_cat in cat.categories %}
@@ -98,7 +98,7 @@
             </div>
             <div class="col-4">
                 <h4>Provider</h4>
-                <select id="select_provider" class="col-12 form-control" multiple placeholder="Select Provider" style="width: 100%;">
+                <select name="provider_ids" id="select_provider" class="col-12 form-control" multiple placeholder="Select Provider" style="width: 100%;">
                     {% for four in fournisseurs %}
                     <option value="{{ four.id }}">{{ four.nom_f }}</option>
                     {% endfor %}
@@ -211,14 +211,13 @@
         }
         function getCSV(query) {
             $(loader).fadeIn('fast');
+            $('#query_form').submit();
             //location.href = '/CSM/filters'+query;
-            $.redirect('/CSV/download', {
-                category_ids: $('#select_category').val(),
-                subcategory_ids: $('#select_subcategory').val(),
-                service_noms: $('#select_service').val(),
-                provider_ids: $('#select_provider').val()
+            //alert('/CSV/download'+query);
+            //$.redirect('/CSV/download'+query, {
+                
 
-            }, "GET", "_target");
+            //}, "GET", "_target");
             $(loader).fadeOut('fast');
         }
 

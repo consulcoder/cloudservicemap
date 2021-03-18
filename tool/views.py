@@ -273,51 +273,18 @@ def download(request, file_name="Nuegeo_packet"):
     # print(a)
     if a > 15:  # EL REQUEST VACIO TIENE UN LARGO ESTANDAR DE 15
         pa = []
-        try:
-            a = request.GET.getlist('category_ids[0]')
-            c = Categorie.objects.filter(id__in=a)
-            adan = str(c)
-            eva=adan.split(':')
-            cain = eva[1].split('>')
-            # print(cain[0])
-            pa.append(cain[0])
-        except:
-            pass
-           #---------------------------------------------------
-
-        try:
-            a = request.GET.getlist('subcategory_ids[0]')
-            c = Sous_Categorie.objects.filter(id__in=a)
-            adan = str(c)
-            eva = adan.split(':')
-            cain = eva[1].split('>')
-            # print(cain[0])
-            pa.append(cain[0])
-        except:
-            pass
-            # ---------------------------------------------------
-        try:
-            a = request.GET.getlist('service_noms[0]')
-            adan=str(a)
-            eva=adan.replace('[',' ')
-            eva=eva.replace(']',' ')
-            pa.append(eva)
-        except:
-            pass
-
-            # ---------------------------------------------------
-        try:
-            a = request.GET.getlist('provider_ids[0]')
-            c = Fournisseur.objects.filter(id__in=a)
-            adan = str(c)
-            eva = adan.split(':')
-            cain = eva[1].split('>')
-            # print(cain[0])
-            pa.append(cain[0])
-        except:
-            pass
-
-
+        a = request.GET.getlist('category_ids[0]')
+        c = Categorie.objects.filter(id__in=a)
+        pa.append(c)
+        a = request.GET.getlist('subcategory_ids[0]')
+        c = Sous_Categorie.objects.filter(id__in=a)
+        pa.append(c)
+        a = request.GET.getlist('service_noms[0]')
+        pa.append(a)
+        a = request.GET.getlist('provider_ids[0]')
+        c = Fournisseur.objects.filter(id__in=a)
+        pa.append(c)
+        # print(pa)
 
         # creando carpeta temporal
         files_path = 'static' + os.path.sep + 'temp_zip'
@@ -327,23 +294,7 @@ def download(request, file_name="Nuegeo_packet"):
         ##creando linea de columna
         line = 'Categorie,Souscategorie,Service,Fournisseur\n'
         fich.writelines(line)
-        dataname = str(pa)
-        data_pa=dataname.replace('[','')
-        data_pa=data_pa.replace(']','')
-        data_pa=data_pa.replace('"','')
-        data_pa = data_pa.replace(" '",'')
-        data_pa = data_pa.replace("' ",'')
-
-
-        print(data_pa)
-        # for i in pa:
-        #     a=str(i)
-        #     b=a.split(':')
-        #     # print(b)
-        #     c = b[1].split('>')
-        #     print(c[0])
-
-
+        data_pa = str(pa)
         fich.writelines(data_pa)
 
         fich.close()
