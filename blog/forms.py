@@ -1,7 +1,6 @@
 from django import forms
 from .models import *
 
-
 """class ServiceForm(forms.Form):
     class Meta:
         model = Service

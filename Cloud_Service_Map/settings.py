@@ -21,7 +21,7 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-# MEDIA_URL = "Cloud_Service_Map/static/"
+MEDIA_URL = "Cloud_Service_Map/media/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'tool',
     'cropperjs',
     'django_filters',
+    'myapp'
     # 'bootstrapform',
 ]
 

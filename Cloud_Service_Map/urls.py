@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from myapp import views
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from blog import views
 from blog.views import *
 import tool.views as tool_views
-
+from myapp import views as upload
 # from blog.views import MainPageView
 
 urlpatterns = [
@@ -38,7 +39,8 @@ urlpatterns = [
     path('CSM/filters', views.filtre),
     path('CSM/json_list_subcategories', views.json_list_subcategories),
     path('CSV/download',  tool_views.download),#Link de descarga de Csv
-    path('CSV/export',tool_views.carga)
+    path('CSV/export',tool_views.carga),
+    path('CSV/import',upload.my_view,name='my-view')
 
 
 ]

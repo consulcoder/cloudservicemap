@@ -1,16 +1,9 @@
-from django.shortcuts import render
-from blog.models import Service, Categorie, Fournisseur, Sous_Categorie
+from blog.models import Service, Categorie, Fournisseur
 from tool.models import Tree
 # libs para reporte pdf
-import os, json
-from io import BytesIO
-from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, mm
-from reportlab.platypus import SimpleDocTemplate
+import os
 from .filters import CategorieFilter, Sous_Categorie
 from django.db.models import Q
-from Cloud_Service_Map import utils
 
 this_path = os.getcwd() + '/blog/'
 # from django_xhtml2pdf.utils import generate_pdf
@@ -158,4 +151,8 @@ def json_list_subcategories(request):
             response.write("<option value='"+str(sub.id)+"'>"+sub.nom_s_cat+"</option>")
         response.write("</optgroup>")
     return response
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
 
