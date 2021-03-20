@@ -1,5 +1,6 @@
 from blog.models import *
 from tool.models import *
+import re
 
 def maxFromDictionaryKeyValue(dictionary):
     max = 0
@@ -35,3 +36,9 @@ def listCountRowOfCategory(category):
 
 
 
+def two_points_trim(value):
+    return value.strip('..').strip('/').strip('Cloud_Service_Map')
+
+def get_ext(value):
+    m = re.search(r'\.(\w+)$', value)
+    return m.group(0)
