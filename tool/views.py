@@ -378,7 +378,7 @@ def download(request, file_name="Nuegeo_packet"):
 def carga(request):
     print('aqui')
     import zipfile
-    ruta_zip = "pack/hola.zip"
+    ruta_zip = "static/documents/Nuegeo-packet.zip"
     ruta_extraccion = "static/upload_pack"
     password = None
     archivo_zip = zipfile.ZipFile(ruta_zip, "r")
@@ -388,6 +388,7 @@ def carga(request):
     except:
         pass
     archivo_zip.close()
+
     #rmtree("static/upload_pack")
 
 
