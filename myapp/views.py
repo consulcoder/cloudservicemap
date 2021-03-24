@@ -1,6 +1,10 @@
+import os, json
 from django.shortcuts import redirect, render
 from .models import Document
 from .forms import DocumentForm
+from tool.views import carga
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def my_view(request):
@@ -12,6 +16,9 @@ def my_view(request):
         if form.is_valid():
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
+
+            carga(request)
+            
 
             # Redirect to the document list after POST
             return redirect('my-view')

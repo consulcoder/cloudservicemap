@@ -13,6 +13,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from myapp.models import Document
 from Cloud_Service_Map import utils
 from tool import utils as utils_tool
 import shutil
@@ -271,124 +272,102 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def download(request, file_name="Nuegeo_packet"):
-    # a = len(str(request.GET))
-    # providers_ids = request.GET.getlist('provider_ids')
-    # print(len(providers_ids))
+    # creando carpeta temporal
+    files_path = 'static' + os.path.sep + 'temp_zip'
+    os.mkdir(files_path)
+    # crando fichero csv
+    fich = open(files_path + os.path.sep + 'data.csv', 'w')
+    ##creando linea de columna
+    line = 'Categorie,Souscategorie,Service,Fournisseur\n'
+    fich.writelines(line)
+    # obtniendo datos
+    subcategory_ids_1 = request.GET.getlist('subcategory_ids')
+    # print(request.GET)
+    print(subcategory_ids_1)
+    print(len(subcategory_ids_1))
+    data = getFiltre(request)
 
-    # print(request.GET.getlist('category_ids[]'))
-    
-    # for key in iter(request.GET):
-        
-    #     print(key)
-    #     print(request.GET[key])
-
-    # if a > 15:  # EL REQUEST VACIO TIENE UN LARGO ESTANDAR DE 15
-    #     pa = []
-    #     a = request.GET.getlist('category_ids[0]')
-    #     c = Categorie.objects.filter(id__in=a)
-    #     pa.append(c)
-    #     a = request.GET.getlist('subcategory_ids[0]')
-    #     c = Sous_Categorie.objects.filter(id__in=a)
-    #     pa.append(c)
-    #     a = request.GET.getlist('service_noms[0]')
-    #     pa.append(a)
-    #     a = request.GET.getlist('provider_ids[0]')
-    #     c = Fournisseur.objects.filter(id__in=a)
-    #     pa.append(c)
-    #     # print(pa)
-
-    #     # creando carpeta temporal
-    #     files_path = 'static' + os.path.sep + 'temp_zip'
-    #     os.mkdir(files_path)
-    #     # crando fichero csv
-    #     fich = open(files_path + os.path.sep + 'data.csv', 'w')
-    #     ##creando linea de columna
-    #     line = 'Categorie,Souscategorie,Service,Fournisseur\n'
-    #     fich.writelines(line)
-    #     data_pa = str(pa)
-    #     fich.writelines(data_pa)
-
-    #     fich.close()
-    #     # creando fichero comprimido
-    #     relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
-    #     path_to_zip = make_archive(files_path, "gztar", relative_path)
-    #     fich = open(path_to_zip, 'rb')
-    #     response = HttpResponse(FileWrapper(fich), content_type='application/zip')
-    #     response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
-    #         filename=file_name.replace(" ", "_")
-    #     )
-    #     # eliminado carpeta temporal
-    #     rmtree(files_path)
-    #     return response
-
-
-    # else:
-
-        # creando carpeta temporal
-        files_path = 'static' + os.path.sep + 'temp_zip'
-        os.mkdir(files_path)
-        # crando fichero csv
-        fich = open(files_path + os.path.sep + 'data.csv', 'w')
-        ##creando linea de columna
-        line = 'Categorie,Souscategorie,Service,Fournisseur\n'
-        fich.writelines(line)
-        # obtniendo datos
-        subcategory_ids_1 = request.GET.getlist('subcategory_ids')
-        # print(request.GET)
-        print(subcategory_ids_1)
-        print(len(subcategory_ids_1))
-        data = getFiltre(request)
-
-        # añadiendo liniea de la BD
-        for cat in data['categorie']:
-            dir_struct = files_path + os.path.sep + cat.nom_cat.replace('/','###').replace('/','###')
-            os.mkdir(dir_struct)
-            for item in data['souscategorie']:
-                if item.categorie_id == cat.id:
-                    dir_struct = files_path + os.path.sep + cat.nom_cat.replace('/','###') + os.path.sep + item.nom_s_cat.replace('/','###')
-                    os.mkdir(dir_struct)
-                    for four in data['fournisseur']:
-                        for i in data['Service']:
-                            if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f.replace('/','###') and item.categorie_id == cat.id:
-                                line = cat.nom_cat.replace('/','###') + ';' + item.nom_s_cat.replace('/','###').replace('/','###') + ';' + i.nom.replace('/','###').replace('/','###') + ';' + four.nom_f.replace('/','###') + '\n'
-                                line = line.replace(',','').replace(';',',')
-                                fich.writelines(line)
-                                # copiar imgen
-                                img_name = utils_tool.two_points_trim(i.image.url).replace('static/','')
-                                img_path = BASE_DIR + os.path.sep + 'static' + os.path.sep + img_name
-                                new_img_path = BASE_DIR + os.path.sep +dir_struct + os.path.sep + four.nom_f.replace('/','###')+'.'+i.nom.replace('/','###')+utils_tool.get_ext(img_name)
-                                shutil.copy(img_path,  new_img_path)
-        fich.close()
+    # añadiendo liniea de la BD
+    for cat in data['categorie']:
+        dir_struct = files_path + os.path.sep + cat.nom_cat.replace('/','###').replace('/','###')
+        os.mkdir(dir_struct)
+        for item in data['souscategorie']:
+            if item.categorie_id == cat.id:
+                dir_struct = files_path + os.path.sep + cat.nom_cat.replace('/','###') + os.path.sep + item.nom_s_cat.replace('/','###')
+                os.mkdir(dir_struct)
+                for four in data['fournisseur']:
+                    for i in data['Service']:
+                        if i.sous_categorie_id == item.id and i.fournisseurs ==  four.nom_f.replace('/','###') and item.categorie_id == cat.id:
+                            line = cat.nom_cat.replace('/','###') + ';' + item.nom_s_cat.replace('/','###').replace('/','###') + ';' + i.nom.replace('/','###').replace('/','###') + ';' + four.nom_f.replace('/','###') + '\n'
+                            line = line.replace(',','').replace(';',',')
+                            fich.writelines(line)
+                            # copiar imgen
+                            img_name = utils_tool.two_points_trim(i.image.url).replace('static/','')
+                            img_path = BASE_DIR + os.path.sep + 'static' + os.path.sep + img_name
+                            new_img_path = BASE_DIR + os.path.sep +dir_struct + os.path.sep + four.nom_f.replace('/','###')+'.'+i.nom.replace('/','###')+utils_tool.get_ext(img_name)
+                            shutil.copy(img_path,  new_img_path)
+    fich.close()
 
 
 
-        # creando fichero comprimido
-        relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
-        path_to_zip = make_archive(files_path, "gztar", relative_path)
-        fich = open(path_to_zip, 'rb')
-        response = HttpResponse(FileWrapper(fich), content_type='application/zip')
-        response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
-            filename=file_name.replace(" ", "_")
-        )
-        # eliminado carpeta temporal
-        rmtree(files_path)
-        return response
+    # creando fichero comprimido
+    relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
+    path_to_zip = make_archive(files_path, "gztar", relative_path)
+    fich = open(path_to_zip, 'rb')
+    response = HttpResponse(FileWrapper(fich), content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
+        filename=file_name.replace(" ", "_")
+    )
+    # eliminado carpeta temporal
+    rmtree(files_path)
+    return response
 
 
 def carga(request):
     print('aqui')
-    import zipfile
-    ruta_zip = "static/documents/Nuegeo-packet.zip"
-    ruta_extraccion = "static/upload_pack"
-    password = None
-    archivo_zip = zipfile.ZipFile(ruta_zip, "r")
-    try:
-        print(archivo_zip.namelist())
-        archivo_zip.extractall(pwd=password, path=ruta_extraccion)
-    except:
-        pass
-    archivo_zip.close()
+    unarc_formats = shutil.get_unpack_formats()
+    print(unarc_formats)
+    
+    newdoc = Document(docfile=request.FILES['docfile'])
+    name = newdoc.docfile.name
+    print(name)
+    ruta_zip = BASE_DIR + os.path.sep + "static/documents/" + name
+    ruta_extraccion = BASE_DIR + os.path.sep + "static/upload_pack/"
+    
+    print(ruta_extraccion + name)
+    shutil.unpack_archive(ruta_zip, ruta_extraccion, "gztar")
 
+    csv_path = ruta_extraccion+"data.csv"
+    if os.path.isfile(csv_path):
+        with open(csv_path, "r") as fich:
+            for line in fich:
+                arr = line.split(',')
+
+                categorie_nom = arr[0]
+                suoscategorie_nom = arr[1]
+                servicie_nom = arr[2]
+                fournisseurs_nom = arr[3]
+
+                categorie = blog.Model.Categorie.objects.get(nom_cat=categorie_nom)
+                if not categorie:
+                    blog.Model.Categorie.create(
+                        nom_cat = categorie_nom
+                    )
+                
+                sous_categorie = blog.Model.Sous_Categorie.objects.get(nom_s_cat=suoscategorie_nom, categorie__id=categorie.pk)
+                if not sous_categorie:
+                    blog.Model.Sous_Categorie.create(
+                        nom_s_cat = sous_categorie,
+                        categorie = categorie
+                    )
+
+                # TODO ... serv y prover
+
+                print(line)
+        
+        
+
+    
     #rmtree("static/upload_pack")
 
 
