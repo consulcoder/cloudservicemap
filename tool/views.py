@@ -7,6 +7,8 @@ from shutil import make_archive
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
+
+import blog
 from tool.models import *
 from django.db.models import Q, Max
 from django.core.serializers.json import DjangoJSONEncoder
@@ -267,6 +269,7 @@ def json_remove_tree(request):
 from shutil import rmtree
 from datetime import datetime
 from blog.views import getFiltre
+from zipfile import ZipFile
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -311,14 +314,30 @@ def download(request, file_name="Nuegeo_packet"):
 
 
     # creando fichero comprimido
-    relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
-    path_to_zip = make_archive(files_path, "gztar", relative_path)
-    fich = open(path_to_zip, 'rb')
-    response = HttpResponse(FileWrapper(fich), content_type='application/zip')
-    response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
-        filename=file_name.replace(" ", "_")
-    )
+    # relative_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.path.sep + files_path
+    # path_to_zip = make_archive(files_path, "gztar", relative_path)
+    # fich = open(path_to_zip, 'rb')
+    # response = HttpResponse(FileWrapper(fich), content_type='application/zip')
+    # response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
+    #     filename=file_name.replace(" ", "_")
+    # )
     # eliminado carpeta temporal
+    import zipfile
+
+    fantasy_zip = zipfile.ZipFile('nuageo_packet.zip', 'w')
+
+    for folder, subfolders, files in os.walk(files_path):
+
+        for file in files:
+            if file.endswith('.png') or file.endswith('.csv'):
+                fantasy_zip.write(os.path.join(folder, file),
+                                  os.path.relpath(os.path.join(folder, file), 'Nuegeo-packet'),
+                                  compress_type=zipfile.ZIP_DEFLATED)
+
+    fantasy_zip.close()
+    # archive=
+
+
     rmtree(files_path)
     return response
 
@@ -331,11 +350,21 @@ def carga(request):
     newdoc = Document(docfile=request.FILES['docfile'])
     name = newdoc.docfile.name
     print(name)
+
     ruta_zip = BASE_DIR + os.path.sep + "static/documents/" + name
     ruta_extraccion = BASE_DIR + os.path.sep + "static/upload_pack/"
     
-    print(ruta_extraccion + name)
-    shutil.unpack_archive(ruta_zip, ruta_extraccion, "gztar")
+    # print(ruta_extraccion + name)
+    # shutil.unpack_archive(ruta_zip, ruta_extraccion, "gztar")
+
+    import zipfile
+
+    fantasy_zip = zipfile.ZipFile(ruta_zip)
+    fantasy_zip.extractall(ruta_extraccion)
+
+    fantasy_zip.close()
+
+
 
     csv_path = ruta_extraccion+"data.csv"
     if os.path.isfile(csv_path):
